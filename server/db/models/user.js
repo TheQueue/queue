@@ -8,6 +8,14 @@ const User = db.define('user', {
     unique: true,
     allowNull: false
   },
+  phoneNumber: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
   password: {
     type: Sequelize.STRING,
     // Making `.password` act like a func hides it when serializing to JSON.
@@ -24,9 +32,32 @@ const User = db.define('user', {
       return () => this.getDataValue('salt')
     }
   },
-  googleId: {
-    type: Sequelize.STRING
-  }
+  // NOTE TO SELF: (11/14) maybe use? probably not. -david
+  // googleId: {
+  //   type: Sequelize.STRING
+  // },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
+  },
+  // NOTE TO SELF: (11/14) Leave for later??? - david
+  // isBusiness: {
+  //   type: Sequelize.BOOLEAN,
+  //   defaultValue: false,
+  // },
+  isSmsAuthenticated: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
+  },
+  isEmailAuthenticated: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
+  },
+  // we're skipping QR codes for regular users
+
 })
 
 module.exports = User
