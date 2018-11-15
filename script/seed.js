@@ -1,19 +1,30 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Business, Category} = require('../server/db/models')
+const seedCategory = require('./seedCategory.json')
+const seedUser = require('./seedUser.json')
+const seedBusiness = require('./seedBusiness.json')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+  // categories
+  const categories =  await Promise.all(seedCategory.map(category => Category.create(category)))
+  console.log(`seeded ${categories.length} categories`)
 
+  // users
+  const users = await Promise.all(seedUser.map(user => User.create(user)))
   console.log(`seeded ${users.length} users`)
+
+  // businesses
+  const businesses = await Promise.all(seedBusiness.map(business => Business.create(business)))
+  console.log(`seeded ${businesses.length} businesses`)
+
+
   console.log(`seeded successfully`)
+
 }
 
 // We've separated the `seed` function from the `runSeed` function.
