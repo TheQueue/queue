@@ -29,4 +29,4 @@ const Queue = db.define('queue', {
   }
 })
 
-module.export = Queue
+module.exports = Queue

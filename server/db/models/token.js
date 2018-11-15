@@ -26,4 +26,4 @@ const Token = db.define('token', {
   }
 })
 
-module.export = Token
+module.exports = Token

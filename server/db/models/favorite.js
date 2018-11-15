@@ -9,4 +9,4 @@ const Favorite = db.define('favorite', {
   }
 })
 
-module.export = Favorite
+module.exports = Favorite

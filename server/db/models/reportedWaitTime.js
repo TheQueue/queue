@@ -13,4 +13,4 @@ const ReportedWaitTime = db.define('reportedWaitTime', {
   }
 })
 
-module.export = ReportedWaitTime
+module.exports = ReportedWaitTime
