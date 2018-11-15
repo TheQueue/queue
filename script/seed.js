@@ -11,7 +11,9 @@ async function seed() {
   console.log('db synced!')
 
   // categories
-  const categories =  await Promise.all(seedCategory.map(category => Category.create(category)))
+  const categories = await Promise.all(
+    seedCategory.map(category => Category.create(category))
+  )
   console.log(`seeded ${categories.length} categories`)
 
   // users
@@ -19,12 +21,12 @@ async function seed() {
   console.log(`seeded ${users.length} users`)
 
   // businesses
-  const businesses = await Promise.all(seedBusiness.map(business => Business.create(business)))
+  const businesses = await Promise.all(
+    seedBusiness.map(business => Business.create(business))
+  )
   console.log(`seeded ${businesses.length} businesses`)
 
-
   console.log(`seeded successfully`)
-
 }
 
 // We've separated the `seed` function from the `runSeed` function.

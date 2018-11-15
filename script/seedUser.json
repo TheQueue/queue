@@ -14,5 +14,69 @@
     "isAdmin": false,
     "isSmsAuthenticated": true,
     "isEmailAuthenticated": true
+  },
+  {
+    "email": "goatAndGirl@email.com",
+    "phoneNumber": "(333)-123-2222",
+    "password": "123",
+    "isAdmin": false,
+    "isSmsAuthenticated": true,
+    "isEmailAuthenticated": true
+  },
+  {
+    "email": "panakeGuy@email.com",
+    "phoneNumber": "(222)-232-2222",
+    "password": "123",
+    "isAdmin": false,
+    "isSmsAuthenticated": true,
+    "isEmailAuthenticated": true
+  },
+  {
+    "email": "purpulPig@email.com",
+    "phoneNumber": "(226)-222-2222",
+    "password": "123",
+    "isAdmin": false,
+    "isSmsAuthenticated": true,
+    "isEmailAuthenticated": true
+  },
+  {
+    "email": "cheval@email.com",
+    "phoneNumber": "(222)-227-2222",
+    "password": "123",
+    "isAdmin": false,
+    "isSmsAuthenticated": true,
+    "isEmailAuthenticated": true
+  },
+  {
+    "email": "smokebbq@email.com",
+    "phoneNumber": "(562)-222-2222",
+    "password": "123",
+    "isAdmin": false,
+    "isSmsAuthenticated": true,
+    "isEmailAuthenticated": true
+  },
+  {
+    "email": "pizzeria@email.com",
+    "phoneNumber": "(222)-222-2922",
+    "password": "123",
+    "isAdmin": false,
+    "isSmsAuthenticated": true,
+    "isEmailAuthenticated": true
+  },
+  {
+    "email": "barboeuf@email.com",
+    "phoneNumber": "(222)-222-2722",
+    "password": "123",
+    "isAdmin": false,
+    "isSmsAuthenticated": true,
+    "isEmailAuthenticated": true
+  },
+  {
+    "email": "goat@email.com",
+    "phoneNumber": "(222)-222-2322",
+    "password": "123",
+    "isAdmin": false,
+    "isSmsAuthenticated": true,
+    "isEmailAuthenticated": true
   }
 ]
