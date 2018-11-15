@@ -5,7 +5,7 @@ const Favorite = db.define('favorite', {
   // required fields at creation
   dateWhenFavorited: {
     type: Sequelize.DATE,
-    allowNull: false,
+    allowNull: false
   }
 })
 
