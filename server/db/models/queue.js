@@ -11,7 +11,7 @@ const Queue = db.define('queue', {
   // date of queue activity
   date: {
     type: Sequelize.DATE,
-    allowNull: false,
+    allowNull: false
   },
   // number on the business dashboard that the employee can edit
   defaultWaitTime: {
@@ -20,13 +20,13 @@ const Queue = db.define('queue', {
   },
   // at which time of day will last person in queue get service?
   timeAtWhichLastQueueGetsSeated: {
-    type: Sequelize.DATE,
+    type: Sequelize.DATE
   },
   // business can toggle this
   isBusinessFull: {
     type: Sequelize.BOOLEAN,
-    defaultValue: false,
+    defaultValue: false
   }
 })
 
-module.export = Queue
+module.exports = Queue

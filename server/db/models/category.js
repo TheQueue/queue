@@ -9,7 +9,7 @@ const Category = db.define('category', {
     validate: {
       notEmpty: true
     }
-  },
+  }
 })
 
-module.export = Category
+module.exports = Category
