@@ -10,7 +10,7 @@ const Token = db.define('token', {
   },
   expirationDate: {
     type: Sequelize.DATE,
-    allowNull: false,
+    allowNull: false
   },
   isVerified: {
     type: Sequelize.BOOLEAN,
@@ -26,4 +26,4 @@ const Token = db.define('token', {
   }
 })
 
-module.export = Token
+module.exports = Token
