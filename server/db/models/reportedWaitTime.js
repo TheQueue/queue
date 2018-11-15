@@ -9,7 +9,7 @@ const ReportedWaitTime = db.define('reportedWaitTime', {
     allowNull: false
   },
   dateReported: {
-    type: Sequelize.DATE,
+    type: Sequelize.DATE
   }
 })
 

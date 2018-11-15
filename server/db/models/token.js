@@ -10,7 +10,7 @@ const Token = db.define('token', {
   },
   expirationDate: {
     type: Sequelize.DATE,
-    allowNull: false,
+    allowNull: false
   },
   isVerified: {
     type: Sequelize.BOOLEAN,

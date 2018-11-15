@@ -35,7 +35,7 @@ const Business = db.define('business', {
   // users can create non-yelp businesses
   yelpId: {
     type: Sequelize.STRING,
-    allowNull: true,
+    allowNull: true
   },
 
   qrCode: {
@@ -46,12 +46,12 @@ const Business = db.define('business', {
   // tags?
   tags: {
     type: Sequelize.ARRAY(Sequelize.STRING),
-    allowNull: true,
+    allowNull: true
   },
   // can users find it via search
   isVisible: {
     type: Sequelize.BOOLEAN,
-    defaultValue: false,
+    defaultValue: false
   }
 })
 
@@ -60,7 +60,6 @@ module.exports = Business
 /**
  * instanceMethods
  */
-
 
 /**
  * classMethods

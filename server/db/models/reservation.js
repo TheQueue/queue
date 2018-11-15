@@ -3,8 +3,14 @@ const db = require('../db')
 
 const Reservation = db.define('reservation', {
   status: {
-    type: Sequelize.ENUM(['Pending', 'Active', 'Serviced', 'Cancelled', 'Holding']),
-    defaultValue: 'Pending',
+    type: Sequelize.ENUM([
+      'Pending',
+      'Active',
+      'Serviced',
+      'Cancelled',
+      'Holding'
+    ]),
+    defaultValue: 'Pending'
   },
   // required fields at creation
   name: {
@@ -16,7 +22,7 @@ const Reservation = db.define('reservation', {
   },
   dateBooked: {
     type: Sequelize.DATE,
-    allowNull: false,
+    allowNull: false
   },
   partySize: {
     type: Sequelize.INTEGER,
@@ -26,15 +32,15 @@ const Reservation = db.define('reservation', {
   // optional fields at creation
   note: {
     type: Sequelize.TEXT,
-    allowNull: true,
+    allowNull: true
   },
   phoneNumber: {
     type: Sequelize.STRING,
-    allowNull: true,
+    allowNull: true
   },
   email: {
     type: Sequelize.STRING,
-    allowNull: true,
+    allowNull: true
   },
   queuePosition: {
     type: Sequelize.INTEGER,
@@ -42,9 +48,8 @@ const Reservation = db.define('reservation', {
   },
   estimatedTimeOfService: {
     type: Sequelize.DATE,
-    allowNull: true,
-  },
-
+    allowNull: true
+  }
 })
 
 module.exports = Reservation
@@ -52,7 +57,6 @@ module.exports = Reservation
 /**
  * instanceMethods
  */
-
 
 /**
  * classMethods

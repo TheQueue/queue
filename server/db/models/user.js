@@ -39,7 +39,7 @@ const User = db.define('user', {
   isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
-    allowNull: false,
+    allowNull: false
   },
   // NOTE TO SELF: (11/14) Leave for later??? - david
   // isBusiness: {
@@ -49,15 +49,14 @@ const User = db.define('user', {
   isSmsAuthenticated: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
-    allowNull: false,
+    allowNull: false
   },
   isEmailAuthenticated: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
-    allowNull: false,
-  },
+    allowNull: false
+  }
   // we're skipping QR codes for regular users
-
 })
 
 module.exports = User
