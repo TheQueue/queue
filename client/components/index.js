@@ -6,9 +6,7 @@
 export {default as Navbar} from './navbar/navbarMain'
 export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
-<<<<<<< HEAD
 export {default as MapContainer} from './MapContainer'
-=======
 export {default as Footer} from './footer'
 export {default as Search} from './search'
 export {default as QRcode} from './QRcode'
@@ -18,7 +16,6 @@ export {default as Qdata} from './Qdata'
 export {default as mapDisplay} from './mapDisplay'
 export {default as favorites} from './favorites'
 export {default as profile} from './profile'
->>>>>>> master
 export {default as MyBusinessDetail} from './my-business-detail'
 export {default as MyBusinesses} from './my-businesses'
 
