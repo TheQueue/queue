@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchMyBusinessData} from '../store'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 class MyBusinesses extends Component {
   componentDidMount() {
     this.props.fetchMyBusinessData()
@@ -19,24 +19,33 @@ class MyBusinesses extends Component {
       )
     }
     // else render returned data
-
-    return (
-      <div>
-        <h1>My Businesses</h1>
+    if (myBusinesses.businessData.hasOwnProperty('entities')) {
+      const {entities, result} = myBusinesses.businessData
+      return (
         <div>
-          {myBusinesses.businessData.result.map(businessId => {
-            const business =
-              myBusinesses.businessData.entities.businesses[businessId]
-            return (
-              <div key={business.id}>
-                <Link to={`/my-businesses/${business.id}`}><h1>{business.name}</h1></Link>
-                <h2>Business ID: {business.id}</h2>
-              </div>
-            )
-          })}
+          <h1>My Businesses</h1>
+          <div>
+            {result.map(businessId => {
+              const business = entities.businesses[businessId]
+              return (
+                <div key={business.id}>
+                  <Link to={`/my-businesses/${business.id}`}>
+                    <h1>{business.name}</h1>
+                  </Link>
+                  <h2>Business ID: {business.id}</h2>
+                  <h2>
+                    Queue Length:{' '}
+                    {business.queues.length
+                      ? entities.queues[business.queues[0]].queueLength
+                      : 'Not found'}
+                  </h2>
+                </div>
+              )
+            })}
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 }
 
