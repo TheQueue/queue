@@ -1,17 +1,29 @@
 import React, {Component} from 'react'
 import {Map, GoogleApiWrapper, Marker, InfoWindow} from 'google-maps-react'
 import CurrentLocation from './Map'
+import {thunkAllB} from '../store/business'
+import {connect} from 'react-redux'
 
 const mapStyles = {
   width: '100%',
   height: '100%'
 }
 
+const mapDispatch = dispatch => {
+  return {
+    fetchB: () => {
+      dispatch(thunkAllB())
+    }
+  }
+}
 export class MapContainer extends Component {
   state = {
     showingInfoWindow: false, //Hides or the shows the infoWindow
     activeMarker: {}, //Shows the active marker upon click
     selectedPlace: {} //Shows the infoWindow to the selected place upon a marker
+  }
+  componentDidMount() {
+    this.props.fetchB()
   }
   onMarkerClick = (props, marker, e) =>
     this.setState({
@@ -57,4 +69,4 @@ export class MapContainer extends Component {
 
 export default GoogleApiWrapper(props => ({
   apiKey: 'AIzaSyAQOJclHXVkkIoHGpFDgRwcqoqjy9VZSzk'
-}))(MapContainer)
+}))(connect(null, mapDispatch)(MapContainer))
