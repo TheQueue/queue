@@ -8,7 +8,10 @@ const mapStyles = {
   width: '100%',
   height: '100%'
 }
-
+// MAP STATE AND DISPATCH TO PROPS
+const mapState = state => ({
+  business: state.business
+})
 const mapDispatch = dispatch => {
   return {
     fetchB: () => {
@@ -16,6 +19,8 @@ const mapDispatch = dispatch => {
     }
   }
 }
+
+// ACTUAL COMPONENT
 export class MapContainer extends Component {
   state = {
     showingInfoWindow: false, //Hides or the shows the infoWindow
@@ -41,19 +46,36 @@ export class MapContainer extends Component {
     }
   }
   render() {
+    const businesses = this.props.business
     return (
       <CurrentLocation centerAroundCurrentLocation google={this.props.google}>
-        {/* <Map
-        google={this.props.google}
-        zoom={14}
-        style={mapStyles}
-        initialCenter={{lat: -1.2884, lng: 36.8233}}
-      > */}
-        <Marker
-          onClick={this.onMarkerClick}
-          name={'Kenyatta International Convention Centre'}
-        />
-        <InfoWindow
+        {businesses.map(business => (
+          <Marker
+            key={`marker${business.id}`}
+            name={business.name}
+            position={{
+              lat: business.coordinates[0],
+              lng: business.coordinates[1]
+            }}
+            onClick={this.onMarkerClick}
+            // this renders markers for each item in state.business
+          />
+        ))}
+        {businesses.map(business => (
+          <InfoWindow
+            key={`window${business.id}`}
+            position={{
+              lat: business.coordinates[0],
+              lng: business.coordinates[1]
+            }}
+            visible={true}
+          >
+            <div>
+              <h4>{business.name}</h4>
+            </div>
+          </InfoWindow>
+        ))}
+        {/* <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
           onClose={this.onClose}
@@ -61,7 +83,7 @@ export class MapContainer extends Component {
           <div>
             <h4>{this.state.selectedPlace.name}</h4>
           </div>
-        </InfoWindow>
+        </InfoWindow> */}
       </CurrentLocation>
     )
   }
@@ -69,4 +91,4 @@ export class MapContainer extends Component {
 
 export default GoogleApiWrapper(props => ({
   apiKey: 'AIzaSyAQOJclHXVkkIoHGpFDgRwcqoqjy9VZSzk'
-}))(connect(null, mapDispatch)(MapContainer))
+}))(connect(mapState, mapDispatch)(MapContainer))
