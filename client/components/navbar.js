@@ -3,11 +3,14 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import BusinessList from './businessList'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
     <h1>BOILERMAKER</h1>
     <nav>
+      <Link to="/business">Business</Link>
+
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
