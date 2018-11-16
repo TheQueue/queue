@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Map, GoogleApiWrapper, Marker, InfoWindow} from 'google-maps-react'
+import CurrentLocation from './Map'
 
 const mapStyles = {
   width: '100%',
@@ -29,12 +30,13 @@ export class MapContainer extends Component {
   }
   render() {
     return (
-      <Map
+      <CurrentLocation centerAroundCurrentLocation google={this.props.google}>
+        {/* <Map
         google={this.props.google}
         zoom={14}
         style={mapStyles}
         initialCenter={{lat: -1.2884, lng: 36.8233}}
-      >
+      > */}
         <Marker
           onClick={this.onMarkerClick}
           name={'Kenyatta International Convention Centre'}
@@ -48,7 +50,7 @@ export class MapContainer extends Component {
             <h4>{this.state.selectedPlace.name}</h4>
           </div>
         </InfoWindow>
-      </Map>
+      </CurrentLocation>
     )
   }
 }
