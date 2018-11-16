@@ -2,9 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
+import {Login, Signup, UserHome, MapContainer} from './components'
 import {me} from './store'
-import Container from './components/Container'
 
 /**
  * COMPONENT
@@ -19,7 +18,7 @@ class Routes extends Component {
 
     return (
       <Switch>
-        <Route path="/map" component={Container} />
+        <Route path="/map" component={MapContainer} />
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
