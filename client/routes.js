@@ -13,9 +13,12 @@ import {
   Qdata,
   mapDisplay,
   favorites,
-  profile
+  profile,
+  MyBusinesses, 
+  MyBusinessDetail
 } from './components'
 import {me} from './store'
+import BusinessList from './components/businessList'
 
 /**
  * COMPONENT
@@ -38,10 +41,21 @@ class Routes extends Component {
         <Route path="/home" component={UserHome} />
         <Route path="/Qsetting" component={Qsetting} />
         <Route path="/myQs" component={myQs} />
-        <Route path="/profile" component={profile} />
+    
         <Route path="/Qdata" component={Qdata} />
         <Route path="/mapDisplay" component={mapDisplay} />
-        <Route path="/favorites" component={favorites} />
+        
+        
+        <Route exact path="/business" component={BusinessList} />
+        {isLoggedIn && (
+          <Switch>
+            {/* Routes placed here are only available after logging in */}
+            <Route path="/my-businesses/:businessId" component = {MyBusinessDetail} />
+            <Route path="/my-businesses/" component = {MyBusinesses} />
+            <Route path="/favorites" component={favorites} />
+            <Route path="/profile" component={profile} />
+          </Switch>
+        )}
         {/* Displays our Login component as a fallback */}
         <Route component={UserHome} />
       </Switch>

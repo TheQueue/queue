@@ -15,3 +15,6 @@ export {default as Qdata} from './Qdata'
 export {default as mapDisplay} from './mapDisplay'
 export {default as favorites} from './favorites'
 export {default as profile} from './profile'
+export {default as MyBusinessDetail} from './my-business-detail'
+export {default as MyBusinesses} from './my-businesses'
+
