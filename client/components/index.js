@@ -6,6 +6,7 @@
 export {default as Navbar} from './navbar/navbarMain'
 export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
+export {default as MapContainer} from './MapContainer'
 export {default as Footer} from './footer'
 export {default as Search} from './search'
 export {default as QRcode} from './QRcode'

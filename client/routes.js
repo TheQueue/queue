@@ -14,8 +14,9 @@ import {
   mapDisplay,
   favorites,
   profile,
-  MyBusinesses, 
-  MyBusinessDetail
+  MyBusinesses,
+  MyBusinessDetail,
+  MapContainer
 } from './components'
 import {me} from './store'
 import BusinessList from './components/businessList'
@@ -33,6 +34,7 @@ class Routes extends Component {
 
     return (
       <Switch>
+        <Route path="/map" component={MapContainer} />
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/search" component={Search} />
@@ -41,11 +43,11 @@ class Routes extends Component {
         <Route path="/home" component={UserHome} />
         <Route path="/Qsetting" component={Qsetting} />
         <Route path="/myQs" component={myQs} />
-    
+
         <Route path="/Qdata" component={Qdata} />
         <Route path="/mapDisplay" component={mapDisplay} />
-        
-        
+
+
         <Route exact path="/business" component={BusinessList} />
         {isLoggedIn && (
           <Switch>
