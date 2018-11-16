@@ -6,26 +6,18 @@ class MyBusinessDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      businessId: props.match.params.businessId,
-      myBusiness: {}
+      businessId: props.match.params.businessId
     }
   }
   async componentDidMount() {
     // fetch data
     await this.props.fetchMyBusinessData()
-    console.log('businessdata: ', this.props.myBusinesses.businessData)
-    console.log('businessId in state', this.state.businessId)
     // filter fetched data to correct business id
-    const myBusiness = this.props.myBusinesses.businessData.filter(
-      business => +business.id === +this.state.businessId
-    )
-    // if found, store in state
-    if (myBusiness.length) this.setState({myBusiness: myBusiness[0]})
   }
 
   render() {
     const {myBusinesses} = this.props
-    const {myBusiness} = this.state
+    const {businessId} = this.state
     // if isLoading value is true -> loading msg
     if (myBusinesses.isLoading) {
       return (
@@ -36,27 +28,54 @@ class MyBusinessDetail extends Component {
       )
     }
 
-    // otherwise, check if myBusiness has a 'name' value
-    if (myBusiness.hasOwnProperty('name') === false) {
-      return <div>Not found</div>
-    } else {
-      const queueData = (myBusiness.queues.length) ? myBusiness.queues[0] : null;
-      return (
-        <div>
-          <h1>{myBusiness.name}</h1>
-          <h2>Business ID: {myBusiness.id}</h2>
-          <h2>Address: {myBusiness.address}</h2>
-          <h2>Phone: {myBusiness.phoneNumber}</h2>
-          <h2>Queue:</h2>
-          {queueData && (
-            <div>
-              <h3>Queue Length: {queueData.queueLength}</h3>
-              <h3>Queue Data: {queueData.date}</h3>
+    // check if entities exists in businessData
+    if (myBusinesses.businessData.hasOwnProperty('entities')) {
+      const {entities, result} = myBusinesses.businessData
+      if (entities.businesses[businessId]) {
+        const currBusiness = entities.businesses[businessId]
+        return (
+          <div>
+            <h1>{currBusiness.name}</h1>
+            <h2>Business ID: {currBusiness.id}</h2>
+            <h2>Address: {currBusiness.address}</h2>
+            <h2>Phone: {currBusiness.phoneNumber}</h2>
+            <h2>Queue:</h2>
+            {currBusiness.queues.length ? (
+              <div>
+                <h3>
+                  Queue Length:{' '}
+                  {entities.queues[currBusiness.queues[0]].queueLength}
+                </h3>
+                <h3>Reservations: </h3>
+                {entities.queues[currBusiness.queues[0]].queueLength && (
+                  <ul>
+                    {entities.queues[currBusiness.queues[0]].reservations.map(
+                      reservationId => {
+                        const reservation = entities.reservations[reservationId]
+                        return (
+                          <li key={reservation.id}>
+                            <h3>Name: {reservation.name}</h3>
+                            <h3>Status: {reservation.status}</h3>
+                            <h3>Party Size: {reservation.partySize}</h3>
+                            <h3>Date booked: {reservation.dateBooked}</h3>
+                          </li>
+                        )
+                      }
+                    )}
+                  </ul>
+                )}
               </div>
-          )}
-        </div>
-      )
-    } // render queue? render reservations?
+            ) : 'no queue'}
+          </div>
+        )
+      } else {
+        return (
+          <div>
+            <h1>Business not found</h1>
+          </div>
+        )
+      }
+    }
   }
 }
 
