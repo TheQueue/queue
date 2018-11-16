@@ -10,12 +10,12 @@ import PropTypes from 'prop-types'
  * COMPONENT
  */
 
-export const mapDisplay= () => {
+export const QRcode= () => {
 
   return (
     <div className="login">
-     this is mapDisplay
+     this is QRcode
     </div>
   )
 }
-export default mapDisplay
+export default QRcode

@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login} from './auth-form'
 import {me, logout} from '../store'
@@ -32,31 +32,32 @@ export const UserHome = props => {
         />
       </div>
       {isLoggedIn && (
-        <div className="container has-text-centered d">
+        <div className="container has-text-centered">
           <h1 className="has-text-white is-medium">Welcome, {email}</h1>
         </div>
       )}
       <div className="container has-text-centered animated fadeInUp">
         <div>
           <div className="column is-4 is-offset-4">
-            <button
-              className="button is-block is-primary is-large is-fullwidth"
-              type="button"
-            >
-              Scan QR &nbsp;&nbsp; &nbsp;&nbsp;{' '}
-              <i className="fa fa-qrcode fa-lg" aria-hidden="true" />
-            </button>
+            <Link to="/QRcode">
+              <button
+                className="button is-block is-primary is-large is-fullwidth"
+                type="button"
+              >
+                Scan QR &nbsp;&nbsp; &nbsp;&nbsp;{' '}
+                <i className="fa fa-qrcode fa-lg" aria-hidden="true" />
+              </button>
+            </Link>
           </div>
           <div className="column is-4 is-offset-4">
-            <button
+            <Link to="/mapDisplay"><button
               className="button is-block is-danger is-large is-fullwidth"
               type="button"
             >
               Find Map &nbsp;&nbsp; &nbsp;&nbsp;{' '}
               <i className="fa fa-map" aria-hidden="true" />
-            </button>
+            </button></Link>
           </div>
-          {isNotLoggedIn && <Login />}
           {isLoggedIn && (
             <div className="column is-4 is-offset-4">
               <button
@@ -68,9 +69,11 @@ export const UserHome = props => {
               </button>
             </div>
           )}
+          {isNotLoggedIn && <Login className="animated fadeInUp" />}
         </div>
       </div>
       <img className="bg" src={imgUrl} />
+      {isLoggedIn && <Footer className="animated fadeInUp" />}
     </div>
   )
 }

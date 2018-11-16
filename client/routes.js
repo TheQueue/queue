@@ -2,7 +2,19 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
+import {
+  Login,
+  Signup,
+  UserHome,
+  Search,
+  QRcode,
+  Qsetting,
+  myQs,
+  Qdata,
+  mapDisplay,
+  favorites,
+  profile
+} from './components'
 import {me} from './store'
 
 /**
@@ -20,15 +32,18 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
+        <Route path="/search" component={Search} />
         <Route path="/signup" component={Signup} />
-        {isLoggedIn && (
-          <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
-          </Switch>
-        )}
+        <Route path="/QRcode" component={QRcode} />
+        <Route path="/home" component={UserHome} />
+        <Route path="/Qsetting" component={Qsetting} />
+        <Route path="/myQs" component={myQs} />
+        <Route path="/profile" component={profile} />
+        <Route path="/Qdata" component={Qdata} />
+        <Route path="/mapDisplay" component={mapDisplay} />
+        <Route path="/favorites" component={favorites} />
         {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
+        <Route component={UserHome} />
       </Switch>
     )
   }

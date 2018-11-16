@@ -10,12 +10,12 @@ import PropTypes from 'prop-types'
  * COMPONENT
  */
 
-export const mapDisplay= () => {
+export const profile= () => {
 
   return (
     <div className="login">
-     this is mapDisplay
+     this is profile
     </div>
   )
 }
-export default mapDisplay
+export default profile
