@@ -1,8 +1,24 @@
 import axios from 'axios'
+import { normalize, schema } from 'normalizr'
 
+// NORMALIZER DEFINITIONS
+// define reservation schema
+const reservation = new schema.Entity('reservations')
+// define queue schema
+const queue = new schema.Entity('queues', {
+  reservations: [ reservation ]
+});
+// define business schema
+const business = new schema.Entity('businesses', {
+  queues: [ queue ]
+});
+// define input schema
+const businessList = [business];
+
+// REDUCER CONTENT
 // default
 const initialState = {
-  businessData: [],
+  businessData: {},
   isLoading: true
 }
 
@@ -27,7 +43,9 @@ const setMyBusinessesIsLoadingFalse = () => ({
 export const fetchMyBusinessData = () => async dispatch => {
   // user will be logged in, this route will return data based on session user id
   const {data} = await axios.get(`/api/owner/businesses`)
-  dispatch(setMyBusinesses(data)) // sets business data
+  // take nested JSON return -> normalize it -> set to store
+  const normalizedData = normalize(data, businessList)
+  dispatch(setMyBusinesses(normalizedData)) // sets business data
   dispatch(setMyBusinessesIsLoadingFalse()) // changes isLoading to false bc data was fetched
 }
 // reducer

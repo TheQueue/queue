@@ -25,7 +25,7 @@ class MyBusinessDetail extends Component {
 
   render() {
     const {myBusinesses} = this.props
-    const {myBusiness, businessId} = this.state
+    const {myBusiness} = this.state
     // if isLoading value is true -> loading msg
     if (myBusinesses.isLoading) {
       return (
@@ -35,18 +35,28 @@ class MyBusinessDetail extends Component {
         </div>
       )
     }
+
+    // otherwise, check if myBusiness has a 'name' value
     if (myBusiness.hasOwnProperty('name') === false) {
       return <div>Not found</div>
     } else {
+      const queueData = (myBusiness.queues.length) ? myBusiness.queues[0] : null;
       return (
         <div>
           <h1>{myBusiness.name}</h1>
           <h2>Business ID: {myBusiness.id}</h2>
           <h2>Address: {myBusiness.address}</h2>
           <h2>Phone: {myBusiness.phoneNumber}</h2>
+          <h2>Queue:</h2>
+          {queueData && (
+            <div>
+              <h3>Queue Length: {queueData.queueLength}</h3>
+              <h3>Queue Data: {queueData.date}</h3>
+              </div>
+          )}
         </div>
       )
-    }
+    } // render queue? render reservations?
   }
 }
 

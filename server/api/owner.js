@@ -20,10 +20,12 @@ router.get('/activeQueue', loginRequired, (req, res, next) => {
 router.get('/businesses', loginRequired, async (req, res, next) => {
   const today = new Date // creates new date object at current time
   today.setHours(0,0,0,0); // sets time of date object to beginning of the day
-
+  console.log('userId: ', req.user.id)
   try {
     const userId = req.user.id;
     // finds business by matching userId of business to id of logged in user
+    // const response = await Business.findAndCountAll({where: {userId: userId}})
+    // console.log('count: ', response.count)
     const businesses = await Business.findAll({
       where: {
         userId: userId
@@ -38,10 +40,11 @@ router.get('/businesses', loginRequired, async (req, res, next) => {
               [Op.gte]: today
             }
           },
-          // eager load associated reservations
+          required: false, // necessary if we want to return businesses without queues
           include: [
             {
-              model: Reservation
+              model: Reservation,
+              required: false // necessary if we want to return queues without reservations
             }
           ]
         }

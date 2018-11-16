@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchMyBusinessData} from '../store'
-
+import { Link } from 'react-router-dom'
 class MyBusinesses extends Component {
   componentDidMount() {
     this.props.fetchMyBusinessData()
@@ -18,22 +18,25 @@ class MyBusinesses extends Component {
         </div>
       )
     }
-    // if businessData exists, render it
-    if (myBusinesses.businessData) {
-      return (
+    // else render returned data
+
+    return (
+      <div>
+        <h1>My Businesses</h1>
         <div>
-          <h1>My Businesses</h1>
-          <div>
-            {myBusinesses.businessData.map(business => (
+          {myBusinesses.businessData.result.map(businessId => {
+            const business =
+              myBusinesses.businessData.entities.businesses[businessId]
+            return (
               <div key={business.id}>
-                <h1>{business.name}</h1>
+                <Link to={`/my-businesses/${business.id}`}><h1>{business.name}</h1></Link>
                 <h2>Business ID: {business.id}</h2>
               </div>
-            ))}
-          </div>
+            )
+          })}
         </div>
-      )
-    }
+      </div>
+    )
   }
 }
 
