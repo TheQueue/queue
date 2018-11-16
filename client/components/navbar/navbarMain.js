@@ -1,0 +1,96 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {logout} from '../../store'
+
+const Navbar = ({handleClick, isLoggedIn}) => (
+  <nav className="navbar" role="navigation" aria-label="main navigation">
+  <div className="navbar-brand">
+    <a className="navbar-item" href="https://bulma.io">
+      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"/>
+    </a>
+
+    <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" className="navbar-menu">
+    <div className="navbar-start">
+      <a className="navbar-item">
+        Home
+      </a>
+
+      <a className="navbar-item">
+        Documentation
+      </a>
+
+      <div className="navbar-item has-dropdown is-hoverable">
+        <a className="navbar-link">
+          More
+        </a>
+
+        <div className="navbar-dropdown">
+          <a className="navbar-item">
+            About
+          </a>
+          <a className="navbar-item">
+            Jobs
+          </a>
+          <a className="navbar-item">
+            Contact
+          </a>
+          <hr className="navbar-divider"/>
+          <a className="navbar-item">
+            Report an issue
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div className="navbar-end">
+      <div className="navbar-item">
+        <div className="buttons">
+          <a className="button is-primary">
+            <strong>Sign up</strong>
+          </a>
+          <a className="button is-light">
+            Log in
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+)
+
+/**
+ * CONTAINER
+ */
+const mapState = state => {
+  return {
+    isLoggedIn: !!state.user.id
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    handleClick() {
+      dispatch(logout())
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(Navbar)
+
+/**
+ * PROP TYPES
+ */
+Navbar.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired
+}

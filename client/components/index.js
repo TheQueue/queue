@@ -3,9 +3,18 @@
  * This way, we can import all of our components from the same place, rather than
  * having to figure out which file they belong to!
  */
-export {default as Navbar} from './navbar'
+export {default as Navbar} from './navbar/navbarMain'
 export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
+export {default as Footer} from './footer'
+export {default as Search} from './search'
+export {default as QRcode} from './QRcode'
+export {default as Qsetting} from './Qsetting'
+export {default as myQs} from './myQs'
+export {default as Qdata} from './Qdata'
+export {default as mapDisplay} from './mapDisplay'
+export {default as favorites} from './favorites'
+export {default as profile} from './profile'
 export {default as MyBusinessDetail} from './my-business-detail'
 export {default as MyBusinesses} from './my-businesses'
 
