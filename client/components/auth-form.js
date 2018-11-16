@@ -7,29 +7,56 @@ import {auth} from '../store'
  * COMPONENT
  */
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const {name, error} = props
+  const handleSubmit = async evt => {
+    evt.preventDefault()
+    const formName = evt.target.name
+    const email = evt.target.email.value
+    const password = evt.target.password.value
+    await props.auth(email, password, formName)
+  }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
+    <div className="column is-4 is-offset-4">
+      <div className="box is-centered">
+        <form onSubmit={handleSubmit} name={name}>
+          <div className="control">
+            <label htmlFor="email">
+              <input
+                className="input is-large"
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                autoFocus=""
+              />
+            </label>
+          </div>
+          <div className="control">
+            <label htmlFor="password">
+              <input
+                className="input is-large"
+                type="password"
+                name="password"
+                placeholder="Your Password"
+              />
+            </label>
+          </div>
+          <label className="checkbox">
+            <input type="checkbox" />Remember me
           </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
+          <button
+            className="button is-block is-info is-large is-fullwidth"
+            type="submit"
+          >
+            Login
+          </button>
+          <p className="has-text-grey">
+            <a href="../">Sign Up</a> &nbsp;·&nbsp;
+            <a href="../">Forgot Password</a>
+          </p>
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+      </div>
     </div>
   )
 }
@@ -59,13 +86,8 @@ const mapSignup = state => {
 
 const mapDispatch = dispatch => {
   return {
-    handleSubmit(evt) {
-      evt.preventDefault()
-      const formName = evt.target.name
-      const email = evt.target.email.value
-      const password = evt.target.password.value
+    auth: (email, password, formName) =>
       dispatch(auth(email, password, formName))
-    }
   }
 }
 
@@ -77,7 +99,5 @@ export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
  */
 AuthForm.propTypes = {
   name: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.object
 }
