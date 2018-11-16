@@ -1,30 +1,65 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Business, Category} = require('../server/db/models')
+const {
+  User,
+  Business,
+  Category,
+  Reservation,
+  Queue
+} = require('../server/db/models')
 const seedCategory = require('./seedCategory.json')
 const seedUser = require('./seedUser.json')
 const seedBusiness = require('./seedBusiness.json')
+const seedReservation = require('./seedReservation.json')
+const seedQueue = require('./seedQueue.json')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
+  // get the current date
+  const now = new Date()
+
   // categories
   const categories = await Promise.all(
-    seedCategory.map(category => Category.create(category))
+    seedCategory.map(category => {
+      return Category.create(category)
+    })
   )
   console.log(`seeded ${categories.length} categories`)
 
   // users
-  const users = await Promise.all(seedUser.map(user => User.create(user)))
+  const users = await Promise.all(seedUser.map(user => {
+    return User.create(user)
+  }))
   console.log(`seeded ${users.length} users`)
 
   // businesses
   const businesses = await Promise.all(
-    seedBusiness.map(business => Business.create(business))
+    seedBusiness.map(business => {
+      return Business.create(business)
+    })
   )
   console.log(`seeded ${businesses.length} businesses`)
+
+  // queue
+  const queues = await Promise.all(
+    seedQueue.map(queue => {
+      queue.date = now
+      return Queue.create(queue)
+    })
+  )
+  console.log(`seeded ${queues.length} queues`)
+
+  // reservations
+  const reservations = await Promise.all(
+    seedReservation.map(reservation => {
+      reservation.dateBooked = now
+      return Reservation.create(reservation)
+    })
+  )
+  console.log(`seeded ${reservations.length} reservations`)
 
   console.log(`seeded successfully`)
 }
