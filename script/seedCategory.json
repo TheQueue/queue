@@ -1,5 +1,14 @@
 [
   {
     "categoryType": "Restaurant"
+  },
+  {
+    "categoryType": "Salon"
+  },
+  {
+    "categoryType": "Airport"
+  },
+  {
+    "categoryType": "Disney Land"
   }
 ]
