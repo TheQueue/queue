@@ -3,19 +3,21 @@ const {Business, Category, User} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   const option = {
-    where: {}
+    where: {},
+    include: [Category, User]
   }
+
   if (req.query.category) {
     const category = await Category.findOne({
       where: {
         categoryType: req.query.category
       }
     })
-    if (category) {
-      option.where.categoryId = category.id
-    }
+    //console.log(category)
+    option.where.categoryId = category.id
   }
-  const business = await Business.findAll({include: [Category, User]}, option)
+  console.log(option)
+  const business = await Business.findAll(option)
 
   res.send(business)
 })

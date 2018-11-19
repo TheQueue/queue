@@ -20,9 +20,10 @@ const getBusiness = business => ({type: GET_BUSINESS, business})
  * THUNK CREATORS
  */
 
-export const thunkAllB = () => async dispatch => {
+export const thunkAllB = category => async dispatch => {
   try {
-    const business = (await axios.get(`/api/business`)).data
+    const business = (await axios.get(`/api/business?category=${category}`))
+      .data
     dispatch(getBusiness(business))
   } catch (err) {
     console.log(err)

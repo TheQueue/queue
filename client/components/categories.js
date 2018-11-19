@@ -1,14 +1,17 @@
 import React, {Component} from 'react'
 import {thunkAllB, fetchCategories, setVisibility} from '../store'
 import {connect} from 'react-redux'
+
 //import {Link} from 'react-router-dom'
 
 class Categories extends Component {
   constructor() {
     super()
     this.state = {
-      visibilityFilter: ''
+      visibilityFilter: '',
+      b: []
     }
+    this.handleChange = this.handleChange.bind(this)
   }
   componentDidMount() {
     this.props.loadBusinesses()
@@ -17,24 +20,26 @@ class Categories extends Component {
 
   handleChange(event) {
     console.log('event changed', event.target.value)
-    this.props.setVisibility(event.target.value)
+    //his.props.setVisibility(event.target.value)
+    this.props.loadBusinesses(event.target.value)
   }
 
   render() {
     if (!this.props.categories.length) {
       return <div>There is no this category yet</div>
     }
+    console.log(this.props.businesses)
     return (
       <div>
         <select onChange={this.handleChange}>
           <option />
           {this.props.categories.map(category => (
-            <option key={category.id} value={category.id}>
+            <option key={category.id} value={category.categoryType}>
               {category.categoryType}{' '}
             </option>
           ))}
         </select>
-        <div />
+        {}
       </div>
     )
   }
@@ -46,9 +51,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadBusinesses: () => dispatch(thunkAllB()),
-  loadCategories: () => dispatch(fetchCategories()),
-  setVisibility: visibility => dispatch(setVisibility(visibility))
+  loadBusinesses: stuff => dispatch(thunkAllB(stuff)),
+  loadCategories: () => dispatch(fetchCategories())
+  //setVisibility: visibility => dispatch(setVisibility(visibility))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories)

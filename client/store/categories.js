@@ -9,10 +9,10 @@ const setCategories = categories => ({
   type: SET_CATEGORIES,
   categories
 })
-const setVisibility = visibility => ({
-  type: SET_VISIBILITY_FILTER,
-  visibility
-})
+// const setVisibility = visibility => ({
+//   type: SET_VISIBILITY_FILTER,
+//   visibility
+// })
 
 //THUNK CREATOR
 export const fetchCategories = () => {
