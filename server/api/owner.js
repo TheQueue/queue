@@ -97,11 +97,15 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
     if (req.user.id !== business.userId) {
       res.sendStatus(403) // send 403 is user is unauthorized
     } else if (action === 'approve') {
+      const {waitTime} = req.body
+      const nowPlusWaitTime = new Date();
+      nowPlusWaitTime.setMinutes(nowPlusWaitTime.getMinutes() + waitTime)
       const newQueueLength = queue.queueLength + 1;
       await queue.update({queueLength: newQueueLength}) // add 1 to queue length in queue
       await reservation.update({
         status: 'Active',
-        queuePosition: newQueueLength
+        queuePosition: newQueueLength,
+        estimatedTimeOfService: nowPlusWaitTime
       })
       const updatedQueue = await Queue.findById(queue.id, {
         include: [{
@@ -116,7 +120,8 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
       const servedQueuePos = reservation.queuePos
       await reservation.update({
         status: 'Serviced',
-        queuePosition: null
+        queuePosition: null,
+        estimatedTimeOfService: new Date() // stores time when they were served
       })
       // grab reservations behind the serviced one
       const reservations = await Reservation.findAll({

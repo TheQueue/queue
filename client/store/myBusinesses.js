@@ -56,9 +56,10 @@ export const fetchMyBusinessData = () => async dispatch => {
   dispatch(setMyBusinessesIsLoadingFalse()) // changes isLoading to false bc data was fetched
 }
 
-export const approveSingleReservation = (reservationId) => async dispatch => {
+export const approveSingleReservation = (reservationId, waitTime) => async dispatch => {
   await dispatch(setMyBusinessesIsLoadingTrue())
-  const {data} = await axios.put(`/api/owner/reservations/${reservationId}?action=approve`);
+  const request = {waitTime}
+  const {data} = await axios.put(`/api/owner/reservations/${reservationId}?action=approve`, request);
   // normalizes data and updates store
   await dispatch(updateQueueAndReservationsNormalized(normalize(data, queue).entities))
   await dispatch(setMyBusinessesIsLoadingFalse())

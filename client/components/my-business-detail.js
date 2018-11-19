@@ -19,8 +19,6 @@ class MyBusinessDetail extends Component {
     const {myBusinesses} = this.props
     const {businessId} = this.state
 
-    // we'll loop through this array to render matching reservations
-    const statusList = ['Pending', 'Active', 'Serviced', 'Cancelled', 'Holding']
     // if isLoading value is true -> loading msg
     if (myBusinesses.isLoading) {
       return (
@@ -36,15 +34,17 @@ class MyBusinessDetail extends Component {
       if (entities.businesses[businessId]) {
         const currBusiness = entities.businesses[businessId]
 
-        // matchingReservs is an object of arrays
-        // key = status, value = filtered list of reservs based on statusList entry
+        // matchingReservs is hash table
+        // key = status, value = array of reservations that have that status
+        // we'll loop through statusList array to get matching reservations
         const matchingReservs = {};
+        const statusList = ['Pending', 'Active', 'Serviced', 'Cancelled', 'Holding']
         statusList.forEach(status => {
           matchingReservs[status] = entities.queues[currBusiness.queues[0]].reservations
             .map(reservationId => entities.reservations[reservationId])
             .filter(res => res.status === status)
         })
-
+        const currQueue = entities.queues[currBusiness.queues[0]]
         return (
           <div className="container">
             <div className="box">
@@ -59,6 +59,9 @@ class MyBusinessDetail extends Component {
                 <h3>
                   Active Queue Length:{' '}
                   {matchingReservs.Active.length}
+                </h3>
+                <h3>
+                  Wait time per party: {currQueue.defaultWaitTime} min
                 </h3>
                 {statusList.map((status) => (
                   <React.Fragment key={status}>
@@ -75,6 +78,7 @@ class MyBusinessDetail extends Component {
                             <ReservationCard
                               reservation={reservation}
                               key={reservation.id}
+                              defaultWaitTime={currQueue.defaultWaitTime}
                             />
                           ))}
                       </div>
