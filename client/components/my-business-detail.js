@@ -15,14 +15,11 @@ class MyBusinessDetail extends Component {
     await this.props.fetchMyBusinessData()
     // filter fetched data to correct business id
   }
-  async componentDidUpdate(prevProps) {
-
-  }
   render() {
     const {myBusinesses} = this.props
     const {businessId} = this.state
     // if isLoading value is true -> loading msg
-    if (myBusinesses.isLoading || myBusinesses.businessData.entities === undefined) {
+    if (myBusinesses.isLoading) {
       return (
         <div className="box">
           <h1 className="title">My Business - Detail</h1>
@@ -30,7 +27,6 @@ class MyBusinessDetail extends Component {
         </div>
       )
     }
-
     // check if entities exists in businessData
     if (myBusinesses.businessData.hasOwnProperty('entities')) {
       const {entities, result} = myBusinesses.businessData
@@ -51,7 +47,24 @@ class MyBusinessDetail extends Component {
                   Queue Length:{' '}
                   {entities.queues[currBusiness.queues[0]].queueLength}
                 </h3>
-                <h3>Reservations: </h3>
+                <h3>Pending Reservations:</h3>
+                {entities.queues[currBusiness.queues[0]].reservations
+                  .length && (
+                  <div>
+                    {entities.queues[currBusiness.queues[0]].reservations
+                      .map(
+                        reservationId => entities.reservations[reservationId]
+                      )
+                      .filter(res => res.status === 'Pending')
+                      .map(reservation => (
+                        <ReservationCard
+                          reservation={reservation}
+                          key={reservation.id}
+                        />
+                      ))}
+                  </div>
+                )}
+                <h3>Active Reservations:</h3>
                 {entities.queues[currBusiness.queues[0]].queueLength && (
                   <div>
                     {entities.queues[currBusiness.queues[0]].reservations.map(
@@ -65,6 +78,23 @@ class MyBusinessDetail extends Component {
                         )
                       }
                     )}
+                  </div>
+                )}
+                <h3>Serviced Reservations:</h3>
+                {entities.queues[currBusiness.queues[0]].reservations
+                  .length && (
+                  <div>
+                    {entities.queues[currBusiness.queues[0]].reservations
+                      .map(
+                        reservationId => entities.reservations[reservationId]
+                      )
+                      .filter(res => res.status === 'Serviced')
+                      .map(reservation => (
+                        <ReservationCard
+                          reservation={reservation}
+                          key={reservation.id}
+                        />
+                      ))}
                   </div>
                 )}
               </div>

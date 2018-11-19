@@ -110,6 +110,37 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
         }]
       })
       res.json(updatedQueue)
+    } else if (action === 'serve') {
+      const newQueueLength = queue.queueLength - 1;
+      await queue.update({queueLength: newQueueLength}) // subtract 1 from queue length in queue
+      const servedQueuePos = reservation.queuePos
+      await reservation.update({
+        status: 'Serviced',
+        queuePosition: null
+      })
+      // grab reservations behind the serviced one
+      const reservations = await Reservation.findAll({
+        where: {
+          queueId: queue.id,
+          queuePosition: {
+            [Op.gt]: servedQueuePos
+          }
+        }
+      });
+      // decrement the queuePos for each one
+      await Promise.all(reservations.map(reserv => {
+        const queuePos = reserv.queuePos
+        return reserv.update({
+          queuePos: queuePos - 1
+        })
+      }))
+      const updatedQueue = await Queue.findById(queue.id, {
+        include: [{
+          model: Reservation,
+          required: false
+        }]
+      })
+      res.json(updatedQueue)
     } else {
       res.sendStatus(200)
     }

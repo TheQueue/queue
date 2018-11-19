@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {approveSingleReservation} from '../store'
+import {approveSingleReservation, markReservationAsServed} from '../store'
+
 const ReservationCard = props => {
-  const {reservation, handleApprove} = props
+  const {reservation, handleApprovePending, handleServeActive} = props
+
   return (
     <article className="media box">
       <div className="media-left">
@@ -15,8 +17,13 @@ const ReservationCard = props => {
         <p>
           Status: {reservation.status}
           {reservation.status === 'Pending' && (
-            <button name={reservation.id} type="button" className="button" onClick={handleApprove}>
+            <button name={reservation.id} type="button" className="button" onClick={handleApprovePending}>
               Approve
+            </button>
+          )}
+          {reservation.status === 'Active' && (
+            <button name={reservation.id} type="button" className="button" onClick={handleServeActive}>
+              Mark as served
             </button>
           )}
         </p>
@@ -31,9 +38,13 @@ const ReservationCard = props => {
 }
 
 const mapDispatch = dispatch => ({
-  handleApprove: (event) => {
+  handleApprovePending: (event) => {
     const reservationId = event.target.name
     dispatch(approveSingleReservation(reservationId))
+  },
+  handleServeActive: (event) => {
+    const reservationId = event.target.name
+    dispatch(markReservationAsServed(reservationId))
   }
 })
 

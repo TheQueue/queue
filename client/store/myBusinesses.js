@@ -59,6 +59,16 @@ export const fetchMyBusinessData = () => async dispatch => {
 export const approveSingleReservation = (reservationId) => async dispatch => {
   await dispatch(setMyBusinessesIsLoadingTrue())
   const {data} = await axios.put(`/api/owner/reservations/${reservationId}?action=approve`);
+  // normalizes data and updates store
+  await dispatch(updateQueueAndReservationsNormalized(normalize(data, queue).entities))
+  await dispatch(setMyBusinessesIsLoadingFalse())
+}
+
+export const markReservationAsServed = (reservationId) => async dispatch => {
+  await dispatch(setMyBusinessesIsLoadingTrue())
+  const {data} = await axios.put(`/api/owner/reservations/${reservationId}?action=serve`);
+  console.log(data);
+  // normalizes data and updates store
   await dispatch(updateQueueAndReservationsNormalized(normalize(data, queue).entities))
   await dispatch(setMyBusinessesIsLoadingFalse())
 }
@@ -75,14 +85,13 @@ const myBusinessesReducer = (state = initialState, action) => {
       return {...state, isLoading: true}
     case UPDATE_QUEUE_AND_RESERVATIONS:
       // copies old state, but selectively replaces reservation and queue
-      // start by copying
       newBusinessData = {...state.businessData}
       newQueue = action.queues
       newReservation = action.reservations
       newBusinessData.entities.queues = newQueue
       newBusinessData.entities.reservations = newReservation
-      // copy over associated reservations from state to new Queue
-      // need to do this because store uses normalized data
+      // !! this reducer function only keeps data from the my-business-detail view !!
+      // front end needs to refetch all data again when rendering my-businesses
       return {
         ...state,
         businessData: newBusinessData
