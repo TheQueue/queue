@@ -18,4 +18,4 @@ export {default as favorites} from './favorites'
 export {default as profile} from './profile'
 export {default as MyBusinessDetail} from './my-business-detail'
 export {default as MyBusinesses} from './my-businesses'
-
+export {default as Categories} from './categories'

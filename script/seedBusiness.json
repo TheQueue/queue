@@ -127,5 +127,142 @@
     "phoneNumber": "+17739355000",
     "categoryId": 1,
     "tags": ["bakeries", "coffee", "tea"]
+  },
+  {
+    "name": "Cody's Cafe",
+    "address": "405 W. Superior St., Chicago, IL 60654",
+    "phoneNumber": "(111)-111-1111",
+    "coordinates": [41.895334, -87.639029],
+    "isVisible": true,
+    "categoryId": 1,
+    "userId": 1,
+    "tags": ["bakeries", "coffee", "tea"]
+  },
+
+  {
+    "yelpid": "TotRsMNqKOdxdJap4DWSkQ",
+
+    "name": "HeadQuarter Salon",
+    "image_url":
+      "https://s3-media2.fl.yelpcdn.com/bphoto/v-a-0KAmPIVe3iQZUykgTg/o.jpg",
+
+    "coordinates": [41.8539878069544, -87.6341105937958],
+    "address": "2145A S China Pl, Chicago,IL 60616",
+
+    "phoneNumber": "+13128421353",
+    "categoryId": 2,
+    "tags": ["Hair cut", "nail art"]
+  },
+
+  {
+    "yelpid": "F5w5miIWXpEmKMCO2japPA",
+
+    "name": "Edit Salon",
+    "image_url":
+      "https://s3-media2.fl.yelpcdn.com/bphoto/JXgamxSvkWkHBusZxSchdA/o.jpg",
+    "coordinates": [41.89591, -87.66202],
+    "address": "1369 W Chicago Ave, Chicago,IL 60642",
+
+    "phoneNumber": "+13127330123",
+    "categoryId": 2,
+    "tags": ["Hair cut", "nail art"]
+  },
+
+  {
+    "yelpid": "TpXnwGZwiLnE-_nJ-oc5dg",
+
+    "name": "Cellar Door Salon & Studio",
+    "image_url":
+      "https://s3-media3.fl.yelpcdn.com/bphoto/afpTlbPQE-buPfik01BIkQ/o.jpg",
+    "coordinates": [41.916153, -87.6861115],
+    "address": "1905 N Milwaukee Ave, Chicago,IL 60647",
+
+    "phoneNumber": "+17732279223",
+    "categoryId": 2,
+    "tags": ["Hair cut", "spa"]
+  },
+
+  {
+    "yelpid": "riUj9dDoBG9Isz8YPAe6-Q",
+
+    "name": "No 1 Salon",
+    "image_url":
+      "https://s3-media2.fl.yelpcdn.com/bphoto/KnVu0y5FGcvZJskfI7Ejyw/o.jpg",
+    "coordinates": [41.8545843, -87.6328791],
+    "address": "2113 S China Pl, Chicago, IL 60616",
+
+    "phoneNumber": "+13126313856",
+    "categoryId": 2,
+    "tags": ["Hair cut", "Nail", "Waxing"]
+  },
+
+  {
+    "yelpid": "Y2nEUSKHYGwMAa9UAqNJrg",
+
+    "name": "Sparrow",
+    "image_url":
+      "https://s3-media3.fl.yelpcdn.com/bphoto/PSfwBBWyfR_XXa1YAwQLiQ/o.jpg",
+    "coordinates": [41.9276924133301, -87.7046966552734],
+    "address": "2545 N Milwaukee Ave, Chicago, IL 60616",
+
+    "phoneNumber": "+17734869300",
+    "categoryId": 2,
+    "tags": ["Hair cut"]
+  },
+
+  {
+    "yelpid": "Z63N9zCk2TH5SJDfANljhw",
+
+    "name": "Mane Salon",
+    "image_url":
+      "https://s3-media4.fl.yelpcdn.com/bphoto/RK6yMR2UDNclYwy9Bz9Bpg/o.jpg",
+    "coordinates": [41.890728, -87.655437],
+    "address": "1119 W Grand Ave, Chicago, IL 60616",
+
+    "phoneNumber": "+13129880297",
+    "categoryId": 2,
+    "tags": ["Hair Salons", "Makeup Artists", "Eyebrow Services"]
+  },
+
+  {
+    "yelpid": "nmrmaADbGzkupF5poeBoXA",
+
+    "name": "Gold Coast Salon",
+    "image_url":
+      "https://s3-media1.fl.yelpcdn.com/bphoto/mDXuUinT5pB6XDSoIuSSTA/o.jpg",
+    "coordinates": [41.902064, -87.6301034],
+    "address": "1106 N Dearborn, Chicago, IL 60616",
+
+    "phoneNumber": "+13126430629",
+    "categoryId": 2,
+    "tags": ["Hair Salons", "Waxing", "Eyebrow Services"]
+  },
+
+  {
+    "yelpid": "ZrH004S6Zj7ve07R3YSVBw",
+
+    "name": "Epoch studio salon",
+    "image_url":
+      "https://s3-media3.fl.yelpcdn.com/bphoto/Hry2FIMJvSGDJwQj3qTmbg/o.jpg",
+    "coordinates": [41.9103474, -87.6746323],
+    "address": "1106 N Dearborn, Chicago, IL 60616",
+
+    "phoneNumber": "+13126430629",
+    "categoryId": 2,
+    "tags": ["Hair Salons", "Makeup Artists"]
+  },
+
+  {
+    "yelpid": "6w5imaek1FfA70OiRbCknA",
+
+    "name": "Aria Salon",
+    "image_url":
+      "https://s3-media2.fl.yelpcdn.com/bphoto/2yqcsvwWLDy3nqYnXA0kVg/o.jpg",
+    "coordinates": [41.9426186, -87.6689538],
+    "address": "3334 N Ashland Ave, IL 60616",
+
+    "phoneNumber": "+17735447532",
+    "categoryId": 2,
+    "tags": ["Hair Salons", "Barbers", "Skin Care"]
   }
 ]

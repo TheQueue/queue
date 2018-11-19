@@ -19,17 +19,13 @@ const businessList = [business]
 // default
 const initialState = {
   businessData: {},
-  isLoading: true,
-  categories: [],
-  visibilityFilter: ''
+  isLoading: true
 }
 
 // action types
 const SET_MY_BUSINESSES_DATA = 'SET_MY_BUSINESSES_DATA'
 const SET_MY_BUSINESSES_IS_LOADING_TRUE = 'SET_MY_BUSINESSES_IS_LOADING_TRUE'
 const SET_MY_BUSINESSES_IS_LOADING_FALSE = 'SET_MY_BUSINESSES_IS_LOADING_FALSE'
-const SET_CATEGORIES = 'SET_CATEGORIES'
-const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER'
 
 // action creators
 const setMyBusinesses = businessData => ({
@@ -43,14 +39,6 @@ const setMyBusinessesIsLoadingFalse = () => ({
   type: SET_MY_BUSINESSES_IS_LOADING_FALSE
 })
 
-const setCategories = categories => ({
-  type: SET_CATEGORIES,
-  categories
-})
-const setVisibility = visibility => ({
-  type: SET_VISIBILITY_FILTER,
-  visibility
-})
 // thunk creators
 
 export const fetchMyBusinessData = () => async dispatch => {
@@ -63,13 +51,6 @@ export const fetchMyBusinessData = () => async dispatch => {
 }
 // reducer
 
-export const fetchCategories = () => {
-  return async dispatch => {
-    const {data} = await axios.get('api/businesses/categories')
-    dispatch(setCategories(data))
-  }
-}
-
 const myBusinessesReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_MY_BUSINESSES_DATA:
@@ -78,10 +59,7 @@ const myBusinessesReducer = (state = initialState, action) => {
       return {...state, isLoading: false}
     case SET_MY_BUSINESSES_IS_LOADING_TRUE:
       return {...state, isLoading: true}
-    case SET_CATEGORIES:
-      return {...state, categories: action.categories}
-    case SET_VISIBILITY_FILTER:
-      return {...state, visibilityFilter: action.visibility}
+
     default:
       return state
   }

@@ -41,7 +41,7 @@ export class BusinessList extends React.Component {
   render() {
     if (!this.props.business) return <div>No Business</div>
     const {classes} = this.props
-
+    console.log('MMM', this.props)
     return (
       <React.Fragment>
         <Grid container className={classes.root} spacing={16}>

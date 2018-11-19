@@ -6,11 +6,11 @@ const Op = Sequelize.Op
 module.exports = router
 
 router.get('/activeQueue', loginRequired, (req, res, next) => {
-  const date = new Date;
+  const date = new Date()
   try {
     res.sendStatus(200)
   } catch (err) {
-    next (err)
+    next(err)
   }
 })
 
@@ -18,11 +18,11 @@ router.get('/activeQueue', loginRequired, (req, res, next) => {
 // each business eager loads 1 queue (the one for the current day)
 // the queue returns all associated reservations
 router.get('/businesses', loginRequired, async (req, res, next) => {
-  const today = new Date // creates new date object at current time
-  today.setHours(0,0,0,0); // sets time of date object to beginning of the day
+  const today = new Date() // creates new date object at current time
+  today.setHours(0, 0, 0, 0) // sets time of date object to beginning of the day
   console.log('userId: ', req.user.id)
   try {
-    const userId = req.user.id;
+    const userId = req.user.id
     // finds business by matching userId of business to id of logged in user
     // const response = await Business.findAndCountAll({where: {userId: userId}})
     // console.log('count: ', response.count)
