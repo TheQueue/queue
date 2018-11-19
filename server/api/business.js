@@ -15,9 +15,18 @@ router.get('/', async (req, res, next) => {
       option.where.categoryId = category.id
     }
   }
-  const business = await Business.findAll({include: [Category, User]}, option)
+  const businesses = await Business.findAll({include: [Category, User]}, option)
 
-  res.send(business)
+  res.send(businesses)
+})
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const business = await Business.findById(req.params.id)
+    res.send(business)
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 module.exports = router
