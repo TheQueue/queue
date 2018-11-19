@@ -47,6 +47,7 @@ function BusinessCard(props) {
           className={classes.cover}
           image={business.imageUrl}
           title={business.name}
+          style={{height: '100%', width: '100%', paddingTop: '100%'}}
         />
       </CardActionArea>
       <div className={classes.details}>
