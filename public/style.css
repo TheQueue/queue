@@ -1,6 +1,10 @@
 body {
   font-family: sans-serif;
 }
+.insideFrame{
+  margin-top:66px;
+  margin-bottom: 100px;
+}
 
 a {
   text-decoration: none;

@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 const Footer = () => {
   return (
-<nav className="navbar is-link is-fixed-bottom level is-centered" role="navigation">
+<nav className="navbar is-link is-fixed-bottom level" role="navigation">
     <div className="navbar-brand">
         <Link to="/search"><a className="navbar-item is-expanded">
             <i className="fa fa-user"></i>

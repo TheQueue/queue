@@ -33,7 +33,9 @@ export const UserHome = props => {
       </div>
       {isLoggedIn && (
         <div className="container has-text-centered">
-          <h1 className="has-text-white is-medium">Welcome, {email}</h1>
+          <div className="has-text-white">
+            <h1 className="is-large">Welcome, {email}</h1>
+          </div>
         </div>
       )}
       <div className="container has-text-centered animated fadeInUp">
@@ -50,13 +52,15 @@ export const UserHome = props => {
             </Link>
           </div>
           <div className="column is-4 is-offset-4">
-            <Link to="/mapDisplay"><button
-              className="button is-block is-danger is-large is-fullwidth"
-              type="button"
-            >
-              Find Map &nbsp;&nbsp; &nbsp;&nbsp;{' '}
-              <i className="fa fa-map" aria-hidden="true" />
-            </button></Link>
+            <Link to="/mapDisplay">
+              <button
+                className="button is-block is-danger is-large is-fullwidth"
+                type="button"
+              >
+                Find Map &nbsp;&nbsp; &nbsp;&nbsp;{' '}
+                <i className="fa fa-map" aria-hidden="true" />
+              </button>
+            </Link>
           </div>
           {isLoggedIn && (
             <div className="column is-4 is-offset-4">
