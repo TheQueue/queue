@@ -22,13 +22,13 @@ class MyBusinesses extends Component {
     if (myBusinesses.businessData.hasOwnProperty('entities')) {
       const {entities, result} = myBusinesses.businessData
       return (
-        <div>
-          <h1>My Businesses</h1>
-          <div>
+        <div className="container">
+          <h1 className="title">My Businesses</h1>
+          <div className="box">
             {result.map(businessId => {
               const business = entities.businesses[businessId]
               return (
-                <div key={business.id}>
+                <div className="box" key={business.id}>
                   <Link to={`/my-businesses/${business.id}`}>
                     <h1>{business.name}</h1>
                   </Link>

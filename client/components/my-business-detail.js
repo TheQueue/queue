@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchMyBusinessData} from '../store'
+import {ReservationCard} from './index'
 
 class MyBusinessDetail extends Component {
   constructor(props) {
@@ -14,15 +15,17 @@ class MyBusinessDetail extends Component {
     await this.props.fetchMyBusinessData()
     // filter fetched data to correct business id
   }
+  async componentDidUpdate(prevProps) {
 
+  }
   render() {
     const {myBusinesses} = this.props
     const {businessId} = this.state
     // if isLoading value is true -> loading msg
-    if (myBusinesses.isLoading) {
+    if (myBusinesses.isLoading || myBusinesses.businessData.entities === undefined) {
       return (
-        <div>
-          <h1>My Business - Detail</h1>
+        <div className="box">
+          <h1 className="title">My Business - Detail</h1>
           <div>Loading...</div>
         </div>
       )
@@ -34,38 +37,40 @@ class MyBusinessDetail extends Component {
       if (entities.businesses[businessId]) {
         const currBusiness = entities.businesses[businessId]
         return (
-          <div>
-            <h1>{currBusiness.name}</h1>
-            <h2>Business ID: {currBusiness.id}</h2>
-            <h2>Address: {currBusiness.address}</h2>
-            <h2>Phone: {currBusiness.phoneNumber}</h2>
-            <h2>Queue:</h2>
+          <div className="container">
+            <div className="box">
+              <h1 className="title">{currBusiness.name}</h1>
+              <h2>Business ID: {currBusiness.id}</h2>
+              <h2>Address: {currBusiness.address}</h2>
+              <h2>Phone: {currBusiness.phoneNumber}</h2>
+            </div>
             {currBusiness.queues.length ? (
-              <div>
+              <div className="box">
+                <h2 className="title">Queue:</h2>
                 <h3>
                   Queue Length:{' '}
                   {entities.queues[currBusiness.queues[0]].queueLength}
                 </h3>
                 <h3>Reservations: </h3>
                 {entities.queues[currBusiness.queues[0]].queueLength && (
-                  <ul>
+                  <div>
                     {entities.queues[currBusiness.queues[0]].reservations.map(
                       reservationId => {
                         const reservation = entities.reservations[reservationId]
                         return (
-                          <li key={reservation.id}>
-                            <h3>Name: {reservation.name}</h3>
-                            <h3>Status: {reservation.status}</h3>
-                            <h3>Party Size: {reservation.partySize}</h3>
-                            <h3>Date booked: {reservation.dateBooked}</h3>
-                          </li>
+                          <ReservationCard
+                            reservation={reservation}
+                            key={reservation.id}
+                          />
                         )
                       }
                     )}
-                  </ul>
+                  </div>
                 )}
               </div>
-            ) : 'no queue'}
+            ) : (
+              'no queue'
+            )}
           </div>
         )
       } else {

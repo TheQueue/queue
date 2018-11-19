@@ -6,11 +6,11 @@ const Op = Sequelize.Op
 module.exports = router
 
 router.get('/activeQueue', loginRequired, (req, res, next) => {
-  const date = new Date;
+  const date = new Date()
   try {
     res.sendStatus(200)
   } catch (err) {
-    next (err)
+    next(err)
   }
 })
 
@@ -18,11 +18,11 @@ router.get('/activeQueue', loginRequired, (req, res, next) => {
 // each business eager loads 1 queue (the one for the current day)
 // the queue returns all associated reservations
 router.get('/businesses', loginRequired, async (req, res, next) => {
-  const today = new Date // creates new date object at current time
-  today.setHours(0,0,0,0); // sets time of date object to beginning of the day
+  const today = new Date() // creates new date object at current time
+  today.setHours(0, 0, 0, 0) // sets time of date object to beginning of the day
   console.log('userId: ', req.user.id)
   try {
-    const userId = req.user.id;
+    const userId = req.user.id
     // finds business by matching userId of business to id of logged in user
     // const response = await Business.findAndCountAll({where: {userId: userId}})
     // console.log('count: ', response.count)
@@ -53,5 +53,64 @@ router.get('/businesses', loginRequired, async (req, res, next) => {
     res.json(businesses)
   } catch (err) {
     next(err)
+  }
+})
+
+// view reservations for a specific queue
+// ex: GET /api/owner/reservations?queueId=5
+router.get('/reservations', loginRequired, async (req, res, next) => {
+  const queueId = req.query.queueId
+  try {
+    const queue = await Queue.findById(queueId) // look up queue
+    const business = await queue.getBusiness() // look up business
+    if (req.user.id !== business.userId) {
+      res.sendStatus(403) // send 403 is user is unauthorized
+    } else {
+      // else return all reservations that have the matching queueId
+      const reservations = await Reservation.findAll({
+        where: {
+          queueId: queueId
+        }
+      })
+      res.json(reservations)
+    }
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+// this route will affect a reservation and a queue
+// user story: business owner approves a pending reservation
+// increment queue position on queue by 1
+// take new queue length and set it as queue Position on reservation
+// change reservation status on that reservation to active
+// set the estimated time of service
+// ex: PUT request to api/owner/reservations/1?action=approve, with req.body of new status
+router.put('/reservations/:reservationId', loginRequired, async (req, res, next) => {
+  const reservationId = req.params.reservationId
+  const action = req.query.action
+  try {
+    // check if user has authorization to edit
+    const reservation = await Reservation.findById(reservationId)
+    const queue = await reservation.getQueue()
+    const business = await queue.getBusiness()
+    if (req.user.id !== business.userId) {
+      res.sendStatus(403) // send 403 is user is unauthorized
+    } else if (action === 'approve') {
+      const newQueueLength = queue.queueLength + 1;
+      await queue.update({queueLength: newQueueLength}) // add 1 to queue length in queue
+      await reservation.update({
+        status: 'Active',
+        queuePosition: newQueueLength
+      })
+      res.json({
+        reservation: reservation,
+        queue: queue
+      })
+    } else {
+      res.sendStatus(200)
+    }
+  } catch (err) {
+    console.error(err)
   }
 })
