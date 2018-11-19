@@ -40,6 +40,7 @@ export class BusinessList extends React.Component {
 
   render() {
     if (!this.props.business) return <div>No Business</div>
+    console.dir(this.props.business)
     const {classes} = this.props
     console.log('MMM', this.props)
     return (
