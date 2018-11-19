@@ -18,7 +18,8 @@ import {
   MyBusinessDetail,
   MapContainer,
   BusinessList,
-  Categories
+  Categories,
+  SingleView
 } from './components'
 import {me} from './store'
 
@@ -44,11 +45,13 @@ class Routes extends Component {
         <Route path="/home" component={UserHome} />
         <Route path="/Qsetting" component={Qsetting} />
         <Route path="/myQs" component={myQs} />
-
+        <Route path="/business/:id" component={SingleView} />
         <Route path="/Qdata" component={Qdata} />
         <Route path="/mapDisplay" component={mapDisplay} />
         <Route path="/categories" component={Categories} />
         <Route path="/businessList" component={BusinessList} />
+
+        <Route exact path="/business" component={BusinessList} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -57,7 +60,6 @@ class Routes extends Component {
               component={MyBusinessDetail}
             />
             <Route path="/my-businesses/" component={MyBusinesses} />
-            {/* <Route path="/businessesList/" component={BusinessList} /> */}
             <Route path="/favorites" component={favorites} />
             <Route path="/profile" component={profile} />
           </Switch>

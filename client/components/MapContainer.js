@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Map, GoogleApiWrapper, Marker, InfoWindow} from 'google-maps-react'
-import CurrentLocation from './Map'
+import CurrentLocation from './map'
 import {thunkAllB} from '../store/business'
 import {connect} from 'react-redux'
 
@@ -10,7 +10,7 @@ const mapStyles = {
 }
 // MAP STATE AND DISPATCH TO PROPS
 const mapState = state => ({
-  business: state.business
+  business: state.business.businesses
 })
 const mapDispatch = dispatch => {
   return {

@@ -9,7 +9,7 @@ import {thunkAllB} from '../store/business'
 
 function mapState(state) {
   return {
-    business: state.business
+    business: state.business.businesses
   }
 }
 const mapDispatch = dispatch => {
