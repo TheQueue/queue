@@ -103,10 +103,13 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
         status: 'Active',
         queuePosition: newQueueLength
       })
-      res.json({
-        reservation: reservation,
-        queue: queue
+      const updatedQueue = await Queue.findById(queue.id, {
+        include: [{
+          model: Reservation,
+          required: false
+        }]
       })
+      res.json(updatedQueue)
     } else {
       res.sendStatus(200)
     }

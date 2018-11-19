@@ -26,7 +26,7 @@ const initialState = {
 const SET_MY_BUSINESSES_DATA = 'SET_MY_BUSINESSES_DATA'
 const SET_MY_BUSINESSES_IS_LOADING_TRUE = 'SET_MY_BUSINESSES_IS_LOADING_TRUE'
 const SET_MY_BUSINESSES_IS_LOADING_FALSE = 'SET_MY_BUSINESSES_IS_LOADING_FALSE'
-const UPDATE_RESERVATION_AND_QUEUE = 'UPDATE_RESERVATION_AND_QUEUE'
+const UPDATE_QUEUE_AND_RESERVATIONS = 'UPDATE_QUEUE_AND_RESERVATIONS'
 
 // action creators
 const setMyBusinesses = businessData => ({
@@ -39,10 +39,11 @@ const setMyBusinessesIsLoadingTrue = () => ({
 const setMyBusinessesIsLoadingFalse = () => ({
   type: SET_MY_BUSINESSES_IS_LOADING_FALSE
 })
-const updateReservationAndQueue = (newReservation, newQueue) => ({
-  type: UPDATE_RESERVATION_AND_QUEUE,
-  reservation: newReservation,
-  queue: newQueue
+
+const updateQueueAndReservationsNormalized = (entities) => ({
+  type: UPDATE_QUEUE_AND_RESERVATIONS,
+  queues: entities.queues,
+  reservations: entities.reservations
 })
 // thunk creators
 
@@ -58,7 +59,7 @@ export const fetchMyBusinessData = () => async dispatch => {
 export const approveSingleReservation = (reservationId) => async dispatch => {
   await dispatch(setMyBusinessesIsLoadingTrue())
   const {data} = await axios.put(`/api/owner/reservations/${reservationId}?action=approve`);
-  await dispatch(updateReservationAndQueue(data.reservation, data.queue))
+  await dispatch(updateQueueAndReservationsNormalized(normalize(data, queue).entities))
   await dispatch(setMyBusinessesIsLoadingFalse())
 }
 // reducer
@@ -72,14 +73,16 @@ const myBusinessesReducer = (state = initialState, action) => {
       return {...state, isLoading: false}
     case SET_MY_BUSINESSES_IS_LOADING_TRUE:
       return {...state, isLoading: true}
-    case UPDATE_RESERVATION_AND_QUEUE:
+    case UPDATE_QUEUE_AND_RESERVATIONS:
       // copies old state, but selectively replaces reservation and queue
+      // start by copying
       newBusinessData = {...state.businessData}
-      newQueue = action.queue
-      newQueue.reservations = [...state.businessData.entities.queues[newQueue.id].reservations]
-      newReservation = action.reservation
-      newBusinessData.entities.queues[newQueue.id] = newQueue
-      newBusinessData.entities.reservations[newReservation.id] = newReservation
+      newQueue = action.queues
+      newReservation = action.reservations
+      newBusinessData.entities.queues = newQueue
+      newBusinessData.entities.reservations = newReservation
+      // copy over associated reservations from state to new Queue
+      // need to do this because store uses normalized data
       return {
         ...state,
         businessData: newBusinessData
