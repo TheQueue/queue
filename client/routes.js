@@ -16,11 +16,12 @@ import {
   profile,
   MyBusinesses,
   MyBusinessDetail,
-  MapContainer
+  MapContainer,
+  BusinessList,
+  Categories,
+  SingleView
 } from './components'
 import {me} from './store'
-import BusinessList from './components/businessList'
-import SingleView from './components/singleView'
 
 /**
  * COMPONENT
@@ -47,6 +48,8 @@ class Routes extends Component {
         <Route path="/business/:id" component={SingleView} />
         <Route path="/Qdata" component={Qdata} />
         <Route path="/mapDisplay" component={mapDisplay} />
+        <Route path="/categories" component={Categories} />
+        <Route path="/businessList" component={BusinessList} />
 
         <Route exact path="/business" component={BusinessList} />
         {isLoggedIn && (

@@ -1,19 +1,19 @@
 import axios from 'axios'
-import { normalize, schema } from 'normalizr'
+import {normalize, schema} from 'normalizr'
 
 // NORMALIZER DEFINITIONS
 // define reservation schema
 const reservation = new schema.Entity('reservations')
 // define queue schema
 const queue = new schema.Entity('queues', {
-  reservations: [ reservation ]
-});
+  reservations: [reservation]
+})
 // define business schema
 const business = new schema.Entity('businesses', {
-  queues: [ queue ]
-});
+  queues: [queue]
+})
 // define input schema
-const businessList = [business];
+const businessList = [business]
 
 // REDUCER CONTENT
 // default
@@ -40,11 +40,13 @@ const setMyBusinessesIsLoadingFalse = () => ({
   type: SET_MY_BUSINESSES_IS_LOADING_FALSE
 })
 
+
 const updateQueueAndReservationsNormalized = (entities) => ({
   type: UPDATE_QUEUE_AND_RESERVATIONS,
   queues: entities.queues,
   reservations: entities.reservations
 })
+
 // thunk creators
 
 export const fetchMyBusinessData = () => async dispatch => {
@@ -84,6 +86,7 @@ const myBusinessesReducer = (state = initialState, action) => {
       return {...state, isLoading: false}
     case SET_MY_BUSINESSES_IS_LOADING_TRUE:
       return {...state, isLoading: true}
+
     case UPDATE_QUEUE_AND_RESERVATIONS:
       // copies old state, but selectively replaces reservation and queue
       newBusinessData = {...state.businessData}

@@ -1,5 +1,4 @@
 import axios from 'axios'
-import history from '../history'
 
 /**
  * ACTION TYPES
@@ -33,9 +32,10 @@ export const getDetails = id => async dispatch => {
   }
 }
 
-export const thunkAllB = () => async dispatch => {
+export const thunkAllB = category => async dispatch => {
   try {
-    const business = (await axios.get(`/api/business`)).data
+    const business = (await axios.get(`/api/business?category=${category}`))
+      .data
     dispatch(getBusiness(business))
   } catch (err) {
     console.log(err)

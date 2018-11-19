@@ -18,5 +18,9 @@ export {default as favorites} from './favorites'
 export {default as profile} from './profile'
 export {default as MyBusinessDetail} from './my-business-detail'
 export {default as MyBusinesses} from './my-businesses'
+export {default as Categories} from './categories'
+export {default as BusinessList} from './businessList'
+export {default as SingleView} from './singleView'
 export {default as ReservationCard} from './reservation-card'
+
 
