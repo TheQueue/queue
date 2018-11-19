@@ -24,7 +24,10 @@ class SingleBusiness extends React.Component {
   render() {
     console.log(this.props)
 
-    if (!this.props.business && !this.props.isClosed) {
+    if (
+      (!this.props.business && !this.props.isClosed) ||
+      this.props.business.id !== Number(this.props.match.params.id)
+    ) {
       return <div />
     }
     return (
