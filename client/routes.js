@@ -20,6 +20,7 @@ import {
 } from './components'
 import {me} from './store'
 import BusinessList from './components/businessList'
+import SingleView from './components/singleView'
 
 /**
  * COMPONENT
@@ -43,17 +44,19 @@ class Routes extends Component {
         <Route path="/home" component={UserHome} />
         <Route path="/Qsetting" component={Qsetting} />
         <Route path="/myQs" component={myQs} />
-
+        <Route path="/business/:id" component={SingleView} />
         <Route path="/Qdata" component={Qdata} />
         <Route path="/mapDisplay" component={mapDisplay} />
-
 
         <Route exact path="/business" component={BusinessList} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/my-businesses/:businessId" component = {MyBusinessDetail} />
-            <Route path="/my-businesses/" component = {MyBusinesses} />
+            <Route
+              path="/my-businesses/:businessId"
+              component={MyBusinessDetail}
+            />
+            <Route path="/my-businesses/" component={MyBusinesses} />
             <Route path="/favorites" component={favorites} />
             <Route path="/profile" component={profile} />
           </Switch>
