@@ -6,7 +6,8 @@ import {getDetails} from '../store/business'
 
 function mapState(state) {
   return {
-    business: state.business.single
+    business: state.business.single.business,
+    isClosed: state.business.single.closed
   }
 }
 function mapDispatch(dispatch) {
@@ -22,6 +23,10 @@ class SingleBusiness extends React.Component {
   componentWillUnmount() {}
   render() {
     console.log(this.props)
+
+    if (!this.props.business && !this.props.isClosed) {
+      return <div />
+    }
     return (
       <div className="sp">
         <img src={this.props.business.imageUrl} />
@@ -29,9 +34,7 @@ class SingleBusiness extends React.Component {
         <p />
         Address: {this.props.business.address}
         phoneNumber: {this.props.business.phoneNumber}
-        <Button size="large" color="primary" variant="contained">
-          Stufff
-        </Button>
+        {this.props.isClosed ? <p>Closed</p> : <p>Open</p>}
         <p />
       </div>
     )

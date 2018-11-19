@@ -26,6 +26,7 @@ const getSingleB = business => ({type: GET_DETAILS, business})
 export const getDetails = id => async dispatch => {
   try {
     const business = (await axios.get(`/api/business/${id}`)).data
+    console.log(business)
     dispatch(getSingleB(business))
   } catch (err) {
     console.log(err)
