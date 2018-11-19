@@ -94,6 +94,7 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
     const reservation = await Reservation.findById(reservationId)
     const queue = await reservation.getQueue()
     const business = await queue.getBusiness()
+
     if (req.user.id !== business.userId) {
       res.sendStatus(403) // send 403 is user is unauthorized
     } else if (action === 'approve') {
@@ -101,7 +102,11 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
       const nowPlusWaitTime = new Date();
       nowPlusWaitTime.setMinutes(nowPlusWaitTime.getMinutes() + waitTime)
       const newQueueLength = queue.queueLength + 1;
-      await queue.update({queueLength: newQueueLength}) // add 1 to queue length in queue
+      await queue.update({
+        queueLength: newQueueLength, // add 1 to queue length in queue
+        timeAtWhichLastQueueGetsSeated: nowPlusWaitTime // set latest approved wait time on queue
+        // might change this ^^ later
+      })
       await reservation.update({
         status: 'Active',
         queuePosition: newQueueLength,
@@ -115,14 +120,14 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
       })
       res.json(updatedQueue)
     } else if (action === 'serve') {
-      const newQueueLength = queue.queueLength - 1;
-      await queue.update({queueLength: newQueueLength}) // subtract 1 from queue length in queue
+      // update specified reservation
       const servedQueuePos = reservation.queuePos
       await reservation.update({
         status: 'Serviced',
         queuePosition: null,
         estimatedTimeOfService: new Date() // stores time when they were served
       })
+
       // grab reservations behind the serviced one
       const reservations = await Reservation.findAll({
         where: {
@@ -132,6 +137,7 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
           }
         }
       });
+
       // decrement the queuePos for each one
       await Promise.all(reservations.map(reserv => {
         const queuePos = reserv.queuePos
@@ -139,6 +145,26 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
           queuePos: queuePos - 1
         })
       }))
+
+      // update the queue
+      const remainingReservations = await Reservation.count({
+        where: {
+          queueId: queue.id
+        }
+      })
+      const newQueueLength = queue.queueLength - 1;
+      if (newQueueLength) {
+        await queue.update({
+          queueLength: newQueueLength, // subtract 1 from queue length in queue
+        })
+      } else {
+        await queue.update({
+          queueLength: newQueueLength,
+          estimatedTimeOfService: null
+        })
+      }
+
+      // send queue with nested reservation
       const updatedQueue = await Queue.findById(queue.id, {
         include: [{
           model: Reservation,
