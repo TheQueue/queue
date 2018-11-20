@@ -12,17 +12,17 @@ const Navbar = props => {
         integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossOrigin="anonymous"
       />
-      <Link to="/search" className="navbar-item is-expanded is-block has-text-centered">
-        <i className="fa fa-user" />
-        <p className="is-size-7">Search</p>
+      <Link to="/businessList" className="navbar-item is-expanded is-block has-text-centered">
+        <i className="fa fa-list-ul" />
+        <p className="is-size-7">List</p>
       </Link>
-      <Link to="/search" className="navbar-item is-expanded is-block is-flex is-logo">
+      <Link to="/home" className="navbar-item is-expanded is-block is-flex is-logo">
         <img src="/logo.png" height="32" width="32"  />
         
       </Link>
       {<Link to='/search' className="navbar-item is-expanded is-block has-text-centered">
-        <i className="fa fa-flag" />
-        <p className="is-size-7">Profile</p>
+        <i className="fa fa-filter" />
+        <p className="is-size-7">Filter</p>
       </Link>}
     </nav>
   )

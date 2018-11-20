@@ -50,8 +50,6 @@ class Routes extends Component {
  
         <Route path="/categories" component={Categories} />
         <Route path="/businessList" component={BusinessList} />
-
-        <Route exact path="/business" component={BusinessList} />
         <Route component={UserHome} />
         {isLoggedIn && (
           <Switch>
