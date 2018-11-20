@@ -13,8 +13,8 @@ import PropTypes from 'prop-types'
 export const Search= () => {
 
   return (
-    <div className="login">
-     this is search
+    <div className="insideFrame login animated slideInRight">
+     this is Filter
     </div>
   )
 }
