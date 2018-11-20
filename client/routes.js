@@ -50,7 +50,7 @@ class Routes extends Component {
  
         <Route path="/categories" component={Categories} />
         <Route path="/businessList" component={BusinessList} />
-        <Route component={UserHome} />
+        
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -61,10 +61,11 @@ class Routes extends Component {
             <Route path="/my-businesses/" component={MyBusinesses} />
             <Route path="/favorites" component={favorites} />
             <Route path="/profile" component={profile} />
+            <Route component={UserHome} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
-        
+        <Route component={UserHome} />
       </Switch>
     )
   }

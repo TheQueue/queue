@@ -38,6 +38,7 @@ class SingleBusiness extends React.Component {
         Address: {this.props.business.address}
         phoneNumber: {this.props.business.phoneNumber}
         {this.props.isClosed ? <p>Closed</p> : <p>Open</p>}
+        {}
         <p />
       </div>
     )
