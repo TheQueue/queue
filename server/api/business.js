@@ -114,23 +114,58 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/:id', async (req, res, next) => {
+  const today = new Date() // creates new date object at current time
+  today.setHours(0, 0, 0, 0) // sets time of date object to beginning of the day
   try {
     let closed = true
     const business = await Business.findById(req.params.id)
-    client
-      .search({
-        term: business.name,
-        location: 'chicago'
+    if (!business) {
+      res.sendStatus(404)
+    } else {
+      const queue = await Queue.findOne({
+        where: {
+          date: {
+            [Op.gte]: today
+          }
+        }
       })
-      .then(response => {
-        //console.log(response.jsonBody.businesses[0].is_closed)
-        closed = response.jsonBody.businesses[0].is_closed
-        res.send({business, closed})
-        //console.log(business)
-      })
-      .catch(e => {
-        console.log(e)
-      })
+      if (queue === null) {
+        await Queue.create({
+          businessId: business.id,
+          date: today
+        })
+      }
+      const options = {
+        where: {
+          id: req.params.id
+        },
+        include: [
+          {
+            model: Queue,
+            where: {
+              date: {
+                [Op.gte]: today
+              }
+            }
+          }
+        ]
+      }
+      const businessWithQueue = await Business.findOne(options)
+      client
+        .search({
+          term: business.name,
+          location: 'chicago'
+        })
+        .then(response => {
+          //console.log(response.jsonBody.businesses[0].is_closed)
+          closed = response.jsonBody.businesses[0].is_closed
+          res.send({business: businessWithQueue, closed})
+          //console.log(business)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
   } catch (err) {
     console.log(err)
   }
