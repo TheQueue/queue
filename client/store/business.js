@@ -34,9 +34,10 @@ export const getDetails = id => async dispatch => {
 
 export const thunkAllB = category => async dispatch => {
   try {
-    const business = (await axios.get(`/api/business?category=${category}`))
-      .data
-    dispatch(getBusiness(business))
+
+    const response = category ? (await axios.get(`/api/business?category=${category}`))
+      : await axios.get(`/api/business`)
+    dispatch(getBusiness(response.data))
   } catch (err) {
     console.log(err)
   }

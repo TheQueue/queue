@@ -8,24 +8,29 @@ const router = require('express').Router()
 const {Business, Category, User} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
-  const option = {
-    where: {},
-    include: [Category, User]
-  }
-
-  if (req.query.category) {
-    const category = await Category.findOne({
-      where: {
-        categoryType: req.query.category
+  try {
+    if (req.query.category) {
+      const category = await Category.findOne({
+        where: {
+          categoryType: req.query.category
+        }
+      })
+      const option = {
+        where: {categoryId: category.id},
+        include: [Category, User]
       }
-    })
-    //console.log(category)
-    option.where.categoryId = category.id
-  }
-  console.log(option)
-  const businesses = await Business.findAll(option)
 
-  res.send(businesses)
+      console.log(option)
+      const businesses = await Business.findAll(option)
+
+      res.send(businesses)
+    } else {
+      const businesses = await Business.findAll()
+      res.json(businesses)
+    }
+  } catch (err) {
+    console.error(err)
+  }
 })
 
 router.get('/:id', async (req, res, next) => {
