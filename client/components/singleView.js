@@ -53,6 +53,7 @@ class SingleBusiness extends React.Component {
   }
   componentWillUnmount() {}
 
+<<<<<<< HEAD
   plus() {
     this.setState((prevState, props) => ({
       partySize: prevState.partySize + 1
@@ -94,6 +95,34 @@ class SingleBusiness extends React.Component {
     })
   }
 
+=======
+  calculateWaitTime = (business) => {
+    function parseISOString(s) {
+      var b = s.split(/\D+/)
+      return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]))
+    }
+
+    let waitTime;
+    // if business full, calculate a wait time
+    if (business.queues[0].isBusinessFull) {
+      if (business.queues[0].queueLength === 0 || business.queues[0].timeAtWhichLastQueueGetsSeated === null) {
+        // use default wait time
+        waitTime = business.queues[0].defaultWaitTime
+      } else if (business.queues[0].timeAtWhichLastQueueGetsSeated) {
+        // if there's a 'time at which last queue gets served', calculate time diff from that
+        let timeOfService = parseISOString(
+          business.queues[0].timeAtWhichLastQueueGetsSeated
+        )
+        waitTime =  Math.floor((timeOfService - new Date()) / 60000)
+      }
+    } else {
+      // if business is not full, return 0 min
+      waitTime = 0;
+    }
+    if (waitTime < 0) waitTime = 0 // handle negative wait times
+    return waitTime;
+  }
+>>>>>>> master
 
   render() {
     console.log(this.props.user, this.state)
@@ -117,6 +146,7 @@ class SingleBusiness extends React.Component {
         <p />
         Address: {this.props.business.address}
         phoneNumber: {this.props.business.phoneNumber}
+<<<<<<< HEAD
         {this.props.isClosed ? (
           <p>Closed</p>
         ) : (
@@ -182,6 +212,10 @@ class SingleBusiness extends React.Component {
             </form>
           </div>
         </div>
+=======
+        {this.props.isClosed ? <p>Closed</p> : <p>Open</p>}
+        {!this.props.isClosed && <p>{this.calculateWaitTime(this.props.business)} min wait time</p>}
+>>>>>>> master
         <p />
       </div>
     )
