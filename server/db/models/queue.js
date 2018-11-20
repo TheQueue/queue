@@ -11,7 +11,7 @@ const Queue = db.define('queue', {
   // date of queue activity
   date: {
     type: Sequelize.DATE,
-    allowNull: false
+    allowNull: true
   },
   // number on the business dashboard that the employee can edit
   defaultWaitTime: {

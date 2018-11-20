@@ -5,11 +5,42 @@ const yelp = require('yelp-fusion')
 const client = yelp.client(process.env.YELP_KEY)
 
 const router = require('express').Router()
-const {Business, Category, User} = require('../db/models')
+const {Business, Category, User, Queue} = require('../db/models')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 router.get('/', async (req, res, next) => {
+  const today = new Date() // creates new date object at current time
+  today.setHours(0, 0, 0, 0) // sets time of date object to beginning of the day
+
   try {
     if (req.query.category) {
+      const allBusinesses = await Business.findAll()
+      await Promise.all(
+        allBusinesses.map(business =>
+          // for each business,
+          // look for an associated queue for today
+          Queue.findOne({
+            where: {
+              businessId: business.id,
+              date: {
+                [Op.gte]: today
+              }
+            }
+          }).then(queue => {
+            // if no queue found, create one
+            if (queue === null) {
+              return Queue.create({
+                businessId: business.id,
+                date: today
+              })
+            } else {
+              // if queue found, return it
+              return queue
+            }
+          })
+        )
+      )
       const category = await Category.findOne({
         where: {
           categoryType: req.query.category
@@ -17,16 +48,65 @@ router.get('/', async (req, res, next) => {
       })
       const option = {
         where: {categoryId: category.id},
-        include: [Category, User]
+        include: [
+          {
+            model: Category
+          },
+          {
+            model: User
+          },
+          {
+            model: Queue,
+            where: {
+              date: {
+                [Op.gte]: today
+              }
+            }
+          }
+        ]
       }
-
-      console.log(option)
       const businesses = await Business.findAll(option)
-
-      res.send(businesses)
+      res.json(businesses)
     } else {
       const businesses = await Business.findAll()
-      res.json(businesses)
+      await Promise.all(
+        businesses.map(business =>
+          // for each business,
+          // look for an associated queue for today
+          Queue.findOne({
+            where: {
+              businessId: business.id,
+              date: {
+                [Op.gte]: today
+              }
+            }
+          }).then(queue => {
+            // if no queue found, create one
+            if (queue === null) {
+              return Queue.create({
+                businessId: business.id,
+                date: today
+              })
+            } else {
+              // if queue found, return it
+              return queue
+            }
+          })
+        )
+      )
+      const businessesWithQueues = await Business.findAll({
+        include: [
+          {
+            model: Queue,
+            where: {
+              date: {
+                [Op.gte]: today
+              }
+            }
+          }
+        ]
+      })
+      res.json(businessesWithQueues)
     }
   } catch (err) {
     console.error(err)
