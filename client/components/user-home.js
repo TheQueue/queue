@@ -52,7 +52,7 @@ export const UserHome = props => {
             </Link>
           </div>
           <div className="column is-4 is-offset-4">
-            <Link to="/mapDisplay">
+            <Link to="/map">
               <button
                 className="button is-block is-danger is-large is-fullwidth"
                 type="button"

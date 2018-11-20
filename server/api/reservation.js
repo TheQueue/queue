@@ -34,6 +34,8 @@ router.get('/:reservationId', loginRequired, async (req, res, next) => {
   try {
     const queue = req.query.queueId
     const business = Queue.getBusiness()
+
+    
     if (req.user.id === business.userId) {
       const findOneReservation = await Reservation.findById(
         req.params.reservationId

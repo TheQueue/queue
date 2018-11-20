@@ -45,7 +45,6 @@ class Routes extends Component {
         <Route path="/myQs" component={myQs} />
 
         <Route path="/Qdata" component={Qdata} />
-        <Route path="/mapDisplay" component={mapDisplay} />
 
 
         <Route exact path="/business" component={BusinessList} />
