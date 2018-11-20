@@ -1,5 +1,6 @@
 'use strict'
-
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const yelp = require('yelp-fusion')
 
 const client = yelp.client(process.env.YELP_KEY)
@@ -53,6 +54,22 @@ router.get('/:id', async (req, res, next) => {
       })
   } catch (err) {
     console.log(err)
+  }
+})
+
+router.get('/search/:keyword', async (req, res, next) => {
+  try {
+    const keyword = req.params.keyword
+    const businesses = await Business.findAll({
+      where: {
+        name: {
+          [Op.iLike]: `%${keyword}%`
+        }
+      }
+    })
+    res.json(businesses)
+  } catch (err) {
+    next(err)
   }
 })
 

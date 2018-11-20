@@ -11,7 +11,6 @@ import {
   Qsetting,
   myQs,
   Qdata,
-  mapDisplay,
   favorites,
   profile,
   MyBusinesses,
@@ -47,10 +46,11 @@ class Routes extends Component {
         <Route path="/myQs" component={myQs} />
         <Route path="/business/:id" component={SingleView} />
         <Route path="/Qdata" component={Qdata} />
- 
+
         <Route path="/categories" component={Categories} />
         <Route path="/businessList" component={BusinessList} />
-        
+        <Route path="/search" component={Search} />
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
