@@ -25,7 +25,7 @@ class SingleBusiness extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isActive: 'modal',
+      isActive: false,
       partySize: 1,
       note: "",
       doneReserve: false,
@@ -53,7 +53,6 @@ class SingleBusiness extends React.Component {
   }
   componentWillUnmount() {}
 
-<<<<<<< HEAD
   plus() {
     this.setState((prevState, props) => ({
       partySize: prevState.partySize + 1
@@ -68,12 +67,12 @@ class SingleBusiness extends React.Component {
   }
   popup() {
     this.setState({
-      isActive: 'modal is-active'
+      isActive: true
     })
   }
   doneInfo() {
     this.setState({
-      isActive: 'modal'
+      isActive: false
     })
   }
   handleSubmit= async (event) => {
@@ -95,7 +94,6 @@ class SingleBusiness extends React.Component {
     })
   }
 
-=======
   calculateWaitTime = (business) => {
     function parseISOString(s) {
       var b = s.split(/\D+/)
@@ -122,7 +120,6 @@ class SingleBusiness extends React.Component {
     if (waitTime < 0) waitTime = 0 // handle negative wait times
     return waitTime;
   }
->>>>>>> master
 
   render() {
     console.log(this.props.user, this.state)
@@ -146,7 +143,6 @@ class SingleBusiness extends React.Component {
         <p />
         Address: {this.props.business.address}
         phoneNumber: {this.props.business.phoneNumber}
-<<<<<<< HEAD
         {this.props.isClosed ? (
           <p>Closed</p>
         ) : (
@@ -157,7 +153,7 @@ class SingleBusiness extends React.Component {
             </a>
           </div>
         )}
-        <div className={this.state.isActive}>
+{this.state.isActive&& <div className="modal is-active">
           <div className="modal-background" />
           <div className="modal-content">
             <form className="card is-rounded has-text-centered">
@@ -211,11 +207,9 @@ class SingleBusiness extends React.Component {
               </div>
             </form>
           </div>
-        </div>
-=======
-        {this.props.isClosed ? <p>Closed</p> : <p>Open</p>}
+        </div>}
+      
         {!this.props.isClosed && <p>{this.calculateWaitTime(this.props.business)} min wait time</p>}
->>>>>>> master
         <p />
       </div>
     )
