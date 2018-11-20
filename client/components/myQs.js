@@ -13,8 +13,11 @@ import PropTypes from 'prop-types'
 export const myQs= () => {
 
   return (
-    <div className="login">
-     this is myQs
+    <div className="insideFrame">
+    My Q
+
+
+    
     </div>
   )
 }
