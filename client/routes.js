@@ -47,11 +47,10 @@ class Routes extends Component {
         <Route path="/myQs" component={myQs} />
         <Route path="/business/:id" component={SingleView} />
         <Route path="/Qdata" component={Qdata} />
-        <Route path="/mapDisplay" component={mapDisplay} />
+ 
         <Route path="/categories" component={Categories} />
         <Route path="/businessList" component={BusinessList} />
-
-        <Route exact path="/business" component={BusinessList} />
+        <Route component={UserHome} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -65,7 +64,7 @@ class Routes extends Component {
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
-        <Route component={UserHome} />
+        
       </Switch>
     )
   }

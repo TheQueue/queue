@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Navbar from './navbar/navbarMain'
+import Footer from './footer'
 
 const mapStyles = {
   map: {
@@ -107,10 +109,14 @@ export class CurrentLocation extends React.Component {
     const style = Object.assign({}, mapStyles.map)
     return (
       <div>
-        <div style={style} ref="map">
-          Loading map...
+        <Navbar />
+        <div className="insideFrame">
+          <div style={style} ref="map">
+            Loading map...
+          </div>
+          {this.renderChildren()}
+          <Footer />
         </div>
-        {this.renderChildren()}
       </div>
     )
   }

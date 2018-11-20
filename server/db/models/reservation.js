@@ -26,7 +26,8 @@ const Reservation = db.define('reservation', {
   },
   partySize: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    allowNull: false,
+    defaultValue: 1
   },
 
   // optional fields at creation

@@ -6,7 +6,8 @@ import BusinessCard from './businessCard'
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import {thunkAllB} from '../store/business'
-
+import Navbar from './navbar/navbarMain'
+import Footer from './footer'
 function mapState(state) {
   return {
     business: state.business.businesses
@@ -44,6 +45,10 @@ export class BusinessList extends React.Component {
     const {classes} = this.props
     console.log('MMM', this.props)
     return (
+      <div>
+        <Navbar/>
+        
+        <div className="insideFrame">
       <React.Fragment>
         <Grid container className={classes.root} spacing={16}>
           <Grid item xs={12}>
@@ -57,6 +62,9 @@ export class BusinessList extends React.Component {
           </Grid>
         </Grid>
       </React.Fragment>
+      </div>
+      <Footer />
+      </div>
     )
   }
 }

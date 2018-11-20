@@ -1,6 +1,10 @@
 body {
   font-family: sans-serif;
 }
+.insideFrame {
+  margin-top: 90px;
+  margin-bottom: 90px;
+}
 
 a {
   text-decoration: none;
@@ -18,6 +22,38 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+.navbar-item {
+  display: flex;
+  align-items: center;
+}
+
+.navbar,
+.navbar-menu,
+.navbar-start,
+.navbar-end {
+  align-items: stretch;
+  display: flex;
+  padding: 0;
+}
+
+.navbar-menu{
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+.navbar-start{
+  justify-content: flex-start;
+  margin-right: auto;
+}
+.navbar-end{
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.navbar-item.is-logo {
+  justify-content: center;
+  align-items: center;
+  
 }
 .footers {
   position: fixed;
@@ -43,25 +79,25 @@ img.bg {
   /* Set rules to fill background */
   min-height: 100%;
   min-width: 1024px;
-	
+
   /* Set up proportionate scaling */
   width: 100%;
   height: auto;
-	
+
   /* Set up positioning */
   position: fixed;
   top: 0;
   left: 0;
   z-index: -1;
 }
-img.logo{
+img.logo {
   margin-top: 10%;
 }
 
 .login {
   /* Set rules to fill background */
   min-height: 90%;
-	
+
   /* Set up proportionate scaling */
   width: 100%;
   height: auto;
@@ -73,10 +109,9 @@ img.logo{
   top: 0;
   left: 0;
 }
-.is-trans{
+.is-trans {
   opacity: 0.9;
 }
-
 
 @-webkit-keyframes bounce {
   from,
@@ -1973,14 +2008,15 @@ img.logo{
   from {
     -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
       rotate3d(0, 1, 0, -360deg);
-    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
+    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
+      rotate3d(0, 1, 0, -360deg);
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out;
   }
 
   40% {
-    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
-      rotate3d(0, 1, 0, -190deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1)
+      translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);
     transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
       rotate3d(0, 1, 0, -190deg);
     -webkit-animation-timing-function: ease-out;
@@ -1988,8 +2024,8 @@ img.logo{
   }
 
   50% {
-    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
-      rotate3d(0, 1, 0, -170deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1)
+      translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);
     transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
       rotate3d(0, 1, 0, -170deg);
     -webkit-animation-timing-function: ease-in;
@@ -1997,8 +2033,8 @@ img.logo{
   }
 
   80% {
-    -webkit-transform: perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0)
-      rotate3d(0, 1, 0, 0deg);
+    -webkit-transform: perspective(400px) scale3d(0.95, 0.95, 0.95)
+      translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
     transform: perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0)
       rotate3d(0, 1, 0, 0deg);
     -webkit-animation-timing-function: ease-in;
@@ -2008,7 +2044,8 @@ img.logo{
   to {
     -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
       rotate3d(0, 1, 0, 0deg);
-    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
+    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
+      rotate3d(0, 1, 0, 0deg);
     -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in;
   }
@@ -2018,14 +2055,15 @@ img.logo{
   from {
     -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
       rotate3d(0, 1, 0, -360deg);
-    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
+    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
+      rotate3d(0, 1, 0, -360deg);
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out;
   }
 
   40% {
-    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
-      rotate3d(0, 1, 0, -190deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1)
+      translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);
     transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
       rotate3d(0, 1, 0, -190deg);
     -webkit-animation-timing-function: ease-out;
@@ -2033,8 +2071,8 @@ img.logo{
   }
 
   50% {
-    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
-      rotate3d(0, 1, 0, -170deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1)
+      translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);
     transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
       rotate3d(0, 1, 0, -170deg);
     -webkit-animation-timing-function: ease-in;
@@ -2042,8 +2080,8 @@ img.logo{
   }
 
   80% {
-    -webkit-transform: perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0)
-      rotate3d(0, 1, 0, 0deg);
+    -webkit-transform: perspective(400px) scale3d(0.95, 0.95, 0.95)
+      translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
     transform: perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0)
       rotate3d(0, 1, 0, 0deg);
     -webkit-animation-timing-function: ease-in;
@@ -2053,7 +2091,8 @@ img.logo{
   to {
     -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
       rotate3d(0, 1, 0, 0deg);
-    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
+    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
+      rotate3d(0, 1, 0, 0deg);
     -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in;
   }
@@ -3692,7 +3731,7 @@ img.logo{
   }
 }
 
-.is-centered{
-  flex-grow: 1; 
+.is-centered {
+  flex-grow: 1;
   justify-content: center;
 }
