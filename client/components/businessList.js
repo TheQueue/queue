@@ -10,7 +10,7 @@ import Navbar from './navbar/navbarMain'
 import Footer from './footer'
 function mapState(state) {
   return {
-    business: state.business
+    business: state.business.businesses
   }
 }
 const mapDispatch = dispatch => {
@@ -41,8 +41,9 @@ export class BusinessList extends React.Component {
 
   render() {
     if (!this.props.business) return <div>No Business</div>
+    console.dir(this.props.business)
     const {classes} = this.props
-
+    console.log('MMM', this.props)
     return (
       <div>
         <Navbar/>

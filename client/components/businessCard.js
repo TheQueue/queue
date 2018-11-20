@@ -5,7 +5,8 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
-import Navbar from './navbar/navbarMain'
+import CardActionArea from '@material-ui/core/CardActionArea'
+import history from '../history'
 
 const styles = theme => ({
   card: {
@@ -38,11 +39,17 @@ function BusinessCard(props) {
 
   return (
     <Card className={classes.card}>
-      <CardMedia
-        className={classes.cover}
-        image={business.imageUrl}
-        title={business.name}
-      />
+      <CardActionArea
+        className={classes.actionArea}
+        onClick={() => history.push(`/business/${business.id}`)}
+      >
+        <CardMedia
+          className={classes.cover}
+          image={business.imageUrl}
+          title={business.name}
+          style={{height: '100%', width: '100%', paddingTop: '100%'}}
+        />
+      </CardActionArea>
       <div className={classes.details}>
         <CardContent className={classes.content}>
           <Typography component="h5" variant="h5">
