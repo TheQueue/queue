@@ -1,17 +1,8 @@
 [
   {
-    "name": "Wally Walkin",
-    "partySize": 3,
-    "queuePosition": 1,
-    "note": "Nut allergy",
-    "phoneNumber": "(333)-333-3333",
+    "note": "I am a dog",
     "status": "Active",
-    "queueId": 1
-  },
-  {
-    "name": "Polly Pending",
-    "partySize": 2,
-    "phoneNumber": "(444)-444-4444",
-    "queueId": 1
+    "userId": 1,
+    "businessId": 1
   }
 ]

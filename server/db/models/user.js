@@ -3,10 +3,22 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      isEmail: true
+    }
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    allowNull: true
   },
   phoneNumber: {
     type: Sequelize.STRING,
@@ -32,20 +44,7 @@ const User = db.define('user', {
       return () => this.getDataValue('salt')
     }
   },
-  // NOTE TO SELF: (11/14) maybe use? probably not. -david
-  // googleId: {
-  //   type: Sequelize.STRING
-  // },
-  isAdmin: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false,
-    allowNull: false
-  },
-  // NOTE TO SELF: (11/14) Leave for later??? - david
-  // isBusiness: {
-  //   type: Sequelize.BOOLEAN,
-  //   defaultValue: false,
-  // },
+
   isSmsAuthenticated: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
