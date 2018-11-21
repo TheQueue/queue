@@ -6,66 +6,62 @@ const {
   Business,
   Category,
   Reservation,
-  Queue
+  Stylist
 } = require('../server/db/models')
 const seedCategory = require('./seedCategory.json')
 const seedUser = require('./seedUser.json')
 const seedBusiness = require('./seedBusiness.json')
 const seedReservation = require('./seedReservation.json')
-const seedQueue = require('./seedQueue.json')
+const seedStylist = require('./seedStylist.json')
 
 async function seed() {
-  await db.sync({force: true})
-  console.log('db synced!')
+  try {
+    await db.sync({force: true})
+    console.log('db synced!')
 
-  // get the current date
-  const now = new Date()
+    // get the current date
+    const now = new Date()
+    const nowPlusOneHr = new Date(now)
+    nowPlusOneHr.setHours(now.getHours() + 1)
 
-  // categories
-  const categories = await Promise.all(
-    seedCategory.map(category => {
-      return Category.create(category)
-    })
-  )
-  console.log(`seeded ${categories.length} categories`)
+    // categories
+    const categories = await Promise.all(
+      seedCategory.map(category => {
+        return Category.create(category)
+      })
+    )
+    console.log(`seeded ${categories.length} categories`)
 
-  // users
-  const users = await Promise.all(seedUser.map(user => {
-    return User.create(user)
-  }))
-  console.log(`seeded ${users.length} users`)
+    // users
+    const users = await User.bulkCreate(seedUser)
+    console.log(`seeded ${users.length} users`)
 
-  // businesses
-  const businesses = await Promise.all(
-    seedBusiness.map(business => {
-      return Business.create(business)
-    })
-  )
-  console.log(`seeded ${businesses.length} businesses`)
+    // businesses
+    const businesses = await Business.bulkCreate(seedBusiness)
+    console.log(`seeded ${businesses.length} businesses`)
 
-  // queue
-  const queues = await Promise.all(
-    seedQueue.map(queue => {
-      queue.date = now
-      return Queue.create(queue)
-    })
-  )
-  console.log(`seeded ${queues.length} queues`)
+    // stylists
+    const stylists = await Stylist.bulkCreate(seedStylist)
+    console.log(`seeded ${stylists.length} stylists`)
 
-  // reservations
-  const reservations = await Promise.all(
-    seedReservation.map(reservation => {
-      reservation.dateBooked = now
-      return Reservation.create(reservation)
-    })
-  )
-  console.log(`seeded ${reservations.length} reservations`)
+    // reservations
+    const reservations = await Promise.all(
+      seedReservation.map(reservation => {
+        reservation.startDateAndTime = now
+        reservation.endDateAndTime = nowPlusOneHr
+        return Reservation.create(reservation)
+      })
+    )
+    console.log(`seeded ${reservations.length} reservations`)
 
-  console.log(`seeded successfully`)
+    console.log(`seeded successfully`)
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 // We've separated the `seed` function from the `runSeed` function.
-// This way we can isolate the error handling and exit trapping.
+// This way we can isolate the err`or` handling and exit trapping.
 // The `seed` function is concerned only with modifying the database.
 async function runSeed() {
   console.log('seeding...')
