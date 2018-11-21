@@ -73,7 +73,6 @@ export class MapContainer extends Component {
           >
             <div>
               <h4>{business.name}</h4>
-              <h4>{this.calculateWaitTime(business)} min wait time</h4>
             </div>
           </InfoWindow>
         ))}
