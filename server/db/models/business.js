@@ -10,9 +10,6 @@ const Business = db.define('business', {
       notEmpty: true
     }
   },
-  imageUrl: {
-    type: Sequelize.STRING
-  },
   address: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -39,22 +36,6 @@ const Business = db.define('business', {
   yelpId: {
     type: Sequelize.STRING,
     allowNull: true
-  },
-
-  qrCode: {
-    type: Sequelize.TEXT,
-    allowNull: true
-  },
-
-  // tags?
-  tags: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    allowNull: true
-  },
-  // can users find it via search
-  isVisible: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false
   }
 })
 

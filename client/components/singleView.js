@@ -81,7 +81,7 @@ class SingleBusiness extends React.Component {
         alert("Please contact restaurant to make reservation")
     }else{
     this.setState({
-      isActive: 'modal',
+      isActive: false,
       doneReserve: true
     })
     const reservationData = {...this.state}
@@ -183,7 +183,7 @@ class SingleBusiness extends React.Component {
                 </p>
                 <p className="control has-icon">
                   <i className="fa fa-mobile" />
-                  <input className="input" type="number" name="phoneNumber" placeholder="Phone" value={this.state.phoneNumber} onChange={this.handleChange} />
+                  <input className="input" type="text" name="phoneNumber" placeholder="Phone" value={this.state.phoneNumber} onChange={this.handleChange} />
                 </p>
                 <p className="control has-icon">
                   <i className="fa fa-sticky-note" />
