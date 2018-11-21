@@ -8,28 +8,17 @@ const client = yelp.client(process.env.YELP_KEY)
 const router = require('express').Router()
 const {Business, Category} = require('../db/models')
 
+// E.G. api/business?category=Barbershop
 router.get('/', async (req, res, next) => {
-  const today = new Date() // creates new date object at current time
-  today.setHours(0, 0, 0, 0) // sets time of date object to beginning of the day
-
   try {
     if (req.query.category) {
-      //const allBusinesses = await Business.findAll()
-
       const category = await Category.findOne({
         where: {
           categoryType: req.query.category
         }
       })
-      const option = {
-        where: {categoryId: category.id},
-        include: [
-          {
-            model: Category
-          }
-        ]
-      }
-      const businesses = await Business.findAll(option)
+      // retrieves business with that category
+      const businesses = await category.getBusiness()
       res.json(businesses)
     } else {
       const businesses = await Business.findAll()
@@ -55,7 +44,7 @@ router.get('/:id', async (req, res, next) => {
           location: 'chicago'
         })
         .then(response => {
-          //console.log(response.jsonBody.businesses[0].is_closed)
+          console.log(response.jsonBody.businesses)
           closed = response.jsonBody.businesses[0].is_closed
           res.send({business, closed})
           //console.log(business)

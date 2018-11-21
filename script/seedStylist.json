@@ -3,4 +3,11 @@
   "email": "stylist@email.com",
   "phoneNumber": "(999)-999-9999",
   "businessId": 1
-}]
+},
+{
+  "name": "Bobby Barber",
+  "email": "barber@email.com",
+  "phoneNumber": "(999)-999-1111",
+  "businessId": 1
+}
+]
