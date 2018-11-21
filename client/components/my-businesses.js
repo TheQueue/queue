@@ -34,10 +34,7 @@ class MyBusinesses extends Component {
                   </Link>
                   <h2>Business ID: {business.id}</h2>
                   <h2>
-                    Queue Length:{' '}
-                    {business.queues.length
-                      ? entities.queues[business.queues[0]].queueLength
-                      : 'Not found'}
+                    Stylists: {business.stylists.length}
                   </h2>
                 </div>
               )
