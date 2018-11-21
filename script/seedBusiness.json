@@ -6,5 +6,19 @@
     "coordinates": [41.895334, -87.639029],
     "userId": 1,
     "categoryId": 1
+  },
+  {
+    "yelpId": "TotRsMNqKOdxdJap4DWSkQ",
+
+    "name": "HeadQuarter Salon",
+    "imageUrl":
+      "https://s3-media2.fl.yelpcdn.com/bphoto/v-a-0KAmPIVe3iQZUykgTg/o.jpg",
+
+    "coordinates": [41.8539878069544, -87.6341105937958],
+    "address": "2145A S China Pl, Chicago,IL 60616",
+
+    "phoneNumber": "+13128421353",
+    "categoryId": 2,
+    "tags": ["Hair cut", "nail art"]
   }
 ]

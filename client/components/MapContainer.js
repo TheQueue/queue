@@ -46,34 +46,6 @@ export class MapContainer extends Component {
     }
   }
 
-
-
-  calculateWaitTime = (business) => {
-    function parseISOString(s) {
-      var b = s.split(/\D+/)
-      return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]))
-    }
-
-    let waitTime;
-    // if business full, calculate a wait time
-    if (business.queues[0].isBusinessFull) {
-      if (business.queues[0].queueLength === 0 || business.queues[0].timeAtWhichLastQueueGetsSeated === null) {
-        // use default wait time
-        waitTime = business.queues[0].defaultWaitTime
-      } else if (business.queues[0].timeAtWhichLastQueueGetsSeated) {
-        // if there's a 'time at which last queue gets served', calculate time diff from that
-        let timeOfService = parseISOString(
-          business.queues[0].timeAtWhichLastQueueGetsSeated
-        )
-        waitTime =  Math.floor((timeOfService - new Date()) / 60000)
-      }
-    } else {
-      // if business is not full, return 0 min
-      waitTime = 0;
-    }
-    if (waitTime < 0) waitTime = 0 // handle negative wait times
-    return waitTime;
-  }
   render() {
     const businesses = this.props.business
     return (
