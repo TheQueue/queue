@@ -38,15 +38,11 @@ class Routes extends Component {
         <Route path="/map" component={MapContainer} />
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
-        <Route path="/search" component={Search} />
         <Route path="/signup" component={Signup} />
-        <Route path="/QRcode" component={QRcode} />
         <Route path="/home" component={UserHome} />
         <Route path="/Qsetting" component={Qsetting} />
         <Route path="/myQs" component={myQs} />
         <Route path="/business/:id" component={SingleView} />
-        <Route path="/Qdata" component={Qdata} />
-
         <Route path="/categories" component={Categories} />
         <Route path="/businessList" component={BusinessList} />
         <Route path="/search" component={Search} />
