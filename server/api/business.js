@@ -7,8 +7,6 @@ const client = yelp.client(process.env.YELP_KEY)
 
 const router = require('express').Router()
 const {Business, Category, User, Queue} = require('../db/models')
-const Sequelize = require('sequelize')
-const Op = Sequelize.Op
 
 router.get('/', async (req, res, next) => {
   const today = new Date() // creates new date object at current time
