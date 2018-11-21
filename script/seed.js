@@ -33,7 +33,12 @@ async function seed() {
     console.log(`seeded ${categories.length} categories`)
 
     // users
-    const users = await User.bulkCreate(seedUser)
+    // const users = await User.bulkCreate(seedUser)
+    const users = await Promise.all(
+      seedUser.map(user => {
+        return User.create(user)
+      })
+    )
     console.log(`seeded ${users.length} users`)
 
     // businesses
