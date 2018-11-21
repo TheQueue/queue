@@ -23,6 +23,10 @@ User.hasMany(Reservation)
 Reservation.belongsTo(Business)
 Business.hasMany(Reservation)
 
+//stylist-reservation
+Reservation.belongsTo(Stylist)
+Stylist.hasMany(Reservation)
+
 // business - category
 Business.belongsTo(Category)
 Category.hasMany(Business)
