@@ -33,7 +33,6 @@ async function seed() {
     console.log(`seeded ${categories.length} categories`)
 
     // users
-    // const users = await User.bulkCreate(seedUser)
     const users = await Promise.all(
       seedUser.map(user => {
         return User.create(user)
@@ -42,7 +41,14 @@ async function seed() {
     console.log(`seeded ${users.length} users`)
 
     // businesses
-    const businesses = await Business.bulkCreate(seedBusiness)
+    // create entry then set associations using categoryId key
+    const businesses = await Promise.all(
+      seedBusiness.map(business =>
+        Business.create(business).then(createdBusiness =>
+          createdBusiness.addCategory(business.categoryId)
+        )
+      )
+    )
     console.log(`seeded ${businesses.length} businesses`)
 
     // stylists
@@ -57,7 +63,10 @@ async function seed() {
         return Reservation.create(reservation)
       })
     )
+
     console.log(`seeded ${reservations.length} reservations`)
+
+    // console.log(`seeded ${categoryBusiness.length} cat-business association`)
 
     console.log(`seeded successfully`)
   } catch (err) {
