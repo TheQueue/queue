@@ -19,5 +19,3 @@ export {default as Categories} from './categories'
 export {default as BusinessList} from './businessList'
 export {default as SingleView} from './singleView'
 export {default as ReservationCard} from './reservation-card'
-
-

@@ -1,13 +1,12 @@
 'use strict'
-
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const yelp = require('yelp-fusion')
 
 const client = yelp.client(process.env.YELP_KEY)
 
 const router = require('express').Router()
 const {Business, Category} = require('../db/models')
-const Sequelize = require('sequelize')
-const Op = Sequelize.Op
 
 router.get('/', async (req, res, next) => {
   const today = new Date() // creates new date object at current time
@@ -67,6 +66,22 @@ router.get('/:id', async (req, res, next) => {
     }
   } catch (err) {
     console.log(err)
+  }
+})
+
+router.get('/search/:keyword', async (req, res, next) => {
+  try {
+    const keyword = req.params.keyword
+    const businesses = await Business.findAll({
+      where: {
+        name: {
+          [Op.iLike]: `%${keyword}%`
+        }
+      }
+    })
+    res.json(businesses)
+  } catch (err) {
+    next(err)
   }
 })
 
