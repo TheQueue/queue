@@ -16,7 +16,6 @@ const styles = theme => ({
   }
 })
 
-<<<<<<< HEAD
 class SearchBar extends Component {
   constructor() {
     super()
@@ -69,15 +68,6 @@ class SearchBar extends Component {
       </div>
     )
   }
-=======
-export const Search= () => {
-
-  return (
-    <div className="insideFrame login animated slideInRight">
-     this is Filter
-    </div>
-  )
->>>>>>> master
 }
 
 const mapStateToProps = state => ({
