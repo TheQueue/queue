@@ -14,12 +14,11 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     getB: id => dispatch(getDetails(id)),
-    createNewReservation: reservationData=>{
-        dispatch(createNewReservation(reservationData))
+    createNewReservation: reservationData => {
+      dispatch(createNewReservation(reservationData))
     }
   }
 }
-
 
 class SingleBusiness extends React.Component {
   constructor(props) {
@@ -27,8 +26,8 @@ class SingleBusiness extends React.Component {
     this.state = {
       isActive: false,
       partySize: 1,
-      note: "",
-      doneReserve: false,
+      note: '',
+      doneReserve: false
     }
     this.popup = this.popup.bind(this)
     this.doneInfo = this.doneInfo.bind(this)
@@ -37,34 +36,18 @@ class SingleBusiness extends React.Component {
     this.minus = this.minus.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
- 
+
   componentDidMount() {
     this.props.getB(Number(this.props.match.params.id))
-    const {
-        email,
-        phoneNumber,
-        name
-        } = this.props.user
+    const {email, phoneNumber, name} = this.props.user
     this.setState({
-        email,
-        phoneNumber,
-        name
+      email,
+      phoneNumber,
+      name
     })
   }
   componentWillUnmount() {}
 
-  plus() {
-    this.setState((prevState, props) => ({
-      partySize: prevState.partySize + 1
-    }))
-  }
-  minus() {
-    if (this.state.partySize > 1) {
-      this.setState((prevState, props) => ({
-        partySize: prevState.partySize - 1
-      }))
-    }
-  }
   popup() {
     this.setState({
       isActive: true
@@ -75,50 +58,23 @@ class SingleBusiness extends React.Component {
       isActive: false
     })
   }
-  handleSubmit= async (event) => {
-      event.preventDefault();
-    if(this.state.partySize > 6){
-        alert("Please contact restaurant to make reservation")
-    }else{
-    this.setState({
-      isActive: false,
-      doneReserve: true
-    })
-    const reservationData = {...this.state}
-    await this.props.createNewReservation(reservationData)
-}
+  handleSubmit = async event => {
+    event.preventDefault()
+    if (this.state.partySize > 6) {
+      alert('Please contact restaurant to make reservation')
+    } else {
+      this.setState({
+        isActive: false,
+        doneReserve: true
+      })
+      const reservationData = {...this.state}
+      await this.props.createNewReservation(reservationData)
+    }
   }
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
     })
-  }
-
-  calculateWaitTime = (business) => {
-    function parseISOString(s) {
-      var b = s.split(/\D+/)
-      return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]))
-    }
-
-    let waitTime;
-    // if business full, calculate a wait time
-    if (business.queues[0].isBusinessFull) {
-      if (business.queues[0].queueLength === 0 || business.queues[0].timeAtWhichLastQueueGetsSeated === null) {
-        // use default wait time
-        waitTime = business.queues[0].defaultWaitTime
-      } else if (business.queues[0].timeAtWhichLastQueueGetsSeated) {
-        // if there's a 'time at which last queue gets served', calculate time diff from that
-        let timeOfService = parseISOString(
-          business.queues[0].timeAtWhichLastQueueGetsSeated
-        )
-        waitTime =  Math.floor((timeOfService - new Date()) / 60000)
-      }
-    } else {
-      // if business is not full, return 0 min
-      waitTime = 0;
-    }
-    if (waitTime < 0) waitTime = 0 // handle negative wait times
-    return waitTime;
   }
 
   render() {
@@ -153,63 +109,54 @@ class SingleBusiness extends React.Component {
             </a>
           </div>
         )}
-{this.state.isActive&& <div className="modal is-active">
-          <div className="modal-background" />
-          <div className="modal-content">
-            <form className="card is-rounded has-text-centered">
-              <div className="card-content has-text-centered">
-                <h3 className="has-text-centered">Party Size</h3>
-              
-                  <i className="fa fa-minus fa-2x" onClick={this.minus} />
-
-                  <b className="is-size-4">
-                    <strong>
-                      {' '}
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-                        this.state.partySize
-                      }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </strong>
-                  </b>
-
-                  <i className="fa fa-plus fa-2x" onClick={this.plus} />
-           
-                <p className="control has-icon">
-                  <i className="fa fa-user" />
-                  <input className="input" type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleChange}/>
-                </p>
-                <p className="control has-icon">
-                  <i className="fa fa-envelope" />
-                  <input className="input" type="email" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange} />
-                </p>
-                <p className="control has-icon">
-                  <i className="fa fa-mobile" />
-                  <input className="input" type="text" name="phoneNumber" placeholder="Phone" value={this.state.phoneNumber} onChange={this.handleChange} />
-                </p>
-                <p className="control has-icon">
-                  <i className="fa fa-sticky-note" />
-                  <input className="input" type="text" name="note" placeholder="Note (ex. high chair, allergies)" value={this.state.note} onChange={this.handleChange} />
-                </p>
-                <p className="control">
-                  <button
-                    className="button is-primary is-medium is-fullwidth"
-                    type="sumbit"
-                  >
-                    Submit
-                  </button>
-                  <button
-                    className="button is-danger is-medium is-fullwidth"
-                    type="cancel"
-                    onClick={this.doneInfo}
-                  >
-                    Cancel
-                  </button>
-                </p>
+        {this.state.isActive && (
+          <ul className="steps is-vertical is-narrow is-medium is-centered has-content-centered">
+            <li className="steps-segment">
+              <a href="#" className="has-text-dark">
+                <span className="steps-marker">
+                  <span className="icon">
+                    <i className="fa fa-shopping-cart" />
+                  </span>
+                </span>
+                <div className="steps-content">
+                  <p className="heading">Shopping Cart</p>
+                </div>
+              </a>
+            </li>
+            <li className="steps-segment">
+              <a href="#" className="has-text-dark">
+                <span className="steps-marker">
+                  <span className="icon">
+                    <i className="fa fa-user" />
+                  </span>
+                </span>
+                <div className="steps-content">
+                  <p className="heading">User Information</p>
+                </div>
+              </a>
+            </li>
+            <li className="steps-segment is-active has-gaps">
+              <span className="steps-marker">
+                <span className="icon">
+                  <i className="fa fa-usd" />
+                </span>
+              </span>
+              <div className="steps-content">
+                <p className="heading">Payment</p>
               </div>
-            </form>
-          </div>
-        </div>}
-      
-        {!this.props.isClosed && <p>{this.calculateWaitTime(this.props.business)} min wait time</p>}
+            </li>
+            <li className="steps-segment">
+              <span className="steps-marker is-hollow">
+                <span className="icon">
+                  <i className="fa fa-check" />
+                </span>
+              </span>
+              <div className="steps-content">
+                <p className="heading">Confirmation</p>
+              </div>
+            </li>
+          </ul>
+        )}
         <p />
       </div>
     )
