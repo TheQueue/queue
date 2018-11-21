@@ -13,7 +13,7 @@ import Footer from './footer'
 export const UserHome = props => {
   const {email, isLoggedIn, isNotLoggedIn, handleClick} = props
   let imgUrl =
-    'http://s3.amazonaws.com/architecture-org/files/pages/201307-twilight-cruise-089.jpg'
+  "https://victoriassalon.com/wp-content/uploads/2015/02/rev.jpg"
 
   return (
     <div className="login">

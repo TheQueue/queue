@@ -10,7 +10,7 @@ const Footer = () => {
         integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossOrigin="anonymous"
       />
-        <Link to="/search" className="navbar-item is-expanded is-block has-text-centered">
+        <Link to="/businessList" className="navbar-item is-expanded is-block has-text-centered">
             <i className="fa fa-search"></i>
             <p className="is-size-7">Search</p>
         </Link>

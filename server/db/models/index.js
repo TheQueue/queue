@@ -1,8 +1,7 @@
 const Business = require('./business')
 const Category = require('./category')
-const Favorite = require('./favorite')
-const Queue = require('./queue')
-const ReportedWaitTime = require('./reportedWaitTime')
+const Image = require('./image')
+const Stylist = require('./stylist')
 const Reservation = require('./reservation')
 const Token = require('./token')
 const User = require('./user')
@@ -20,35 +19,39 @@ const User = require('./user')
 Reservation.belongsTo(User)
 User.hasMany(Reservation)
 
-// reservation - queue
-Reservation.belongsTo(Queue)
-Queue.hasMany(Reservation)
-
-// queue - business
-Queue.belongsTo(Business)
-Business.hasMany(Queue)
+//Business-reservation
+Reservation.belongsTo(Business)
+Business.hasMany(Reservation)
 
 // business - category
 Business.belongsTo(Category)
 Category.hasMany(Business)
 
+
+// Business-Category many to many
+Business.belongsToMany(Category,{ through: 'CategoryBusiness', as: 'Category'})
+Category.belongsToMany(Business,{ through: 'CategoryBusiness'})
+
+// favorites
+Business.belongsToMany(User,{ through: 'FavoriteBusiness', as: 'UserFavoriteBusiness'})
+User.belongsToMany(Business,{ through: 'FavoriteBusiness'})
+
 // business - user
 Business.belongsTo(User)
 User.hasMany(Business) // as owner??? alias might be needed
 
-// Favorites - User - Business
-// ???? Check this later?????
-Favorite.belongsTo(Business)
-Favorite.belongsTo(User)
-Business.hasMany(Favorite)
-User.hasMany(Favorite)
+//User-image
+Image.belongsTo(User)
+User.hasMany(Image)
 
-// reported Wait time - user
-ReportedWaitTime.belongsTo(User)
-User.hasMany(ReportedWaitTime)
-//reported wait time - queue ????
-ReportedWaitTime.belongsTo(Queue)
-Queue.hasMany(ReportedWaitTime)
+Image.belongsTo(Stylist)
+Stylist.hasMany(Image)
+
+//Stylist-business-user
+Stylist.belongsTo(User)
+Stylist.belongsTo(Business)
+Business.hasMany(Stylist)
+User.hasMany(Stylist)
 
 // user - token
 Token.belongsTo(User)
@@ -61,5 +64,5 @@ User.hasMany(Token)
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User, Business, Reservation, Queue, Category, Favorite, ReportedWaitTime, Token
+  User, Business, Reservation, Category, Token, Stylist, Image
 }
