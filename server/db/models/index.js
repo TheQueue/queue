@@ -28,14 +28,9 @@ Business.hasMany(Reservation)
 Reservation.belongsTo(Stylist)
 Stylist.hasMany(Reservation)
 
-// business - category
-Business.belongsTo(Category)
-Category.hasMany(Business)
-
-
 // Business-Category many to many
 Business.belongsToMany(Category,{ through: 'CategoryBusiness', as: 'Category'})
-Category.belongsToMany(Business,{ through: 'CategoryBusiness'})
+Category.belongsToMany(Business,{ through: 'CategoryBusiness', as: 'Business'})
 
 // favorites
 Business.belongsToMany(User,{ through: 'FavoriteBusiness', as: 'UserFavoriteBusiness'})
