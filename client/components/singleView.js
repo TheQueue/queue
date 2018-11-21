@@ -32,8 +32,6 @@ class SingleBusiness extends React.Component {
     this.popup = this.popup.bind(this)
     this.doneInfo = this.doneInfo.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.plus = this.plus.bind(this)
-    this.minus = this.minus.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
 
