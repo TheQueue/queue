@@ -35,26 +35,7 @@ const styles = theme => ({
 })
 
 function BusinessCard(props) {
-
-  // helper function that parses sequelize date and time values -> date object
-  function parseISOString(s) {
-    var b = s.split(/\D+/);
-    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
-  }
-
   const {classes, theme, business} = props
-
-  // calculate wait time
-  let minFromNow, timeOfService
-  // if business is full, but queue is empty
-  if (business.queues[0].queueLength === 0 && business.queues[0].isBusinessFull) {
-    // use default wait time
-    minFromNow = business.queues[0].defaultWaitTime
-  } else if (business.queues[0].timeAtWhichLastQueueGetsSeated) {
-    // if there's a 'time at which last queue gets served', calculate time diff from that
-    timeOfService = parseISOString(business.queues[0].timeAtWhichLastQueueGetsSeated)
-    minFromNow = Math.floor((timeOfService - new Date)/60000)
-  }
 
   return (
     <Card className={classes.card}>
@@ -80,8 +61,7 @@ function BusinessCard(props) {
         </CardContent>
         <div className={classes.controls}>
           <Typography variant="subtitle1" color="textSecondary">
-            {!business.queues[0].isBusinessFull && <p>No wait time</p>}
-            {minFromNow && <p>Est. wait time: {minFromNow} min</p>}
+            stuff
           </Typography>
         </div>
       </div>
