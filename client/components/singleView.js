@@ -76,8 +76,6 @@ class SingleBusiness extends React.Component {
   }
 
   render() {
-    console.log(this.props.user, this.state)
-
     if (
       (!this.props.business && !this.props.isClosed) ||
       this.props.business.id !== Number(this.props.match.params.id)
@@ -109,7 +107,7 @@ class SingleBusiness extends React.Component {
         )}
         {this.state.isActive && (
           <ul className="steps is-vertical is-narrow is-medium is-centered has-content-centered">
-            <li className="steps-segment">
+            <li className="steps-segment is-active">
               <a href="#" className="has-text-dark">
                 <span className="steps-marker">
                   <span className="icon">
