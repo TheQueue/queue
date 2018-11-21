@@ -6,5 +6,73 @@
     "coordinates": [41.895334, -87.639029],
     "userId": 1,
     "categoryId": 1
+  },
+  {
+    "yelpId": "TotRsMNqKOdxdJap4DWSkQ",
+    "name": "HeadQuarter Salon",
+    "imageUrl":
+      "https://s3-media2.fl.yelpcdn.com/bphoto/v-a-0KAmPIVe3iQZUykgTg/o.jpg",
+    "address": "2145A S China Pl, Chicago, IL 60616",
+    "phoneNumber": "+13128421353",
+    "coordinates": [41.8539878069544, -87.6341105937958],
+    "userId": 1,
+    "categoryId": 1
+  },
+  {
+    "yelpId": "F5w5miIWXpEmKMCO2japPA",
+    "name": "Edit Salon",
+    "imageUrl":
+      "https://s3-media2.fl.yelpcdn.com/bphoto/JXgamxSvkWkHBusZxSchdA/o.jpg",
+    "address": "1369 W Chicago Ave, Chicago, IL 60642",
+    "phoneNumber": "+13127330123",
+    "coordinates": [41.89591, -87.66202],
+    "userId": 1,
+    "categoryId": 1
+  },
+
+  {
+    "yelpId": "F5w5miIWXpEmKMCO2japPA",
+    "name": "Edit Salon",
+    "imageUrl":
+      "https://s3-media2.fl.yelpcdn.com/bphoto/JXgamxSvkWkHBusZxSchdA/o.jpg",
+    "address": "1369 W Chicago Ave, Chicago, IL 60642",
+    "phoneNumber": "+13127330123",
+    "coordinates": [41.89591, -87.66202],
+    "userId": 1,
+    "categoryId": 1
+  },
+  {
+    "yelpId": "TpXnwGZwiLnE-_nJ-oc5dg",
+    "name": "Cellar Door Salon & Studio",
+    "imageUrl":
+      "https://s3-media3.fl.yelpcdn.com/bphoto/afpTlbPQE-buPfik01BIkQ/o.jpg",
+    "address": "1905 N Milwaukee Ave, Chicago, IL 60647",
+    "phoneNumber": "+17732279223",
+    "coordinates": [41.916153, -87.6861115],
+    "userId": 1,
+    "categoryId": 1
+  },
+  {
+    "yelpId": "riUj9dDoBG9Isz8YPAe6-Q",
+    "name": "No 1 Salon",
+    "imageUrl":
+      "https://s3-media2.fl.yelpcdn.com/bphoto/KnVu0y5FGcvZJskfI7Ejyw/o.jpg",
+    "address": "2113 S China Pl, Chicago, IL 60616",
+    "phoneNumber": "+13126313856",
+    "coordinates": [41.8545843, -87.6328791],
+    "userId": 1,
+    "categoryId": 1
+  },
+
+  {
+    "yelpId": "riUj9dDoBG9Isz8YPAe6-Q",
+    "name": "No 1 Salon",
+    "imageUrl":
+      "https://s3-media2.fl.yelpcdn.com/bphoto/KnVu0y5FGcvZJskfI7Ejyw/o.jpg",
+    "address": "2113 S China Pl, Chicago, IL 60616",
+    "phoneNumber": "+13126313856",
+    "coordinates": [41.8545843, -87.6328791],
+    "userId": 1,
+    "categoryId": 1
   }
 ]

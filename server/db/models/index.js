@@ -5,6 +5,7 @@ const Stylist = require('./stylist')
 const Reservation = require('./reservation')
 const Token = require('./token')
 const User = require('./user')
+const Preference =require('./preference')
 
 
 
@@ -40,6 +41,13 @@ Category.belongsToMany(Business,{ through: 'CategoryBusiness'})
 Business.belongsToMany(User,{ through: 'FavoriteBusiness', as: 'UserFavoriteBusiness'})
 User.belongsToMany(Business,{ through: 'FavoriteBusiness'})
 
+//preference-categories
+
+Preference.belongsToMany(Category,{ through: 'PreferenceCategories', as: 'Category'})
+Category.belongsToMany(Business,{ through: 'PreferenceCategories'})
+
+
+
 // business - user
 Business.belongsTo(User)
 User.hasMany(Business) // as owner??? alias might be needed
@@ -60,6 +68,11 @@ User.hasMany(Stylist)
 // user - token
 Token.belongsTo(User)
 User.hasMany(Token)
+
+
+// preference - user
+Preference.belongsTo(User)
+User.hasOne(Preference)
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
