@@ -1,5 +1,17 @@
 [
   {
     "categoryType": "Hair Salon"
+  },
+  {
+    "categoryType": "Nail Art"
+  },
+  {
+    "categoryType": "Beauty Spa"
+  },
+  {
+    "categoryType": "Makeup Artists"
+  },
+  {
+    "categoryType": "Waxing"
   }
 ]

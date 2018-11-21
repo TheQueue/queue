@@ -76,85 +76,44 @@
     "coordinates": [41.8545843, -87.6328791],
     "userId": 1,
     "categoryId": 1
-  }
+  },
+  {
+    "yelpId": "riUj9dDoBG9Isz8YPAe6-Q",
+    "name": "No 1 Salon",
+    "imageUrl":
+      "https://s3-media2.fl.yelpcdn.com/bphoto/KnVu0y5FGcvZJskfI7Ejyw/o.jpg",
+    "address": "2113 S China Pl, Chicago, IL 60616",
+    "phoneNumber": "+13126313856",
+    "coordinates": [41.8545843, -87.6328791],
+    "userId": 1,
+    "categoryId": 1
+  },
+  {
+    "yelpId": "Y2nEUSKHYGwMAa9UAqNJrg",
+    "name": "Sparrow",
+    "imageUrl":
+    "https://s3-media3.fl.yelpcdn.com/bphoto/PSfwBBWyfR_XXa1YAwQLiQ/o.jpg",
+    "address": "2545 N Milwaukee Ave, Chicago, IL 60647",
+    "phoneNumber": "+17734869300",
+    "coordinates": [41.9276924133301, -87.7046966552734],
+    "userId": 1,
+    "categoryId": 1
+  },
 
-  //       {
-  //           "id": "Y2nEUSKHYGwMAa9UAqNJrg",
-  //           "alias": "sparrow-chicago-2",
-  //           "name": "Sparrow",
-  //           "image_url": "https://s3-media3.fl.yelpcdn.com/bphoto/PSfwBBWyfR_XXa1YAwQLiQ/o.jpg",
-  //           "is_closed": false,
-  //           "url": "https://www.yelp.com/biz/sparrow-chicago-2?adjust_creative=BdXPPYUMspc3J910Z06sxA&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=BdXPPYUMspc3J910Z06sxA",
-  //           "review_count": 68,
-  //           "categories": [
-  //               {
-  //                   "alias": "hair",
-  //                   "title": "Hair Salons"
-  //               }
-  //           ],
-  //           "rating": 5,
-  //           "coordinates": {
-  //               "latitude": 41.9276924133301,
-  //               "longitude": -87.7046966552734
-  //           },
-  //           "transactions": [],
-  //           "price": "$$",
-  //           "location": {
-  //               "address1": "2545 N Milwaukee Ave",
-  //               "address2": "",
-  //               "address3": "",
-  //               "city": "Chicago",
-  //               "zip_code": "60647",
-  //               "country": "US",
-  //               "state": "IL",
-  //               "display_address": [
-  //                   "2545 N Milwaukee Ave",
-  //                   "Chicago, IL 60647"
-  //               ]
-  //           },
-  //           "phone": "+17734869300",
-  //           "display_phone": "(773) 486-9300",
-  //           "distance": 3356.000462781617
-  //       },
-  //       {
-  //           "id": "NxIjoCUXUeZJfNWS-bK1-A",
-  //           "alias": "arsova-salon-chicago",
-  //           "name": "Arsova Salon",
-  //           "image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/o4NVWqjupmEfiaMbkE8gTg/o.jpg",
-  //           "is_closed": false,
-  //           "url": "https://www.yelp.com/biz/arsova-salon-chicago?adjust_creative=BdXPPYUMspc3J910Z06sxA&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=BdXPPYUMspc3J910Z06sxA",
-  //           "review_count": 144,
-  //           "categories": [
-  //               {
-  //                   "alias": "hair",
-  //                   "title": "Hair Salons"
-  //               }
-  //           ],
-  //           "rating": 4.5,
-  //           "coordinates": {
-  //               "latitude": 41.8961909,
-  //               "longitude": -87.6323553
-  //           },
-  //           "transactions": [],
-  //           "price": "$$",
-  //           "location": {
-  //               "address1": "747 N Lasalle St",
-  //               "address2": "Ste 500A",
-  //               "address3": "",
-  //               "city": "Chicago",
-  //               "zip_code": "60654",
-  //               "country": "US",
-  //               "state": "IL",
-  //               "display_address": [
-  //                   "747 N Lasalle St",
-  //                   "Ste 500A",
-  //                   "Chicago, IL 60654"
-  //               ]
-  //           },
-  //           "phone": "+13123710773",
-  //           "display_phone": "(312) 371-0773",
-  //           "distance": 3888.276997581031
-  //       },
+  {
+    "yelpId": "NxIjoCUXUeZJfNWS-bK1-A",
+    "name": "Arsova Salon",
+    "imageUrl":
+    "https://s3-media2.fl.yelpcdn.com/bphoto/o4NVWqjupmEfiaMbkE8gTg/o.jpg",
+    "address": "747 N Lasalle St,Ste 500A ,Chicago, IL 60654",
+    "phoneNumber": "+13123710773",
+    "coordinates": [41.8961909, -87.6323553],
+    "userId": 1,
+    "categoryId": 1
+  },
+]
+
+
   //       {
   //           "id": "Z63N9zCk2TH5SJDfANljhw",
   //           "alias": "mane-salon-chicago",
