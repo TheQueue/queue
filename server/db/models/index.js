@@ -33,13 +33,13 @@ Business.belongsToMany(Category,{ through: 'CategoryBusiness', as: 'Category'})
 Category.belongsToMany(Business,{ through: 'CategoryBusiness', as: 'Business'})
 
 // favorites
-Business.belongsToMany(User,{ through: 'FavoriteBusiness', as: 'UserFavoriteBusiness'})
-User.belongsToMany(Business,{ through: 'FavoriteBusiness'})
+Business.belongsToMany(User,{ through: 'FavoriteBusiness'})
+User.belongsToMany(Business,{ through: 'FavoriteBusiness', as: 'UserFavoriteBusiness'})
 
 //preference-categories
 
 Preference.belongsToMany(Category,{ through: 'PreferenceCategories', as: 'Category'})
-Category.belongsToMany(Business,{ through: 'PreferenceCategories'})
+Category.belongsToMany(Preference,{ through: 'PreferenceCategories'})
 
 
 
