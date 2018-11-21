@@ -68,11 +68,29 @@ class MyBusinessDetail extends Component {
                 <h2>Address: {currBusiness.address}</h2>
                 <h2>Phone: {currBusiness.phoneNumber}</h2>
               </div>
-              {currBusiness.stylists.map(stylist => (
-                <div className="box">
-                  <h1 className="title">{stylist.name}</h1>
-                </div>
-              ))}
+              <div className="box">
+                {currBusiness.stylists.map(stylistId => {
+                  let stylist = entities.stylists[stylistId]
+                  return (
+                    <div className="media" key={stylist.id}>
+                      <div className="media-left">
+                        {stylist.imageUrl ? <img src="imageUrl" /> : <p>No image</p>}
+                      </div>
+                      <div className="media-content">
+                        <p>{stylist.name}</p>
+                        <p>{stylist.email}</p>
+                        <p>{stylist.phoneNumber}</p>
+                        {stylist.reservations.map(reservationId => {
+                          let reservation = entities.reservations[reservationId]
+                          return (
+                            <ReservationCard key={reservationId} reservation={reservation}/>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           )
         }

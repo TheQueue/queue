@@ -68,14 +68,24 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
     const business = await reservation.getBusiness()
     if (req.user.id !== business.userId) {
       res.sendStatus(403) // send 403 is user is unauthorized
-    } else if (action === 'cancel') {
-      // update specified reservation
-      await reservation.update({
-        status: 'Cancelled',
-      })
-      res.json(reservation)
     } else {
-      res.sendStatus(500)
+      switch (action) {
+        case 'cancel':
+          await reservation.update({
+            status: 'Cancelled'
+          })
+          res.json(reservation)
+          return;
+        case 'service':
+          await reservation.update({
+            status: 'Serviced'
+          })
+          res.json(reservation)
+          return;
+        default:
+          res.sendStatus(500)
+          return;
+      }
     }
   } catch (err) {
     console.error(err)

@@ -5,7 +5,7 @@ import {normalize, schema} from 'normalizr'
 // define reservation schema
 const reservation = new schema.Entity('reservations')
 // define queue schema
-const stylist = new schema.Entity('stylist', {
+const stylist = new schema.Entity('stylists', {
   reservations: [reservation]
 })
 // define business schema
@@ -26,7 +26,7 @@ const initialState = {
 const SET_MY_BUSINESSES_DATA = 'SET_MY_BUSINESSES_DATA'
 const SET_MY_BUSINESSES_IS_LOADING_TRUE = 'SET_MY_BUSINESSES_IS_LOADING_TRUE'
 const SET_MY_BUSINESSES_IS_LOADING_FALSE = 'SET_MY_BUSINESSES_IS_LOADING_FALSE'
-const UPDATE_STYLIST_AND_RESERVATIONS = 'UPDATE_STYLIST_AND_RESERVATIONS'
+const UPDATE_RESERVATION = 'UPDATE_RESERVATION'
 
 // action creators
 const setMyBusinesses = businessData => ({
@@ -40,10 +40,9 @@ const setMyBusinessesIsLoadingFalse = () => ({
   type: SET_MY_BUSINESSES_IS_LOADING_FALSE
 })
 
-const updateStylistAndReservationsNormalized = entities => ({
-  type: UPDATE_STYLIST_AND_RESERVATIONS,
-  stylists: entities.stylists,
-  reservations: entities.reservations
+const updateReservationState = updatedReservation => ({
+  type: UPDATE_RESERVATION,
+  reservation: updatedReservation
 })
 
 // thunk creators
@@ -61,25 +60,26 @@ export const fetchMyBusinessData = () => async dispatch => {
   }
 }
 
-export const cancelSingleReservation = reservationId => async dispatch => {
+export const updateSingleReservation = (reservationId, action) => async dispatch => {
   try {
     await dispatch(setMyBusinessesIsLoadingTrue())
     const {data} = await axios.put(
-      `/api/owner/reservations/${reservationId}?action=cancel`
+      `/api/owner/reservations/${reservationId}?action=${action}`
     )
     // normalizes data and updates store
-    await dispatch(
-      updateStylistAndReservationsNormalized(normalize(data, stylist).entities)
+    dispatch(
+      updateReservationState(data)
     )
-    await dispatch(setMyBusinessesIsLoadingFalse())
+    dispatch(setMyBusinessesIsLoadingFalse())
   } catch (err) {
     console.error(err)
   }
 }
+
 // reducer
 
 const myBusinessesReducer = (state = initialState, action) => {
-  let newStylist, newReservation, newBusinessData
+  let newReservation, newBusinessData, reservationId
   switch (action.type) {
     case SET_MY_BUSINESSES_DATA:
       return {...state, businessData: action.businessData}
@@ -87,16 +87,11 @@ const myBusinessesReducer = (state = initialState, action) => {
       return {...state, isLoading: false}
     case SET_MY_BUSINESSES_IS_LOADING_TRUE:
       return {...state, isLoading: true}
-
-    case UPDATE_STYLIST_AND_RESERVATIONS:
-      // copies old state, but selectively replaces reservation and queue
+    case UPDATE_RESERVATION:
       newBusinessData = {...state.businessData}
-      newStylist = action.stylist
-      newReservation = action.reservations
-      newBusinessData.entities.stylists = newStylist
-      newBusinessData.entities.reservations = newReservation
-      // !! this reducer function only keeps data from the my-business-detail view !!
-      // front end needs to refetch all data again when rendering my-businesses
+      newReservation = action.reservation
+      reservationId = newReservation.id
+      newBusinessData.entities.reservations[reservationId] = newReservation
       return {
         ...state,
         businessData: newBusinessData
