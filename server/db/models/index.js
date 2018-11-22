@@ -1,12 +1,11 @@
 const Business = require('./business')
 const Category = require('./category')
+const Service = require('./service')
 const Image = require('./image')
 const Stylist = require('./stylist')
 const Reservation = require('./reservation')
 const Token = require('./token')
 const User = require('./user')
-
-
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -23,17 +22,24 @@ User.hasMany(Reservation)
 Reservation.belongsTo(Business)
 Business.hasMany(Reservation)
 
+//Service and business
+Service.belongsTo(Business)
+Business.hasMany(Service)
+
 //stylist-reservation
 Reservation.belongsTo(Stylist)
 Stylist.hasMany(Reservation)
 
 // Business-Category many to many
-Business.belongsToMany(Category,{ through: 'CategoryBusiness', as: 'Category'})
-Category.belongsToMany(Business,{ through: 'CategoryBusiness', as: 'Business'})
+Business.belongsToMany(Category, {through: 'CategoryBusiness', as: 'Category'})
+Category.belongsToMany(Business, {through: 'CategoryBusiness', as: 'Business'})
 
 // favorites
-Business.belongsToMany(User,{ through: 'FavoriteBusiness', as: 'UserFavoriteBusiness'})
-User.belongsToMany(Business,{ through: 'FavoriteBusiness'})
+Business.belongsToMany(User, {
+  through: 'FavoriteBusiness',
+  as: 'UserFavoriteBusiness'
+})
+User.belongsToMany(Business, {through: 'FavoriteBusiness'})
 
 // business - user
 Business.belongsTo(User)
@@ -63,5 +69,12 @@ User.hasMany(Token)
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User, Business, Reservation, Category, Token, Stylist, Image
+  User,
+  Business,
+  Reservation,
+  Service,
+  Category,
+  Token,
+  Stylist,
+  Image
 }

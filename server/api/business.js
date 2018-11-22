@@ -2,8 +2,12 @@
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const yelp = require('yelp-fusion')
-
+const twilio = require('twilio')
 const client = yelp.client(process.env.YELP_KEY)
+
+const accountSid = process.env.SID
+const authToken = process.env.APKEY
+const clientT = new twilio(accountSid, authToken)
 
 const router = require('express').Router()
 const {Business, Category} = require('../db/models')

@@ -10,6 +10,12 @@ const Business = db.define('business', {
       notEmpty: true
     }
   },
+  imageUrl: {
+    type: Sequelize.STRING
+  },
+  description: {
+    type: Sequelize.TEXT
+  },
   address: {
     type: Sequelize.STRING,
     allowNull: false,
