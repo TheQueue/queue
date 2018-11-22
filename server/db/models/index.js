@@ -6,6 +6,7 @@ const Reservation = require('./reservation')
 const Token = require('./token')
 const User = require('./user')
 const Preference =require('./preference')
+const Slot = require('./slot')
 
 
 
@@ -41,7 +42,13 @@ User.belongsToMany(Business,{ through: 'FavoriteBusiness', as: 'UserFavoriteBusi
 Preference.belongsToMany(Category,{ through: 'PreferenceCategories', as: 'Category'})
 Category.belongsToMany(Preference,{ through: 'PreferenceCategories'})
 
-
+//Slot-user-business
+User.belongsToMany(Slot,{ through: 'SlotReservation', as: 'Category'})
+Slot.belongsToMany(User,{ through: 'SlotReservation'})
+Business.belongsToMany(Slot,{ through: 'SlotReservation', as: 'Category'})
+Slot.belongsToMany(Business,{ through: 'SlotReservation'})
+Stylist.belongsToMany(Slot,{ through: 'SlotReservation', as: 'Category'})
+Slot.belongsToMany(Stylist,{ through: 'SlotReservation'})
 
 // business - user
 Business.belongsTo(User)
