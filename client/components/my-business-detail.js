@@ -1,14 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchMyBusinessData} from '../store'
-import {ReservationCard, StylistForm} from './index'
+import {ReservationCard, AddStylist, EditStylist} from './index'
 
 class MyBusinessDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
       businessId: props.match.params.businessId,
-      isAddStylistActive: false
+      isAddStylistActive: false,
+      isEditStylistActive: false
     }
   }
   async componentDidMount() {
@@ -23,17 +24,30 @@ class MyBusinessDetail extends Component {
 
   renderAddStylistForm() {
     return (
-      <StylistForm
+      <AddStylist
         isActive={this.state.isAddStylistActive}
         toggleAddStylist={this.toggleAddStylist}
         businessId={this.state.businessId}
       />
     )
   }
-
+  renderEditStylistForm(stylist) {
+    return (
+      <EditStylist
+        isActive={this.state.isEditStylistActive}
+        toggleAddStylist={this.toggleEditStylist}
+        businessId={this.state.businessId}
+        stylist={stylist}
+      />
+    )
+  }
   toggleAddStylist = event => {
     let curVal = this.state.isAddStylistActive
     this.setState({isAddStylistActive: !curVal})
+  }
+  toggleEditStylist = event => {
+    let curVal = this.state.isEditStylistActive
+    this.setState({isEditStylistActive: !curVal})
   }
 
   render() {
@@ -125,6 +139,16 @@ class MyBusinessDetail extends Component {
                             />
                           )
                         })}
+                      </div>
+                      <div className="media-right">
+                        {this.renderEditStylistForm(stylist)}
+                        <button
+                          type="button"
+                          className="button"
+                          onClick={this.toggleEditStylist}
+                        >
+                          Edit stylist information
+                        </button>
                       </div>
                     </div>
                   )
