@@ -78,4 +78,23 @@ router.get('/search/:keyword', async (req, res, next) => {
   }
 })
 
+//messages
+router.post('/inbound', (req, res, next) => {
+  try {
+    clientT.messages
+      .create({
+        body: `Hello ${req.body.FromCity} ${
+          req.body.FromState
+        },  thanks for you fidelite`,
+        to: req.body.From,
+        from: '+13312446019'
+      })
+      .then(() => {})
+    console.log(req.body)
+    res.send('')
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "women hair cut",
+    "price": 30,
+    "duration": 30,
+    "businessId": 1
+  },
+  {
+    "name": "women hair cut",
+    "price": 50,
+    "duration": 45,
+    "businessId": 2
+  },
+  {
+    "name": "men hair cut",
+    "price": 15,
+    "duration": 25,
+    "businessId": 1
+  },
+  {
+    "name": "men hair cut",
+    "price": 18,
+    "duration": 20,
+    "businessId": 2
+  },
+  {
+    "name": "color",
+    "price": 55,
+    "duration": 60,
+    "businessId": 1
+  },
+  {
+    "name": "color",
+    "price": 75,
+    "duration": 80,
+    "businessId": 2
+  },
+  {
+    "name": "extensions",
+    "price": 50,
+    "duration": 45,
+    "businessId": 1
+  },
+  {
+    "name": "extensions",
+    "price": 40,
+    "duration": 55,
+    "businessId": 2
+  },
+  {
+    "name": "highlights",
+    "price": 40,
+    "duration": 25,
+    "businessId": 1
+  },
+  {
+    "name": "highlights",
+    "price": 35,
+    "duration": 25,
+    "businessId": 2
+  }
+]
