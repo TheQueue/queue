@@ -18,10 +18,6 @@ class StylistForm extends Component {
   }
   handleChange = (event) => {
     this.setState({[event.target.name]: event.target.value})
-    console.log('name: ', this.state.name)
-    console.log('email: ', this.state.email)
-    console.log('phoneNumber: ', this.state.phoneNumber)
-    console.log('imageUrl: ', this.state.imageUrl)
   }
   handleSubmit = (event) => {
     event.preventDefault();

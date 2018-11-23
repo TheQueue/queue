@@ -78,9 +78,11 @@ export const updateSingleReservation = (reservationId, action) => async dispatch
     console.error(err)
   }
 }
-export const createNewStylist = (stylist, businessId) => async dispatch => {
+export const createNewStylist = (newStylist, businessId) => async dispatch => {
   try {
-    const {data} = await axios.post(`/api/owner/stylists`, stylist)
+    newStylist.businessId = businessId
+    const {data} = await axios.post(`/api/owner/stylists`, newStylist)
+    dispatch(createStylist(data))
   } catch (err) {
     console.error(err)
   }
@@ -88,7 +90,7 @@ export const createNewStylist = (stylist, businessId) => async dispatch => {
 // reducer
 
 const myBusinessesReducer = (state = initialState, action) => {
-  let newReservation, newBusinessData, reservationId
+  let newReservation, newBusinessData, reservationId, newStylist, stylistId, businessId
   switch (action.type) {
     case SET_MY_BUSINESSES_DATA:
       return {...state, businessData: action.businessData}
@@ -101,6 +103,17 @@ const myBusinessesReducer = (state = initialState, action) => {
       newReservation = action.reservation
       reservationId = newReservation.id
       newBusinessData.entities.reservations[reservationId] = newReservation
+      return {
+        ...state,
+        businessData: newBusinessData
+      }
+    case CREATE_STYLIST:
+      newBusinessData = {...state.businessData}
+      newStylist = action.stylist
+      businessId = action.stylist.businessId
+      stylistId = action.stylist.id
+      newBusinessData.entities.businesses[businessId].stylists.push(stylistId)
+      newBusinessData.entities.stylists[stylistId] = newStylist
       return {
         ...state,
         businessData: newBusinessData

@@ -91,3 +91,20 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
     console.error(err)
   }
 })
+
+router.post('/stylists', async (req, res, next) => {
+  try {
+    const {name, phoneNumber, email, imageUrl, businessId} = req.body
+    const newStylist = {name, phoneNumber, email, imageUrl, businessId}
+    const stylist = await Stylist.create(newStylist)
+    const stylistAndReservs = await Stylist.findById(stylist.id, {
+      include: [{
+        model: Reservation,
+        required: false
+      }]
+    })
+    res.json(stylistAndReservs)
+  } catch (err) {
+    console.error(err)
+  }
+})
