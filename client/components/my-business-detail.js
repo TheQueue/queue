@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchMyBusinessData} from '../store'
-import {ReservationCard} from './index'
+import {ReservationCard, StylistForm} from './index'
 
 class MyBusinessDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      businessId: props.match.params.businessId
+      businessId: props.match.params.businessId,
+      isAddStylistActive: false
     }
   }
   async componentDidMount() {
@@ -18,6 +19,21 @@ class MyBusinessDetail extends Component {
   parseISOString(s) {
     var b = s.split(/\D+/)
     return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]))
+  }
+
+  renderAddStylistForm() {
+    return (
+      <StylistForm
+        isActive={this.state.isAddStylistActive}
+        toggleAddStylist={this.toggleAddStylist}
+        businessId={this.state.businessId}
+      />
+    )
+  }
+
+  toggleAddStylist = event => {
+    let curVal = this.state.isAddStylistActive
+    this.setState({isAddStylistActive: !curVal})
   }
 
   render() {
@@ -48,16 +64,22 @@ class MyBusinessDetail extends Component {
                 <h2>Business ID: {currBusiness.id}</h2>
                 <h2>Address: {currBusiness.address}</h2>
                 <h2>Phone: {currBusiness.phoneNumber}</h2>
+              </div>
+              <div className="box">
                 <h2>No stylist found.</h2>
+                <button
+                  type="button"
+                  className="button"
+                  onClick={this.toggleAddStylist}
+                >
+                  Add new stylist
+                </button>
+                {this.renderAddStylistForm()}
               </div>
             </div>
           )
         } else {
           // this else block renders business info + queue data
-
-          // matchingReservs is hash table
-          // key = status, value = array of reservations that have that status
-          // we'll loop through statusList array to get matching reservations
           const matchingReservs = {}
           const statusList = ['Active', 'Serviced', 'Cancelled']
           return (
@@ -69,12 +91,26 @@ class MyBusinessDetail extends Component {
                 <h2>Phone: {currBusiness.phoneNumber}</h2>
               </div>
               <div className="box">
+                <button
+                  type="button"
+                  className="button"
+                  onClick={this.toggleAddStylist}
+                >
+                  Add new stylist
+                </button>
+              </div>
+              <div className="box">
+                {this.renderAddStylistForm()}
                 {currBusiness.stylists.map(stylistId => {
                   let stylist = entities.stylists[stylistId]
                   return (
                     <div className="media" key={stylist.id}>
                       <div className="media-left">
-                        {stylist.imageUrl ? <img src="imageUrl" /> : <p>No image</p>}
+                        {stylist.imageUrl ? (
+                          <img src="imageUrl" />
+                        ) : (
+                          <p>No image</p>
+                        )}
                       </div>
                       <div className="media-content">
                         <p>{stylist.name}</p>
@@ -83,7 +119,10 @@ class MyBusinessDetail extends Component {
                         {stylist.reservations.map(reservationId => {
                           let reservation = entities.reservations[reservationId]
                           return (
-                            <ReservationCard key={reservationId} reservation={reservation}/>
+                            <ReservationCard
+                              key={reservationId}
+                              reservation={reservation}
+                            />
                           )
                         })}
                       </div>

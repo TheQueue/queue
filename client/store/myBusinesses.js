@@ -27,6 +27,7 @@ const SET_MY_BUSINESSES_DATA = 'SET_MY_BUSINESSES_DATA'
 const SET_MY_BUSINESSES_IS_LOADING_TRUE = 'SET_MY_BUSINESSES_IS_LOADING_TRUE'
 const SET_MY_BUSINESSES_IS_LOADING_FALSE = 'SET_MY_BUSINESSES_IS_LOADING_FALSE'
 const UPDATE_RESERVATION = 'UPDATE_RESERVATION'
+const CREATE_STYLIST = 'CREATE_STYLIST'
 
 // action creators
 const setMyBusinesses = businessData => ({
@@ -39,12 +40,14 @@ const setMyBusinessesIsLoadingTrue = () => ({
 const setMyBusinessesIsLoadingFalse = () => ({
   type: SET_MY_BUSINESSES_IS_LOADING_FALSE
 })
-
 const updateReservationState = updatedReservation => ({
   type: UPDATE_RESERVATION,
   reservation: updatedReservation
 })
-
+const createStylist = (newStylist) => ({
+  type: CREATE_STYLIST,
+  stylist: newStylist
+})
 // thunk creators
 
 export const fetchMyBusinessData = () => async dispatch => {
@@ -75,7 +78,13 @@ export const updateSingleReservation = (reservationId, action) => async dispatch
     console.error(err)
   }
 }
-
+export const createNewStylist = (stylist, businessId) => async dispatch => {
+  try {
+    const {data} = await axios.post(`/api/owner/stylists`, stylist)
+  } catch (err) {
+    console.error(err)
+  }
+}
 // reducer
 
 const myBusinessesReducer = (state = initialState, action) => {
