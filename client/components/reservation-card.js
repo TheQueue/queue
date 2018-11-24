@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {updateSingleReservation} from '../store'
+import {updateSingleReservationThunk} from '../store'
 
 class ReservationCard extends Component {
   constructor(props) {
@@ -11,13 +11,13 @@ class ReservationCard extends Component {
   handleCancel = event => {
     event.preventDefault()
     const reservationId = event.target.name
-    this.props.updateSingleReservation(reservationId, 'cancel')
+    this.props.updateSingleReservationThunk(reservationId, 'cancel')
   }
 
   handleService = event => {
     event.preventDefault()
     const reservationId = event.target.name
-    this.props.updateSingleReservation(reservationId, 'service')
+    this.props.updateSingleReservationThunk(reservationId, 'service')
   }
 
   // converts dateandtime value from sequelize -> Date object
@@ -78,8 +78,8 @@ class ReservationCard extends Component {
 }
 
 const mapDispatch = dispatch => ({
-  updateSingleReservation: (reservationId, action) =>
-    dispatch(updateSingleReservation(reservationId, action))
+  updateSingleReservationThunk: (reservationId, action) =>
+    dispatch(updateSingleReservationThunk(reservationId, action))
 })
 
 export default connect(null, mapDispatch)(ReservationCard)

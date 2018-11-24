@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {createNewStylist, updateStylist} from '../store'
+import {createNewStylistThunk, updateStylistThunk} from '../store'
 
 // using DRY format from auth-form
 
@@ -10,7 +10,7 @@ const mapStateAdd = state => ({
 
 const mapDispatchAdd = dispatch => ({
   dispatchFunc: (stylist, businessId) =>
-    dispatch(createNewStylist(stylist, businessId))
+    dispatch(createNewStylistThunk(stylist, businessId))
 })
 
 const mapStateEdit = state => ({
@@ -18,7 +18,7 @@ const mapStateEdit = state => ({
 })
 const mapDispatchEdit = dispatch => ({
   dispatchFunc: (stylist, businessId) =>
-    dispatch(updateStylist(stylist, businessId))
+    dispatch(updateStylistThunk(stylist, businessId))
 })
 
 class StylistForm extends Component {

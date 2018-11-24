@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchMyBusinessData} from '../store'
+import {fetchMyBusinessDataThunk, deleteStylist} from '../store'
 import {ReservationCard, AddStylist, EditStylist} from './index'
 
 class MyBusinessDetail extends Component {
@@ -15,7 +15,7 @@ class MyBusinessDetail extends Component {
   }
   async componentDidMount() {
     // fetch data
-    await this.props.fetchMyBusinessData()
+    await this.props.fetchMyBusinessDataThunk()
     // filter fetched data to correct business id
   }
   parseISOString(s) {
@@ -33,6 +33,7 @@ class MyBusinessDetail extends Component {
     ) : null
   }
   renderEditStylistForm(stylist) {
+    // only render the edit form for the specific stylist
     if (this.state.currentEditStylistId === stylist.id) {
       return this.state.isEditStylistActive ? (
         <EditStylist
@@ -58,7 +59,9 @@ class MyBusinessDetail extends Component {
       this.setState({isEditStylistActive: true, currentEditStylistId: Number(event.target.name)})
     }
   }
-
+  handleDeleteStylist = event => {
+    console.log('delete #', event.target.name)
+  }
   render() {
     const {myBusinesses} = this.props
     const {businessId} = this.state
@@ -151,14 +154,22 @@ class MyBusinessDetail extends Component {
                       </div>
                       <div className="media-right">
                         {this.renderEditStylistForm(stylist)}
-                        <button
+                        <p><button
                           type="button"
                           className="button"
                           onClick={this.toggleEditStylist}
                           name={stylist.id}
                         >
-                          Edit stylist information
-                        </button>
+                          Edit information
+                        </button></p>
+                        <p><button
+                          type="button"
+                          className="button"
+                          onClick={this.handleDeleteStylist}
+                          name={stylist.id}
+                        >
+                          Delete stylist
+                        </button></p>
                       </div>
                     </div>
                   )
@@ -185,7 +196,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  fetchMyBusinessData: () => dispatch(fetchMyBusinessData())
+  fetchMyBusinessDataThunk: () => dispatch(fetchMyBusinessDataThunk())
 })
 
 export default connect(mapState, mapDispatch)(MyBusinessDetail)

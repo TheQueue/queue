@@ -29,6 +29,8 @@ const SET_MY_BUSINESSES_IS_LOADING_FALSE = 'SET_MY_BUSINESSES_IS_LOADING_FALSE'
 const UPDATE_RESERVATION = 'UPDATE_RESERVATION'
 const CREATE_STYLIST = 'CREATE_STYLIST'
 const UPDATE_STYLIST = 'UPDATE_STYLIST'
+const DELETE_STYLIST = 'DELETE_STYLIST'
+
 // action creators
 const setMyBusinesses = businessData => ({
   type: SET_MY_BUSINESSES_DATA,
@@ -52,9 +54,14 @@ const updateStylistState = updatedStylist => ({
   type: UPDATE_STYLIST,
   stylist: updatedStylist
 })
+const deleteStylistState = (stylistId, businessId) => ({
+  type: DELETE_STYLIST,
+  stylistId,
+  businessId
+})
 // thunk creators
 
-export const fetchMyBusinessData = () => async dispatch => {
+export const fetchMyBusinessDataThunk = () => async dispatch => {
   try {
     // user will be logged in, this route will return data based on session user id
     const {data} = await axios.get(`/api/owner/businesses`)
@@ -67,7 +74,7 @@ export const fetchMyBusinessData = () => async dispatch => {
   }
 }
 
-export const updateSingleReservation = (reservationId, action) => async dispatch => {
+export const updateSingleReservationThunk = (reservationId, action) => async dispatch => {
   try {
     const route = `/api/owner/reservations/${reservationId}?action=${action}`
     const {data} = await axios.put(route)
@@ -79,7 +86,7 @@ export const updateSingleReservation = (reservationId, action) => async dispatch
     console.error(err)
   }
 }
-export const createNewStylist = (newStylist, businessId) => async dispatch => {
+export const createNewStylistThunk = (newStylist, businessId) => async dispatch => {
   try {
     newStylist.businessId = businessId
     const {data} = await axios.post(`/api/owner/stylists`, newStylist)
@@ -88,7 +95,7 @@ export const createNewStylist = (newStylist, businessId) => async dispatch => {
     console.error(err)
   }
 }
-export const updateStylist = (updatedStylist) => async dispatch => {
+export const updateStylistThunk = (updatedStylist) => async dispatch => {
   try {
     const route = `/api/owner/stylists/${updatedStylist.id}`
     const {data} = await axios.put(route, updatedStylist)
@@ -99,11 +106,18 @@ export const updateStylist = (updatedStylist) => async dispatch => {
     console.error(err)
   }
 }
-
+export const deleteStylistThunk = (stylistId, businessId) => async dispatch => {
+  try {
+    const {data} = await axios.delete(`/api/owner/stylists/${stylistId}`)
+    console.log('deleted');
+  } catch (err) {
+    console.error(err)
+  }
+}
 // reducer
 
 const myBusinessesReducer = (state = initialState, action) => {
-  let newReservation, newBusinessData, reservationId, newStylist, stylistId, businessId
+  let newReservation, newBusinessData, reservationId, newStylist, stylistId, businessId, stylistsArr
   switch (action.type) {
     case SET_MY_BUSINESSES_DATA:
       return {...state, businessData: action.businessData}
