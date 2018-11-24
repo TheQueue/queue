@@ -1,23 +1,66 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchMyBusinessData} from '../store'
-import {ReservationCard} from './index'
+import {fetchMyBusinessDataThunk, deleteStylistThunk } from '../store'
+import {ReservationCard, AddStylist, EditStylist} from './index'
 
 class MyBusinessDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      businessId: props.match.params.businessId
+      businessId: props.match.params.businessId,
+      isAddStylistActive: false,
+      currentEditStylistId: NaN,
+      isEditStylistActive: false
     }
   }
   async componentDidMount() {
     // fetch data
-    await this.props.fetchMyBusinessData()
+    await this.props.fetchMyBusinessDataThunk()
     // filter fetched data to correct business id
   }
   parseISOString(s) {
-    var b = s.split(/\D+/);
-    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+    var b = s.split(/\D+/)
+    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]))
+  }
+
+  renderAddStylistForm() {
+    return this.state.isAddStylistActive ? (
+      <AddStylist
+        isActive={this.state.isAddStylistActive}
+        toggleForm={this.toggleAddStylist}
+        businessId={this.state.businessId}
+      />
+    ) : null
+  }
+  renderEditStylistForm(stylist) {
+    // only render the edit form for the specific stylist
+    if (this.state.currentEditStylistId === stylist.id) {
+      return this.state.isEditStylistActive ? (
+        <EditStylist
+          isActive={this.state.isEditStylistActive}
+          toggleForm={this.toggleEditStylist}
+          businessId={this.state.businessId}
+          stylist={stylist}
+        />
+      ) : null
+    } else {
+      return null
+    }
+  }
+  toggleAddStylist = event => {
+    let curVal = this.state.isAddStylistActive
+    this.setState({isAddStylistActive: !curVal})
+  }
+  toggleEditStylist = event => {
+    let curVal = this.state.isEditStylistActive
+    if (curVal) {
+      this.setState({isEditStylistActive: false, currentEditStylistId: NaN})
+    } else {
+      this.setState({isEditStylistActive: true, currentEditStylistId: Number(event.target.name)})
+    }
+  }
+  handleDeleteStylist = async event => {
+    await this.props.deleteStylistThunk(Number(event.target.name), Number(this.state.businessId))
   }
 
   render() {
@@ -40,7 +83,7 @@ class MyBusinessDetail extends Component {
         const currBusiness = entities.businesses[businessId]
         // if no associated queue for current business...
         // return this
-        if (!currBusiness.queues.length) {
+        if (!currBusiness.stylists.length) {
           return (
             <div className="container">
               <div className="box">
@@ -48,36 +91,24 @@ class MyBusinessDetail extends Component {
                 <h2>Business ID: {currBusiness.id}</h2>
                 <h2>Address: {currBusiness.address}</h2>
                 <h2>Phone: {currBusiness.phoneNumber}</h2>
-                <h2>No queue found.</h2>
+              </div>
+              <div className="box">
+                <h2>No stylist found.</h2>
+                <button
+                  type="button"
+                  className="button"
+                  onClick={this.toggleAddStylist}
+                >
+                  Add new stylist
+                </button>
+                {this.renderAddStylistForm()}
               </div>
             </div>
           )
         } else {
           // this else block renders business info + queue data
-
-          // matchingReservs is hash table
-          // key = status, value = array of reservations that have that status
-          // we'll loop through statusList array to get matching reservations
           const matchingReservs = {}
-          const statusList = [
-            'Pending',
-            'Active',
-            'Serviced',
-            'Cancelled',
-            'Holding'
-          ]
-          statusList.forEach(status => {
-            matchingReservs[status] = entities.queues[
-              currBusiness.queues[0]
-            ].reservations
-              .map(reservationId => entities.reservations[reservationId])
-              .filter(res => res.status === status)
-          })
-          const currQueue = entities.queues[currBusiness.queues[0]]
-
-          // calculates last seat time based on if theres a time value on queue
-          const lastSeatTimeMinFromNow = currQueue.timeAtWhichLastQueueGetsSeated ? Math.floor((this.parseISOString(currQueue.timeAtWhichLastQueueGetsSeated) - new Date)/60000) : currQueue.defaultWaitTime
-
+          const statusList = ['Active', 'Serviced', 'Cancelled']
           return (
             <div className="container">
               <div className="box">
@@ -86,35 +117,65 @@ class MyBusinessDetail extends Component {
                 <h2>Address: {currBusiness.address}</h2>
                 <h2>Phone: {currBusiness.phoneNumber}</h2>
               </div>
-              {currBusiness.queues.length ? (
-                <div className="box">
-                  <h2 className="title">Queue:</h2>
-                  <h3>Active Queue Length: {matchingReservs.Active.length}</h3>
-                  <h3>Last party will get seated in: {lastSeatTimeMinFromNow}</h3>
-                  <h3>Wait time per party: {currQueue.defaultWaitTime} min</h3>
-                  {statusList.map(status => (
-                    <React.Fragment key={status}>
-                      <h3>
-                        {status} Reservations ({matchingReservs[status].length})
-                      </h3>
-                      {entities.queues[currBusiness.queues[0]].reservations
-                        .length && (
-                        <div>
-                          {matchingReservs[status].map(reservation => (
+              <div className="box">
+                <button
+                  type="button"
+                  className="button"
+                  onClick={this.toggleAddStylist}
+                >
+                  Add new stylist
+                </button>
+              </div>
+              <div className="box">
+                {this.renderAddStylistForm()}
+                {currBusiness.stylists.map(stylistId => {
+                  let stylist = entities.stylists[stylistId]
+                  return (
+                    <div className="media" key={stylist.id}>
+                      <div className="media-left">
+                        {stylist.imageUrl ? (
+                          <img src="imageUrl" />
+                        ) : (
+                          <p>No image</p>
+                        )}
+                      </div>
+                      <div className="media-content">
+                        <p>{stylist.name}</p>
+                        <p>{stylist.email}</p>
+                        <p>{stylist.phoneNumber}</p>
+                        {stylist.reservations.map(reservationId => {
+                          let reservation = entities.reservations[reservationId]
+                          return (
                             <ReservationCard
+                              key={reservationId}
                               reservation={reservation}
-                              key={reservation.id}
-                              defaultWaitTime={currQueue.defaultWaitTime}
                             />
-                          ))}
-                        </div>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </div>
-              ) : (
-                'no queue'
-              )}
+                          )
+                        })}
+                      </div>
+                      <div className="media-right">
+                        {this.renderEditStylistForm(stylist)}
+                        <p><button
+                          type="button"
+                          className="button"
+                          onClick={this.toggleEditStylist}
+                          name={stylist.id}
+                        >
+                          Edit information
+                        </button></p>
+                        <p><button
+                          type="button"
+                          className="button"
+                          onClick={this.handleDeleteStylist}
+                          name={stylist.id}
+                        >
+                          Delete stylist
+                        </button></p>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           )
         }
@@ -136,7 +197,8 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  fetchMyBusinessData: () => dispatch(fetchMyBusinessData())
+  fetchMyBusinessDataThunk: () => dispatch(fetchMyBusinessDataThunk()),
+  deleteStylistThunk: (stylistId, businessId) => dispatch(deleteStylistThunk(stylistId, businessId))
 })
 
 export default connect(mapState, mapDispatch)(MyBusinessDetail)

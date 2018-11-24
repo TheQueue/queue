@@ -3,6 +3,30 @@
     "categoryType": "Hair Salon"
   },
   {
-    "categoryType": "Barbershop"
+    "categoryType": "Nail Art"
+  },
+  {
+    "categoryType": "Beauty Spa"
+  },
+  {
+    "categoryType": "Makeup Artists"
+  },
+  {
+    "categoryType": "Waxing"
+  },
+  {
+    "categoryType": "Piercing"
+  },
+  {
+    "categoryType": "Eyebrow Services"
+  },
+  {
+    "categoryType": "Eyelash Service"
+  },
+  {
+    "categoryType": "Men's Hair Salons"
+  },
+  {
+    "categoryType": "Kids Hair Salons"
   }
 ]

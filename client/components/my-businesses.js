@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchMyBusinessData} from '../store'
+import {fetchMyBusinessDataThunk} from '../store'
 import {Link} from 'react-router-dom'
 class MyBusinesses extends Component {
   componentDidMount() {
-    this.props.fetchMyBusinessData()
+    this.props.fetchMyBusinessDataThunk()
   }
   render() {
     const {myBusinesses} = this.props
@@ -34,10 +34,7 @@ class MyBusinesses extends Component {
                   </Link>
                   <h2>Business ID: {business.id}</h2>
                   <h2>
-                    Queue Length:{' '}
-                    {business.queues.length
-                      ? entities.queues[business.queues[0]].queueLength
-                      : 'Not found'}
+                    Stylists: {business.stylists.length}
                   </h2>
                 </div>
               )
@@ -54,7 +51,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  fetchMyBusinessData: () => dispatch(fetchMyBusinessData())
+  fetchMyBusinessDataThunk: () => dispatch(fetchMyBusinessDataThunk())
 })
 
 export default connect(mapState, mapDispatch)(MyBusinesses)
