@@ -28,7 +28,7 @@ const SET_MY_BUSINESSES_IS_LOADING_TRUE = 'SET_MY_BUSINESSES_IS_LOADING_TRUE'
 const SET_MY_BUSINESSES_IS_LOADING_FALSE = 'SET_MY_BUSINESSES_IS_LOADING_FALSE'
 const UPDATE_RESERVATION = 'UPDATE_RESERVATION'
 const CREATE_STYLIST = 'CREATE_STYLIST'
-
+const UPDATE_STYLIST = 'UPDATE_STYLIST'
 // action creators
 const setMyBusinesses = businessData => ({
   type: SET_MY_BUSINESSES_DATA,
@@ -48,6 +48,10 @@ const createStylist = (newStylist) => ({
   type: CREATE_STYLIST,
   stylist: newStylist
 })
+const updateStylistState = updatedStylist => ({
+  type: UPDATE_STYLIST,
+  stylist: updatedStylist
+})
 // thunk creators
 
 export const fetchMyBusinessData = () => async dispatch => {
@@ -65,15 +69,12 @@ export const fetchMyBusinessData = () => async dispatch => {
 
 export const updateSingleReservation = (reservationId, action) => async dispatch => {
   try {
-    await dispatch(setMyBusinessesIsLoadingTrue())
-    const {data} = await axios.put(
-      `/api/owner/reservations/${reservationId}?action=${action}`
-    )
+    const route = `/api/owner/reservations/${reservationId}?action=${action}`
+    const {data} = await axios.put(route)
     // normalizes data and updates store
     dispatch(
       updateReservationState(data)
     )
-    dispatch(setMyBusinessesIsLoadingFalse())
   } catch (err) {
     console.error(err)
   }
@@ -87,6 +88,18 @@ export const createNewStylist = (newStylist, businessId) => async dispatch => {
     console.error(err)
   }
 }
+export const updateStylist = (updatedStylist) => async dispatch => {
+  try {
+    const route = `/api/owner/stylists/${updatedStylist.id}`
+    const {data} = await axios.put(route, updatedStylist)
+    const normalizedData = normalize(data, stylist)
+    const newStylist = normalizedData.entities.stylists[updatedStylist.id]
+    dispatch(updateStylistState(newStylist))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 // reducer
 
 const myBusinessesReducer = (state = initialState, action) => {
@@ -114,6 +127,14 @@ const myBusinessesReducer = (state = initialState, action) => {
       stylistId = action.stylist.id
       newBusinessData.entities.businesses[businessId].stylists.push(stylistId)
       newBusinessData.entities.stylists[stylistId] = newStylist
+      return {
+        ...state,
+        businessData: newBusinessData
+      }
+    case UPDATE_STYLIST:
+      newBusinessData = {...state.businessData}
+      newStylist = action.stylist
+      newBusinessData.entities.stylists[newStylist.id] = newStylist
       return {
         ...state,
         businessData: newBusinessData

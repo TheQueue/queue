@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {createNewStylist} from '../store'
+import {createNewStylist, updateStylist} from '../store'
 
 // using DRY format from auth-form
 
@@ -9,17 +9,17 @@ const mapStateAdd = state => ({
 })
 
 const mapDispatchAdd = dispatch => ({
-  dispatchFunc: (stylist, businessId) => dispatch(createNewStylist(stylist, businessId))
+  dispatchFunc: (stylist, businessId) =>
+    dispatch(createNewStylist(stylist, businessId))
 })
 
 const mapStateEdit = state => ({
   formType: 'edit'
 })
 const mapDispatchEdit = dispatch => ({
-  dispatchFunc: (stylist, businessId) => dispatch(createNewStylist(stylist, businessId))
+  dispatchFunc: (stylist, businessId) =>
+    dispatch(updateStylist(stylist, businessId))
 })
-
-
 
 class StylistForm extends Component {
   constructor(props) {
@@ -30,7 +30,8 @@ class StylistForm extends Component {
         email: props.stylist.email,
         phoneNumber: props.stylist.phoneNumber,
         imageUrl: props.stylist.imageUrl || '',
-        formHeader: 'Edit Stylist Information'
+        formHeader: 'Edit Stylist Information',
+        id: props.stylist.id
       }
     } else {
       this.state = {
@@ -39,33 +40,37 @@ class StylistForm extends Component {
         phoneNumber: '',
         imageUrl: '',
         formHeader: 'Add A New Stylist'
-     }
+      }
     }
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({[event.target.name]: event.target.value})
   }
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const toggleAddStylist = this.props.toggleAddStylist;
+  handleSubmit = event => {
+    event.preventDefault()
     this.props.dispatchFunc(this.state, this.props.businessId)
-    toggleAddStylist()
+    this.props.toggleForm()
   }
   render() {
-    const {isActive, toggleAddStylist, businessId} = this.props
-    const modalActiveClass = (isActive) ? 'is-active' : null
+    const {isActive, toggleForm, businessId} = this.props
+    const modalActiveClass = isActive ? 'is-active' : null
     const handleChange = this.handleChange
     const handleSubmit = this.handleSubmit
     const {name, email, phoneNumber, imageUrl, formHeader} = this.state
 
     return (
       <div className={`modal ${modalActiveClass}`}>
-        <div className="modal-background"/>
+        <div className="modal-background" />
         <div className="modal-card">
           <header className="modal-card-head">
             <p className="modal-card-title">{formHeader}</p>
-            <button type="button" className="delete" aria-label="close"  onClick = {toggleAddStylist}/>
+            <button
+              type="button"
+              className="delete"
+              aria-label="close"
+              onClick={toggleForm}
+            />
           </header>
           <section className="modal-card-body">
             <div className="box is-centered">

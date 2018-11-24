@@ -108,3 +108,34 @@ router.post('/stylists', async (req, res, next) => {
     console.error(err)
   }
 })
+
+router.put('/stylists/:stylistId', async (req, res, next) => {
+  const stylistId = req.params.stylistId
+  try {
+    const oldStylist = await Stylist.findById(stylistId);
+    if (oldStylist === null) {
+      res.sendStatus(404);
+      return
+    }
+    const business = await oldStylist.getBusiness();
+    if (business === null) {
+      res.sendStatus(500);
+    } else if (business.userId !== req.user.id) {
+      res.sendStatus(403);
+    } else {
+      const {name, phoneNumber, email, imageUrl} = req.body
+      const stylistInfo = {name, phoneNumber, email}
+      if (imageUrl) stylistInfo.imageUrl = imageUrl
+      const updatedStylist = await oldStylist.update(stylistInfo)
+      const stylistAndReservs = await Stylist.findById(stylistId, {
+        include: [{
+          model: Reservation,
+          required: false
+        }]
+      })
+      res.json(stylistAndReservs)
+    }
+  } catch (err) {
+    console.error(err)
+  }
+})

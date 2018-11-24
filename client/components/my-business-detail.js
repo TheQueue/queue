@@ -9,6 +9,7 @@ class MyBusinessDetail extends Component {
     this.state = {
       businessId: props.match.params.businessId,
       isAddStylistActive: false,
+      currentEditStylistId: NaN,
       isEditStylistActive: false
     }
   }
@@ -23,23 +24,27 @@ class MyBusinessDetail extends Component {
   }
 
   renderAddStylistForm() {
-    return (
+    return this.state.isAddStylistActive ? (
       <AddStylist
         isActive={this.state.isAddStylistActive}
-        toggleAddStylist={this.toggleAddStylist}
+        toggleForm={this.toggleAddStylist}
         businessId={this.state.businessId}
       />
-    )
+    ) : null
   }
   renderEditStylistForm(stylist) {
-    return (
-      <EditStylist
-        isActive={this.state.isEditStylistActive}
-        toggleAddStylist={this.toggleEditStylist}
-        businessId={this.state.businessId}
-        stylist={stylist}
-      />
-    )
+    if (this.state.currentEditStylistId === stylist.id) {
+      return this.state.isEditStylistActive ? (
+        <EditStylist
+          isActive={this.state.isEditStylistActive}
+          toggleForm={this.toggleEditStylist}
+          businessId={this.state.businessId}
+          stylist={stylist}
+        />
+      ) : null
+    } else {
+      return null
+    }
   }
   toggleAddStylist = event => {
     let curVal = this.state.isAddStylistActive
@@ -47,7 +52,11 @@ class MyBusinessDetail extends Component {
   }
   toggleEditStylist = event => {
     let curVal = this.state.isEditStylistActive
-    this.setState({isEditStylistActive: !curVal})
+    if (curVal) {
+      this.setState({isEditStylistActive: false, currentEditStylistId: NaN})
+    } else {
+      this.setState({isEditStylistActive: true, currentEditStylistId: Number(event.target.name)})
+    }
   }
 
   render() {
@@ -146,6 +155,7 @@ class MyBusinessDetail extends Component {
                           type="button"
                           className="button"
                           onClick={this.toggleEditStylist}
+                          name={stylist.id}
                         >
                           Edit stylist information
                         </button>
