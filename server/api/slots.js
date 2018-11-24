@@ -11,4 +11,16 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.post('/add', async(req, res, next) =>{
+  try{
+    const {time, date} = req.body
+    const newSlot = {time, date}
+    const slot = await Slot.create(newSlot)
+  res.json(slot)
+
+  }catch(err) {
+    next(err)
+  }
+
+})
 module.exports = router
