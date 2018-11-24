@@ -12,22 +12,24 @@
     "name": "HeadQuarter Salon",
     "imageUrl":
       "https://s3-media2.fl.yelpcdn.com/bphoto/v-a-0KAmPIVe3iQZUykgTg/o.jpg",
+
     "address": "2145A S China Pl, Chicago, IL 60616",
     "phoneNumber": "+13128421353",
     "coordinates": [41.8539878069544, -87.6341105937958],
     "userId": 1,
-    "categoryId": 1
+    "categoryId": [1, 3, 7]
   },
   {
     "yelpId": "F5w5miIWXpEmKMCO2japPA",
     "name": "Edit Salon",
     "imageUrl":
       "https://s3-media2.fl.yelpcdn.com/bphoto/JXgamxSvkWkHBusZxSchdA/o.jpg",
+
     "address": "1369 W Chicago Ave, Chicago, IL 60642",
     "phoneNumber": "+13127330123",
     "coordinates": [41.89591, -87.66202],
     "userId": 1,
-    "categoryId": 1
+    "categoryId": [1, 10]
   },
 
   {
@@ -50,7 +52,7 @@
     "phoneNumber": "+17732279223",
     "coordinates": [41.916153, -87.6861115],
     "userId": 1,
-    "categoryId": 1
+    "categoryId": [1, 4, 5, 6]
   },
   {
     "yelpId": "riUj9dDoBG9Isz8YPAe6-Q",
@@ -61,18 +63,41 @@
     "phoneNumber": "+13126313856",
     "coordinates": [41.8545843, -87.6328791],
     "userId": 1,
-    "categoryId": 1
+    "categoryId": [1, 2, 4, 7, 8]
   },
 
   {
-    "yelpId": "riUj9dDoBG9Isz8YPAe6-Q",
-    "name": "No 1 Salon",
+    "yelpId": "Y2nEUSKHYGwMAa9UAqNJrg",
+    "name": "Sparrow",
     "imageUrl":
-      "https://s3-media2.fl.yelpcdn.com/bphoto/KnVu0y5FGcvZJskfI7Ejyw/o.jpg",
-    "address": "2113 S China Pl, Chicago, IL 60616",
-    "phoneNumber": "+13126313856",
-    "coordinates": [41.8545843, -87.6328791],
+      "https://s3-media3.fl.yelpcdn.com/bphoto/PSfwBBWyfR_XXa1YAwQLiQ/o.jpg",
+    "address": "2545 N Milwaukee Ave, Chicago, IL 60647",
+    "phoneNumber": "+17734869300",
+    "coordinates": [41.9276924133301, -87.7046966552734],
     "userId": 1,
-    "categoryId": 1
+    "categoryId": [1, 9, 10]
+  },
+
+  {
+    "yelpId": "NxIjoCUXUeZJfNWS-bK1-A",
+    "name": "Arsova Salon",
+    "imageUrl":
+      "https://s3-media2.fl.yelpcdn.com/bphoto/o4NVWqjupmEfiaMbkE8gTg/o.jpg",
+    "address": "747 N Lasalle St,Ste 500A ,Chicago, IL 60654",
+    "phoneNumber": "+13123710773",
+    "coordinates": [41.8961909, -87.6323553],
+    "userId": 1,
+    "categoryId": [1, 3]
+  },
+  {
+    "yelpId": "Z63N9zCk2TH5SJDfANljhw",
+    "name": "Mane Salon",
+    "imageUrl":
+      "https://s3-media4.fl.yelpcdn.com/bphoto/RK6yMR2UDNclYwy9Bz9Bpg/o.jpg",
+    "address": "1119 W Grand Ave, Chicago, IL 60642",
+    "phoneNumber": "+13129880297",
+    "coordinates": [41.890728, -87.655437],
+    "userId": 1,
+    "categoryId": [1, 2]
   }
 ]
