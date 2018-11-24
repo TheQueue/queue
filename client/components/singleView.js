@@ -99,28 +99,43 @@ class SingleBusiness extends React.Component {
       return <div />
     }
     return (
-      <div className="sp">
+      <div>
         <link
           rel="stylesheet"
           href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
           crossOrigin="anonymous"
         />
-        <img src={this.props.business.imageUrl} />
-        <h3>{this.props.business.name}</h3>
-        <p />
-        Address: {this.props.business.address}
-        phoneNumber: {this.props.business.phoneNumber}
-        {this.props.isClosed ? (
-          <p>Closed</p>
-        ) : (
-          <div>
-            <p>Open</p>
-            <a className="button is-primary" onClick={this.popup}>
-              Reservation
-            </a>
+        <div className="container">
+          <div className="box">
+            <img src={this.props.business.imageUrl} />
+            <div className="media">
+              <div className="media-left">
+                {this.props.isClosed ? (
+                  <p>Closed</p>
+                ) : (
+                  <div>
+                    <p>Open</p>
+                    <a className="button is-primary" onClick={this.popup}>
+                      Reservation
+                    </a>
+                  </div>
+                )}
+              </div>
+              <div className="media-content">
+                <div className="title">
+                  <p>{this.props.business.name}</p>
+                </div>
+                <div className="subtitle">
+                  <p>{this.props.business.address}</p>
+                  <p>{this.props.business.phoneNumber}</p>
+                </div>
+
+
+              </div>
+            </div>
           </div>
-        )}
+        </div>
         {this.state.isActive && (
           <div className="modal is-active">
             <div className="modal-background" />
@@ -189,7 +204,7 @@ class SingleBusiness extends React.Component {
                   <p className="control">
                     <button
                       className="button is-primary is-medium is-fullwidth"
-                      type="sumbit"
+                      type="submit"
                     >
                       Submit
                     </button>
