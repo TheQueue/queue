@@ -57,6 +57,9 @@ export class BusinessList extends React.Component {
             ))}
           </div>
         </section>
+        <section className="section">
+          <h1 className="title">Business List</h1>
+        </section>
         <Footer />
       </React.Fragment>
     )

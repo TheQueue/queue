@@ -3,11 +3,13 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getDetails} from '../store/business'
 import {createNewReservation} from '../store/reservation'
-
+import {Navbar, Footer} from './index'
 function mapState(state) {
   return {
     business: state.business.single.business,
     isClosed: state.business.single.closed,
+    image_url: state.business.single.image_url,
+    price: state.business.single.price,
     user: state.user
   }
 }
@@ -91,7 +93,6 @@ class SingleBusiness extends React.Component {
 
   render() {
     console.log(this.props.user, this.state)
-
     if (
       (!this.props.business && !this.props.isClosed) ||
       this.props.business.id !== Number(this.props.match.params.id)
@@ -99,130 +100,140 @@ class SingleBusiness extends React.Component {
       return <div />
     }
     return (
-      <div>
-        <link
-          rel="stylesheet"
-          href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-          crossOrigin="anonymous"
-        />
-        <div className="container">
-          <div className="box">
-            <img src={this.props.business.imageUrl} />
-            <div className="media">
-              <div className="media-left">
-                {this.props.isClosed ? (
-                  <p>Closed</p>
-                ) : (
-                  <div>
-                    <p>Open</p>
-                    <a className="button is-primary" onClick={this.popup}>
-                      Reservation
-                    </a>
+      <React.Fragment>
+        <Navbar />
+        <section className="section">
+          <h1 className="title">Business View</h1>
+        </section>
+        <div>
+          <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+            integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+            crossOrigin="anonymous"
+          />
+
+          <div className="container">
+            <div className="box">
+              <img className="image" src={this.props.business.imageUrl} />
+              <div className="media">
+                <div className="media-left" />
+                <div className="media-content">
+                  <div className="title">
+                    <p>{this.props.business.name}</p>
                   </div>
-                )}
-              </div>
-              <div className="media-content">
-                <div className="title">
-                  <p>{this.props.business.name}</p>
-                </div>
-                <div className="subtitle">
-                  <p>{this.props.business.address}</p>
-                  <p>{this.props.business.phoneNumber}</p>
-                </div>
+                  <div className="subtitle">
+                    <p>{this.props.business.address}</p>
+                    <p>{this.props.business.phoneNumber}</p>
+                    <p>Price: {this.props.price ? this.props.price : 'not available'}</p>
+                  </div>
+                  {this.props.isClosed ? (
+                    <p>Closed</p>
+                  ) : (
+                    <div>
+                      <p>
+                        <strong>Open</strong>
+                      </p>
+                      <button
+                        type="button"
+                        className="button is-primary"
+                        onClick={this.popup}
+                      >
+                        Reservation
+                      </button>
+                    </div>
+                  )}
 
-
+                </div>
               </div>
             </div>
           </div>
+          {this.state.isActive && (
+            <div className="modal is-active">
+              <div className="modal-background" />
+              <div className="modal-content">
+                <form className="card is-rounded has-text-centered">
+                  <div className="card-content has-text-centered">
+                    <h3 className="has-text-centered">Party Size</h3>
+                    <i className="fa fa-minus fa-2x" onClick={this.minus} />
+                    <b className="is-size-4">
+                      <strong>
+                        {' '}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+                          this.state.partySize
+                        }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      </strong>
+                    </b>
+                    <i className="fa fa-plus fa-2x" onClick={this.plus} />
+                    <p className="control has-icon">
+                      <i className="fa fa-user" />
+                      <input
+                        className="input"
+                        type="text"
+                        name="name"
+                        placeholder="Name"
+                        value={this.state.name}
+                        onChange={this.handleChange}
+                      />
+                    </p>
+                    <p className="control has-icon">
+                      <i className="fa fa-envelope" />
+                      <input
+                        className="input"
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={this.state.email}
+                        onChange={this.handleChange}
+                      />
+                    </p>
+                    <p className="control has-icon">
+                      <i className="fa fa-mobile" />
+                      <input
+                        className="input"
+                        type="text"
+                        name="phoneNumber"
+                        placeholder="Phone"
+                        value={this.state.phoneNumber}
+                        onChange={this.handleChange}
+                      />
+                    </p>
+                    <p className="control has-icon">
+                      <i className="fa fa-sticky-note" />
+                      <input
+                        className="input"
+                        type="text"
+                        name="note"
+                        placeholder="Note (ex. high chair, allergies)"
+                        value={this.state.note}
+                        onChange={this.handleChange}
+                      />
+                    </p>
+                    <p className="control">
+                      <button
+                        className="button is-primary is-medium is-fullwidth"
+                        type="submit"
+                      >
+                        Submit
+                      </button>
+                      <button
+                        className="button is-danger is-medium is-fullwidth"
+                        type="cancel"
+                        onClick={this.doneInfo}
+                      >
+                        Cancel
+                      </button>
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+          <p />
         </div>
-        {this.state.isActive && (
-          <div className="modal is-active">
-            <div className="modal-background" />
-            <div className="modal-content">
-              <form className="card is-rounded has-text-centered">
-                <div className="card-content has-text-centered">
-                  <h3 className="has-text-centered">Party Size</h3>
 
-                  <i className="fa fa-minus fa-2x" onClick={this.minus} />
-
-                  <b className="is-size-4">
-                    <strong>
-                      {' '}
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-                        this.state.partySize
-                      }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </strong>
-                  </b>
-
-                  <i className="fa fa-plus fa-2x" onClick={this.plus} />
-
-                  <p className="control has-icon">
-                    <i className="fa fa-user" />
-                    <input
-                      className="input"
-                      type="text"
-                      name="name"
-                      placeholder="Name"
-                      value={this.state.name}
-                      onChange={this.handleChange}
-                    />
-                  </p>
-                  <p className="control has-icon">
-                    <i className="fa fa-envelope" />
-                    <input
-                      className="input"
-                      type="email"
-                      name="email"
-                      placeholder="Email"
-                      value={this.state.email}
-                      onChange={this.handleChange}
-                    />
-                  </p>
-                  <p className="control has-icon">
-                    <i className="fa fa-mobile" />
-                    <input
-                      className="input"
-                      type="text"
-                      name="phoneNumber"
-                      placeholder="Phone"
-                      value={this.state.phoneNumber}
-                      onChange={this.handleChange}
-                    />
-                  </p>
-                  <p className="control has-icon">
-                    <i className="fa fa-sticky-note" />
-                    <input
-                      className="input"
-                      type="text"
-                      name="note"
-                      placeholder="Note (ex. high chair, allergies)"
-                      value={this.state.note}
-                      onChange={this.handleChange}
-                    />
-                  </p>
-                  <p className="control">
-                    <button
-                      className="button is-primary is-medium is-fullwidth"
-                      type="submit"
-                    >
-                      Submit
-                    </button>
-                    <button
-                      className="button is-danger is-medium is-fullwidth"
-                      type="cancel"
-                      onClick={this.doneInfo}
-                    >
-                      Cancel
-                    </button>
-                  </p>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-        <p />
-      </div>
+        <Footer />
+      </React.Fragment>
     )
   }
 }

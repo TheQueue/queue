@@ -40,18 +40,21 @@ function BusinessCard(props) {
   const {business} = props
   return (
     <div className="media box">
-      <div
-        className="media-left"
-        onClick={() => history.push(`/business/${business.id}`)}
-      >
+      {/* <div className="media-left">
         <Link to={`/business/${business.id}`}>
-          <div>image {business.imageUrl}</div>
+          {business.imageUrl ? (
+            <img src={business.imageUrl} />
+          ) : (
+            <p>no image</p>
+          )}
         </Link>
-      </div>
+      </div> */}
       <div className="media-content">
         <Link to={`/business/${business.id}`}>
-          <h1>{business.name}</h1>
-          <h1>{business.address}</h1>
+          <div className="subtitle">
+            <p><strong>{business.name}</strong></p>
+            <p>{business.address}</p>
+          </div>
         </Link>
       </div>
     </div>
