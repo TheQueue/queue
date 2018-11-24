@@ -125,7 +125,10 @@ class SingleBusiness extends React.Component {
           <div className="modal is-active">
             <div className="modal-background" />
             <div className="modal-content">
-              <form className="card is-rounded has-text-centered">
+              <form
+                onClick={this.handleSubmit}
+                className="card is-rounded has-text-centered"
+              >
                 <div className="card-content has-text-centered">
                   <h3 className="has-text-centered">Party Size</h3>
 
@@ -189,7 +192,7 @@ class SingleBusiness extends React.Component {
                   <p className="control">
                     <button
                       className="button is-primary is-medium is-fullwidth"
-                      type="sumbit"
+                      type="submit"
                     >
                       Submit
                     </button>

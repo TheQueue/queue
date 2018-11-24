@@ -3,21 +3,17 @@ const db = require('../db')
 
 const Reservation = db.define('reservation', {
   status: {
-    type: Sequelize.ENUM([
-      'Active',
-      'Serviced',
-      'Cancelled',
-    ]),
+    type: Sequelize.ENUM(['Active', 'Serviced', 'Cancelled']),
     defaultValue: 'Active'
   },
   // required fields at creation
-  startDateAndTime: {
-    type: Sequelize.DATE,
+  day: {
+    type: Sequelize.STRING,
     allowNull: false
   },
-  endDateAndTime: {
-    type: Sequelize.DATE,
-    allowNull: false
+  time: {
+    type: Sequelize.STRING,
+    allowNull: true
   },
   // optional fields at creation
   note: {
