@@ -63,6 +63,7 @@ const deleteStylistState = (stylistId, businessId) => ({
 
 export const fetchMyBusinessDataThunk = () => async dispatch => {
   try {
+    dispatch(setMyBusinessesIsLoadingTrue())
     // user will be logged in, this route will return data based on session user id
     const {data} = await axios.get(`/api/owner/businesses`)
     // take nested JSON return -> normalize it -> set to store
@@ -109,7 +110,7 @@ export const updateStylistThunk = (updatedStylist) => async dispatch => {
 export const deleteStylistThunk = (stylistId, businessId) => async dispatch => {
   try {
     const {data} = await axios.delete(`/api/owner/stylists/${stylistId}`)
-    console.log('deleted');
+    dispatch(deleteStylistState(stylistId, businessId))
   } catch (err) {
     console.error(err)
   }
@@ -149,6 +150,16 @@ const myBusinessesReducer = (state = initialState, action) => {
       newBusinessData = {...state.businessData}
       newStylist = action.stylist
       newBusinessData.entities.stylists[newStylist.id] = newStylist
+      return {
+        ...state,
+        businessData: newBusinessData
+      }
+    case DELETE_STYLIST:
+      stylistId = action.stylistId
+      businessId = action.businessId
+      newBusinessData = {...state.businessData}
+      stylistsArr = newBusinessData.entities.businesses[businessId].stylists
+      newBusinessData.entities.businesses[businessId].stylists = stylistsArr.filter(id => id !== stylistId)
       return {
         ...state,
         businessData: newBusinessData

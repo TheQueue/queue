@@ -139,3 +139,25 @@ router.put('/stylists/:stylistId', async (req, res, next) => {
     console.error(err)
   }
 })
+
+router.delete('/stylists/:stylistId', async (req, res, next) => {
+  const stylistId = req.params.stylistId
+  try {
+    const oldStylist = await Stylist.findById(stylistId);
+    if (oldStylist === null) {
+      res.sendStatus(404);
+      return
+    }
+    const business = await oldStylist.getBusiness();
+    if (business === null) {
+      res.sendStatus(500);
+    } else if (business.userId !== req.user.id) {
+      res.sendStatus(403);
+    } else {
+      await oldStylist.destroy();
+      res.sendStatus(200);
+    }
+  } catch (err) {
+    console.error(err)
+  }
+})

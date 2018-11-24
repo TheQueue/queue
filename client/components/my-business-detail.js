@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchMyBusinessDataThunk, deleteStylist} from '../store'
+import {fetchMyBusinessDataThunk, deleteStylistThunk } from '../store'
 import {ReservationCard, AddStylist, EditStylist} from './index'
 
 class MyBusinessDetail extends Component {
@@ -59,9 +59,10 @@ class MyBusinessDetail extends Component {
       this.setState({isEditStylistActive: true, currentEditStylistId: Number(event.target.name)})
     }
   }
-  handleDeleteStylist = event => {
-    console.log('delete #', event.target.name)
+  handleDeleteStylist = async event => {
+    await this.props.deleteStylistThunk(Number(event.target.name), Number(this.state.businessId))
   }
+
   render() {
     const {myBusinesses} = this.props
     const {businessId} = this.state
@@ -196,7 +197,8 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  fetchMyBusinessDataThunk: () => dispatch(fetchMyBusinessDataThunk())
+  fetchMyBusinessDataThunk: () => dispatch(fetchMyBusinessDataThunk()),
+  deleteStylistThunk: (stylistId, businessId) => dispatch(deleteStylistThunk(stylistId, businessId))
 })
 
 export default connect(mapState, mapDispatch)(MyBusinessDetail)
