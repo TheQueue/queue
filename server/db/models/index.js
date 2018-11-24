@@ -7,6 +7,7 @@ const Token = require('./token')
 const User = require('./user')
 const Preference =require('./preference')
 const Slot = require('./slot')
+// const Appointment = require('./appointment')
 
 
 
@@ -42,14 +43,31 @@ User.belongsToMany(Business,{ through: 'FavoriteBusiness', as: 'UserFavoriteBusi
 Preference.belongsToMany(Category,{ through: 'PreferenceCategories', as: 'Category'})
 Category.belongsToMany(Preference,{ through: 'PreferenceCategories'})
 
-//Slot-user-business
-User.belongsToMany(Slot,{ through: 'SlotReservation', as: 'Category'})
-Slot.belongsToMany(User,{ through: 'SlotReservation'})
-Business.belongsToMany(Slot,{ through: 'SlotReservation', as: 'Category'})
-Slot.belongsToMany(Business,{ through: 'SlotReservation'})
-Stylist.belongsToMany(Slot,{ through: 'SlotReservation', as: 'Category'})
-Slot.belongsToMany(Stylist,{ through: 'SlotReservation'})
+//user-business-stylist to appointment
 
+// User.belongsToMany(Slot,{
+//   through:{
+//     model:Appointment
+//   }
+// })
+
+
+// Slot.belongsToMany(User,{
+//   through:{
+//     model:Appointment
+//   },
+// })
+
+// Appointment.belongsToMany(Stylist,{
+//   through:
+//     "finalAppointment"
+//   ,
+// })
+// Stylist.belongsToMany(Appointment,{
+//   through:
+//     "finalAppointment"
+ 
+// })
 // business - user
 Business.belongsTo(User)
 User.hasMany(Business) // as owner??? alias might be needed
@@ -83,5 +101,5 @@ User.hasOne(Preference)
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User, Business, Reservation, Category, Token, Stylist, Image
+  User, Business, Reservation, Category, Slot, Token, Stylist, Image, Appointment
 }
