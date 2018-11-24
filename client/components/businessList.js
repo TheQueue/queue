@@ -45,26 +45,20 @@ export class BusinessList extends React.Component {
     const {classes} = this.props
     console.log('MMM', this.props)
     return (
-      <div>
-        <Navbar/>
-        
-        <div className="insideFrame">
       <React.Fragment>
-        <Grid container className={classes.root} spacing={16}>
-          <Grid item xs={12}>
-            <Grid container justify="center" spacing={16}>
-              {this.props.business.map(busnss => (
-                <Grid key={busnss.id} item>
-                  <BusinessCard business={busnss} />
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-        </Grid>
+        <Navbar />
+        <section className="section">
+          <h1 className="title">Business List</h1>
+        </section>
+        <section className="section">
+          <div className="container">
+            {this.props.business.map(busnss => (
+              <BusinessCard key={busnss.id} business={busnss} />
+            ))}
+          </div>
+        </section>
+        <Footer />
       </React.Fragment>
-      </div>
-      <Footer />
-      </div>
     )
   }
 }
