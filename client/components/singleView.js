@@ -3,6 +3,10 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getDetails} from '../store/business'
 import {createNewReservation} from '../store/reservation'
+import Steps, {Step} from 'rc-steps'
+import Calendar from 'react-calendar'
+import 'rc-steps/assets/index.css'
+import 'rc-steps/assets/iconfont.css'
 
 function mapState(state) {
   return {
@@ -27,12 +31,16 @@ class SingleBusiness extends React.Component {
       isActive: false,
       partySize: 1,
       note: '',
-      doneReserve: false
+      doneReserve: false,
+      currentStep: 0,
+      date: new Date()
     }
     this.popup = this.popup.bind(this)
     this.doneInfo = this.doneInfo.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.nextStep = this.nextStep.bind(this)
+    this.backStep = this.backStep.bind(this)
   }
 
   componentDidMount() {
@@ -44,7 +52,23 @@ class SingleBusiness extends React.Component {
       name
     })
   }
-  componentWillUnmount() {}
+  nextStep = () => {
+    let s = this.state.currentStep + 1
+    this.setState({
+      currentStep: s
+    })
+  }
+  backStep = () => {
+    if(this.state.currentStep >= 0){
+    let s = this.state.currentStep - 1
+    this.setState({
+      currentStep: s
+    })}
+  }
+
+  onChange = date => {
+    console.log(date)
+    this.setState({ date })}
 
   popup() {
     this.setState({
@@ -53,7 +77,8 @@ class SingleBusiness extends React.Component {
   }
   doneInfo() {
     this.setState({
-      isActive: false
+      isActive: false,
+      currentStep: 0
     })
   }
   handleSubmit = async event => {
@@ -82,6 +107,7 @@ class SingleBusiness extends React.Component {
     ) {
       return <div />
     }
+    const Icon = ({type}) => <i className={`fa fa-${type}`} />
     return (
       <div className="sp">
         <link
@@ -106,52 +132,81 @@ class SingleBusiness extends React.Component {
           </div>
         )}
         {this.state.isActive && (
-          <ul className="steps is-vertical is-narrow is-medium is-centered has-content-centered">
-            <li className="steps-segment is-active">
-              <a href="#" className="has-text-dark">
-                <span className="steps-marker">
-                  <span className="icon">
-                    <i className="fa fa-shopping-cart" />
-                  </span>
-                </span>
-                <div className="steps-content">
-                  <p className="heading">Shopping Cart</p>
-                </div>
-              </a>
-            </li>
-            <li className="steps-segment">
-              <a href="#" className="has-text-dark">
-                <span className="steps-marker">
-                  <span className="icon">
-                    <i className="fa fa-user" />
-                  </span>
-                </span>
-                <div className="steps-content">
-                  <p className="heading">User Information</p>
-                </div>
-              </a>
-            </li>
-            <li className="steps-segment is-active has-gaps">
-              <span className="steps-marker">
-                <span className="icon">
-                  <i className="fa fa-usd" />
-                </span>
-              </span>
-              <div className="steps-content">
-                <p className="heading">Payment</p>
-              </div>
-            </li>
-            <li className="steps-segment">
-              <span className="steps-marker is-hollow">
-                <span className="icon">
-                  <i className="fa fa-check" />
-                </span>
-              </span>
-              <div className="steps-content">
-                <p className="heading">Confirmation</p>
-              </div>
-            </li>
-          </ul>
+          <div className="modal is-active">
+            <div className="modal-background" />
+            <div className="modal-card">
+              <header className="modal-card-head">
+                <Steps current={this.state.currentStep}>
+                  <Step icon={<Icon type="calendar" />} />
+                  <Step icon={<Icon type="address-card" />} />
+                  <Step icon={<Icon type="clock" />} />
+                  <Step icon={<Icon type="check" />} />
+                </Steps>
+              </header>
+              <section className="modal-card-body has-text-centered">
+                {this.state.currentStep === 0 && (
+                  <div>
+                    <strong>Pick Date </strong>
+                    <Calendar
+                      className="react-calender"
+                      minDate={new Date()}
+                      onChange={this.onChange}
+                      value={this.state.date}
+                    />
+                  </div>
+                )}
+                {this.state.currentStep === 1 && (
+                  <div>
+                    <strong>Pick Stylist </strong>
+   
+                  </div>
+                )}
+                {this.state.currentStep === 2 && (
+                  <div>
+                    <strong>Pick Time </strong>
+     
+                  </div>
+                )}
+                {this.state.currentStep === 3 && (
+                  <div>
+                    <div>
+                    <strong>Confirm </strong>
+                    </div>
+                    <div className="has-text-left">
+                  <li>Date: </li>
+                  <li>Stylist: </li>
+                  <li>Time: </li>
+                  </div>
+                  </div>
+                )}
+                  {this.state.currentStep === 4 && (
+                  <div>
+    <i className="fa fa-check-circle is-primary fa-3x" style={{color: 'green'}}/>
+    <p><strong>Congratz! Your reservation is confirmed!</strong></p>
+                  </div>
+                )}
+                <br/>
+                {this.state.currentStep!==4 && <div>
+                {this.state.currentStep !== 0 && (
+                  <button type="button" className="button is-primary" onClick={this.backStep}>
+                    Back
+                  </button>    
+                )}
+                {this.state.currentStep !== 3 && (
+                  <button type="button" className="button is-warning" onClick={this.nextStep}>
+                    Next
+                  </button>    
+                )}
+                  {this.state.currentStep === 3 && (
+                  <button type="button" className="button is-success" onClick={this.nextStep}>
+                    Confirm
+                  </button>    
+                )}
+                </div>}
+              </section>
+            </div>
+            <button className="delete is-large" aria-label="close" onClick={this.doneInfo}></button>
+          </div>
         )}
         <p />
       </div>

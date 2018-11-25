@@ -6,9 +6,6 @@ const Slot = db.define('slot', {
     type: Sequelize.STRING
   },
   date: {
-    type: Sequelize.STRING
-  },
-  createdAt: {
     type: Sequelize.DATE
   }
 })

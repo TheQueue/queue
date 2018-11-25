@@ -78,6 +78,22 @@ Stylist.belongsToMany(Slot, {
   },
   constraints: false
 })
+
+//stylist and slot relationship on another table (for onwer to add and filter and map for user to choose)
+
+
+
+Slot.belongsToMany(Stylist, {
+  through: 
+    "SlotStylist"
+})
+
+Stylist.belongsToMany(Slot, {
+  through: 
+    "SlotStylist"
+})
+
+
 // business - user
 Business.belongsTo(User)
 User.hasMany(Business) // as owner??? alias might be needed
