@@ -33,7 +33,9 @@ class SingleBusiness extends React.Component {
       note: '',
       doneReserve: false,
       currentStep: 0,
-      date: new Date()
+      date: new Date(),
+      selectedStylistId: NaN,
+      selectedSlotId: NaN
     }
     this.popup = this.popup.bind(this)
     this.doneInfo = this.doneInfo.bind(this)
@@ -70,7 +72,7 @@ class SingleBusiness extends React.Component {
   onChange = async date => {
     console.log(date)
     await this.setState({date: date})
-    console.log(typeof(this.state.date))
+    console.log(typeof this.state.date)
   }
 
   popup() {
@@ -83,6 +85,10 @@ class SingleBusiness extends React.Component {
       isActive: false,
       currentStep: 0
     })
+  }
+  handleSelect = (event) => {
+    console.log('Selected: ', event.target.value)
+    this.setState({selectedStylistId: event.target.value})
   }
   handleSubmit = async event => {
     event.preventDefault()
@@ -111,6 +117,10 @@ class SingleBusiness extends React.Component {
       return <div />
     }
     const Icon = ({type}) => <i className={`fa fa-${type}`} />
+
+    const showPrev = !!this.state.currentStep
+    const showNext = this.state.currentStep < 3
+    const showConfirm = this.state.currentStep === 3
     return (
       <div className="sp">
         <link
@@ -161,11 +171,34 @@ class SingleBusiness extends React.Component {
                 {this.state.currentStep === 1 && (
                   <div>
                     <strong>Pick Stylist </strong>
+                    <div className="control" onChange={this.handleSelect}>
+                      {this.props.business.stylists.map(stylist => {
+                        return (
+                          <p key={stylist.id}>
+                            <label className="radio">
+                              <input type="radio" name="stylist" value={stylist.id}/>
+                              {stylist.name}
+                            </label>
+                          </p>
+                        )
+                      })}
+                    </div>
                   </div>
                 )}
                 {this.state.currentStep === 2 && (
                   <div>
                     <strong>Pick Time </strong>
+
+                    {this.props.business.stylists.slots ? this.props.business.stylists.slots.map(slot => {
+                        return (
+                          <p key={slot.id}>
+                            <label className="radio">
+                              <input type="radio" name="slot" value={slot.id}/>
+                              {slot.time}
+                            </label>
+                          </p>
+                        )
+                      }) : null}
                   </div>
                 )}
                 {this.state.currentStep === 3 && (
@@ -192,37 +225,35 @@ class SingleBusiness extends React.Component {
                   </div>
                 )}
                 <br />
-                {this.state.currentStep !== 4 && (
-                  <div>
-                    {this.state.currentStep !== 0 && (
-                      <button
-                        type="button"
-                        className="button is-primary"
-                        onClick={this.backStep}
-                      >
-                        Back
-                      </button>
-                    )}
-                    {this.state.currentStep !== 3 && (
-                      <button
-                        type="button"
-                        className="button is-warning"
-                        onClick={this.nextStep}
-                      >
-                        Next
-                      </button>
-                    )}
-                    {this.state.currentStep === 3 && (
-                      <button
-                        type="button"
-                        className="button is-success"
-                        onClick={this.nextStep}
-                      >
-                        Confirm
-                      </button>
-                    )}
-                  </div>
-                )}
+                {
+                  showPrev &&  <button
+                  type="button"
+                  className="button is-primary"
+                  onClick={this.backStep}
+                >
+                  Back
+                </button>
+                }
+                {
+                  showNext &&
+                    <button
+                      type="button"
+                      className="button is-warning"
+                      onClick={this.nextStep}
+                      disabled={this.state.currentStep === 1 && isNaN(this.state.selectedStylistId)}
+                    >
+                      Next
+                    </button>
+                }
+                {
+                  showConfirm &&  <button
+                  type="button"
+                  className="button is-success"
+                  onClick={this.nextStep}
+                >
+                  Confirm
+                </button>
+                }
               </section>
             </div>
             <button

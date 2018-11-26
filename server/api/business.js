@@ -6,7 +6,7 @@ const yelp = require('yelp-fusion')
 const client = yelp.client(process.env.YELP_KEY)
 
 const router = require('express').Router()
-const {Business, Category} = require('../db/models')
+const {Business, Category, Stylist, Slot} = require('../db/models')
 
 // E.G. api/business?category=Barbershop
 router.get('/', async (req, res, next) => {
@@ -34,7 +34,20 @@ router.get('/:id', async (req, res, next) => {
   today.setHours(0, 0, 0, 0) // sets time of date object to beginning of the day
   try {
     let closed = true
-    const business = await Business.findById(req.params.id)
+    const business = await Business.findById(req.params.id, {
+      include: [
+        {
+          model: Stylist,
+          required: false,
+          include: [
+            {
+              model: Slot,
+              required: false
+            }
+          ]
+        }
+      ]
+    })
     if (!business) {
       res.sendStatus(404)
     } else {
