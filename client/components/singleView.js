@@ -5,6 +5,7 @@ import {getDetails} from '../store/business'
 import {fetchSlot} from '../store/slot'
 import {createNewReservation} from '../store/reservation'
 import {createAppointment} from '../store/appointment'
+import {Navbar, Footer} from './index'
 import Steps, {Step} from 'rc-steps'
 import Calendar from 'react-calendar'
 import 'rc-steps/assets/index.css'
@@ -16,7 +17,9 @@ function mapState(state) {
     business: state.business.single.business,
     isClosed: state.business.single.closed,
     user: state.user,
-    slot: state.slot
+    slot: state.slot,
+    image_url: state.business.single.image_url,
+    price: state.business.single.price,
   }
 }
 function mapDispatch(dispatch) {
@@ -135,28 +138,52 @@ class SingleBusiness extends React.Component {
       moment(this.props.slot[1].date).format('MMM Do YY')
     )
     return (
-      <div className="sp">
-        <link
-          rel="stylesheet"
-          href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-          crossOrigin="anonymous"
-        />
-        <img src={this.props.business.imageUrl} />
-        <h3>{this.props.business.name}</h3>
-        <p />
-        Address: {this.props.business.address}
-        phoneNumber: {this.props.business.phoneNumber}
-        {this.props.isClosed ? (
-          <p>Closed</p>
-        ) : (
-          <div>
-            <p>Open</p>
-            <a className="button is-primary" onClick={this.popup}>
-              Reservation
-            </a>
-          </div>
-        )}
+  
+      <React.Fragment>
+        <Navbar />
+        <div className="insideFrame">
+          <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+            integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+            crossOrigin="anonymous"
+          />
+          <div className="container">
+            <div className="box">
+              <img className="image" src={this.props.image_url} />
+              <div className="media">
+                <div className="media-left" />
+                <div className="media-content">
+                  <div className="title">
+                    <p>{this.props.business.name}</p>
+                  </div>
+                  <div className="subtitle">
+                    <p>{this.props.business.address}</p>
+                    <p>{this.props.business.phoneNumber}</p>
+                    <p>
+                      Price:{' '}
+                      {this.props.price ? this.props.price : 'not available'}
+                    </p>
+                  </div>
+               
+                  {this.props.isClosed ? (
+                    <p>Closed</p>
+                  ) : (
+                    <div>
+                      <p>
+                        <strong>Open</strong>
+                      </p>
+                      <button
+                        type="button"
+                        className="button is-primary"
+                        onClick={this.popup}
+                      >
+                        Reservation
+                      </button>
+                    </div>
+                  )}
+                  </div>
+                  </div>
         {this.state.isActive && (
           <div className="modal is-active">
             <div className="modal-background" />
@@ -265,18 +292,7 @@ class SingleBusiness extends React.Component {
                           : null}
                       </div>
                     </div>
-                  </div>
-                )}
-                {this.state.currentStep === 4 && (
-                  <div>
-                    <i
-                      className="fa fa-check-circle is-primary fa-3x"
-                      style={{color: 'green'}}
-                    />
-                    <p>
-                      <strong>Congratz! Your reservation is confirmed!</strong>
-                    </p>
-                  </div>
+                    </div>
                 )}
                 <br />
                 {showPrev && (
@@ -311,16 +327,19 @@ class SingleBusiness extends React.Component {
                   </button>
                 )}
               </section>
+              <button
+                className="delete is-large"
+                aria-label="close"
+                onClick={this.doneInfo}
+              />
+              </div>
             </div>
-            <button
-              className="delete is-large"
-              aria-label="close"
-              onClick={this.doneInfo}
-            />
-          </div>
-        )}
-        <p />
-      </div>
+          )}
+        </div>
+        </div>
+        </div>
+        <Footer />
+      </React.Fragment>
     )
   }
 }

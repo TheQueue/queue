@@ -58,7 +58,8 @@ router.get('/:id', async (req, res, next) => {
         })
         .then(response => {
           closed = response.jsonBody.businesses[0].is_closed
-          res.send({business, closed})
+          const {price, image_url, } = response.jsonBody.businesses[0]
+          res.send({business, closed, price, image_url})
           //console.log(business)
         })
         .catch(e => {
