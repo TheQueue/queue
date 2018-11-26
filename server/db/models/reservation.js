@@ -7,13 +7,13 @@ const Reservation = db.define('reservation', {
     defaultValue: 'Active'
   },
   // required fields at creation
-  day: {
-    type: Sequelize.STRING,
+  startDateAndTime: {
+    type: Sequelize.DATE,
     allowNull: false
   },
-  time: {
-    type: Sequelize.STRING,
-    allowNull: true
+  endDateAndTime: {
+    type: Sequelize.DATE,
+    allowNull: false
   },
   // optional fields at creation
   note: {

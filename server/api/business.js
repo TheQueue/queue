@@ -140,7 +140,7 @@ router.post('/inbound', async (req, res, next) => {
               })
               .then(() => {})
 
-            //Need appointements table to create new appoitment
+            //Need appointements table to store information
           }
         }
       }
