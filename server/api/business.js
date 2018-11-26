@@ -3,6 +3,7 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const yelp = require('yelp-fusion')
 const twilio = require('twilio')
+//const Stylist= require('../db/models')
 const client = yelp.client(process.env.YELP_KEY)
 
 const accountSid = process.env.SID
@@ -10,7 +11,7 @@ const authToken = process.env.APKEY
 const clientT = new twilio(accountSid, authToken)
 
 const router = require('express').Router()
-const {Business, Category} = require('../db/models')
+const {Business, Stylist, Category} = require('../db/models')
 
 // E.G. api/business?category=Barbershop
 router.get('/', async (req, res, next) => {
@@ -79,9 +80,73 @@ router.get('/search/:keyword', async (req, res, next) => {
 })
 
 //messages
-router.post('/inbound', (req, res, next) => {
+router.post('/inbound', async (req, res, next) => {
   try {
-    clientT.messages
+    let stylistExist = false
+    let stylistName = ''
+    if (req.body.Body.toLowerCase() === 'rsvp') {
+      clientT.messages
+        .create({
+          body: `Hello,thanks for you Trust. Respond with the salon name (ex: Sparrow)`,
+          to: req.body.From,
+          from: '+13312446019'
+        })
+        .then(() => {})
+    } else {
+      const business = Business.findOne({
+        where: {
+          name: {
+            [Op.iLike]: `%${req.body.Body}%`
+          }
+        }
+      })
+      if (business) {
+        clientT.messages
+          .create({
+            body: `Respond with your favorite stylist (ex: Bobby Barber)`,
+            to: req.body.From,
+            from: '+13312446019'
+          })
+          .then(() => {})
+      } else {
+        const stylist = await Stylist.findOne({
+          where: {
+            name: {
+              [Op.iLike]: `%${req.body.Body}%`
+            }
+          }
+        })
+        if (stylist) {
+          clientT.messages
+            .create({
+              body: `respond with a day and time (ex: mm/dd/yyyy hh:mm AM)`,
+              to: req.body.From,
+              from: '+13312446019'
+            })
+            .then(() => {})
+        } else {
+          if (
+            req.body.Body.match(
+              /(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}/
+            )
+          ) {
+            clientT.messages
+              .create({
+                body: `All set you're schedule with ${stylist.name} at ${
+                  req.body.Body
+                }`,
+                to: req.body.From,
+                from: '+13312446019'
+              })
+              .then(() => {})
+
+            //Need appointements table to create new appoitment
+          }
+        }
+      }
+    }
+
+    /* clientT.messages
       .create({
         body: `Hello ${req.body.FromCity} ${
           req.body.FromState
@@ -89,7 +154,7 @@ router.post('/inbound', (req, res, next) => {
         to: req.body.From,
         from: '+13312446019'
       })
-      .then(() => {})
+      .then(() => {}) */
     console.log(req.body)
     res.send('')
   } catch (err) {
