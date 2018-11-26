@@ -59,16 +59,19 @@ class SingleBusiness extends React.Component {
     })
   }
   backStep = () => {
-    if(this.state.currentStep >= 0){
-    let s = this.state.currentStep - 1
-    this.setState({
-      currentStep: s
-    })}
+    if (this.state.currentStep >= 0) {
+      let s = this.state.currentStep - 1
+      this.setState({
+        currentStep: s
+      })
+    }
   }
 
-  onChange = date => {
+  onChange = async date => {
     console.log(date)
-    this.setState({ date })}
+    await this.setState({date: date})
+    console.log(typeof(this.state.date))
+  }
 
   popup() {
     this.setState({
@@ -158,54 +161,75 @@ class SingleBusiness extends React.Component {
                 {this.state.currentStep === 1 && (
                   <div>
                     <strong>Pick Stylist </strong>
-   
                   </div>
                 )}
                 {this.state.currentStep === 2 && (
                   <div>
                     <strong>Pick Time </strong>
-     
                   </div>
                 )}
                 {this.state.currentStep === 3 && (
                   <div>
                     <div>
-                    <strong>Confirm </strong>
+                      <strong>Confirm </strong>
                     </div>
                     <div className="has-text-left">
-                  <li>Date: </li>
-                  <li>Stylist: </li>
-                  <li>Time: </li>
-                  </div>
+                      <div>Date: </div>
+                      <div>Stylist: </div>
+                      <div>Time: </div>
+                    </div>
                   </div>
                 )}
-                  {this.state.currentStep === 4 && (
+                {this.state.currentStep === 4 && (
                   <div>
-    <i className="fa fa-check-circle is-primary fa-3x" style={{color: 'green'}}/>
-    <p><strong>Congratz! Your reservation is confirmed!</strong></p>
+                    <i
+                      className="fa fa-check-circle is-primary fa-3x"
+                      style={{color: 'green'}}
+                    />
+                    <p>
+                      <strong>Congratz! Your reservation is confirmed!</strong>
+                    </p>
                   </div>
                 )}
-                <br/>
-                {this.state.currentStep!==4 && <div>
-                {this.state.currentStep !== 0 && (
-                  <button type="button" className="button is-primary" onClick={this.backStep}>
-                    Back
-                  </button>    
+                <br />
+                {this.state.currentStep !== 4 && (
+                  <div>
+                    {this.state.currentStep !== 0 && (
+                      <button
+                        type="button"
+                        className="button is-primary"
+                        onClick={this.backStep}
+                      >
+                        Back
+                      </button>
+                    )}
+                    {this.state.currentStep !== 3 && (
+                      <button
+                        type="button"
+                        className="button is-warning"
+                        onClick={this.nextStep}
+                      >
+                        Next
+                      </button>
+                    )}
+                    {this.state.currentStep === 3 && (
+                      <button
+                        type="button"
+                        className="button is-success"
+                        onClick={this.nextStep}
+                      >
+                        Confirm
+                      </button>
+                    )}
+                  </div>
                 )}
-                {this.state.currentStep !== 3 && (
-                  <button type="button" className="button is-warning" onClick={this.nextStep}>
-                    Next
-                  </button>    
-                )}
-                  {this.state.currentStep === 3 && (
-                  <button type="button" className="button is-success" onClick={this.nextStep}>
-                    Confirm
-                  </button>    
-                )}
-                </div>}
               </section>
             </div>
-            <button className="delete is-large" aria-label="close" onClick={this.doneInfo}></button>
+            <button
+              className="delete is-large"
+              aria-label="close"
+              onClick={this.doneInfo}
+            />
           </div>
         )}
         <p />
