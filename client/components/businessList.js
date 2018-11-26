@@ -2,12 +2,13 @@ import React from 'react'
 import {connect} from 'react-redux'
 import history from '../history'
 import {Link} from 'react-router-dom'
-import BusinessCard from './businessCard'
+// import BusinessCard from './businessCard'
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import {thunkAllB} from '../store/business'
-import Navbar from './navbar/navbarMain'
-import Footer from './footer'
+// import Navbar from './navbar/navbarMain'
+// import Footer from './footer'
+import {Footer, Navbar, BusinessCard} from './index'
 function mapState(state) {
   return {
     business: state.business.businesses
@@ -45,26 +46,17 @@ export class BusinessList extends React.Component {
     const {classes} = this.props
     console.log('MMM', this.props)
     return (
-      <div>
-        <Navbar/>
-        
-        <div className="insideFrame">
       <React.Fragment>
-        <Grid container className={classes.root} spacing={16}>
-          <Grid item xs={12}>
-            <Grid container justify="center" spacing={16}>
-              {this.props.business.map(busnss => (
-                <Grid key={busnss.id} item>
-                  <BusinessCard business={busnss} />
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-        </Grid>
+        <Navbar />
+        <section className="section insideFrame">
+          <div className="container">
+            {this.props.business.map(busnss => (
+              <BusinessCard key={busnss.id} business={busnss} />
+            ))}
+          </div>
+        </section>
+        <Footer />
       </React.Fragment>
-      </div>
-      <Footer />
-      </div>
     )
   }
 }

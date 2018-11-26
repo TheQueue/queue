@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getDetails} from '../store/business'
 import {createNewReservation} from '../store/reservation'
+import {Navbar, Footer} from './index'
 import Steps, {Step} from 'rc-steps'
 import Calendar from 'react-calendar'
 import 'rc-steps/assets/index.css'
@@ -12,6 +13,8 @@ function mapState(state) {
   return {
     business: state.business.single.business,
     isClosed: state.business.single.closed,
+    image_url: state.business.single.image_url,
+    price: state.business.single.price,
     user: state.user
   }
 }
@@ -70,7 +73,7 @@ class SingleBusiness extends React.Component {
   onChange = async date => {
     console.log(date)
     await this.setState({date: date})
-    console.log(typeof(this.state.date))
+    console.log(typeof this.state.date)
   }
 
   popup() {
@@ -112,128 +115,155 @@ class SingleBusiness extends React.Component {
     }
     const Icon = ({type}) => <i className={`fa fa-${type}`} />
     return (
-      <div className="sp">
-        <link
-          rel="stylesheet"
-          href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-          crossOrigin="anonymous"
-        />
-        <img src={this.props.business.imageUrl} />
-        <h3>{this.props.business.name}</h3>
-        <p />
-        Address: {this.props.business.address}
-        phoneNumber: {this.props.business.phoneNumber}
-        {this.props.isClosed ? (
-          <p>Closed</p>
-        ) : (
-          <div>
-            <p>Open</p>
-            <a className="button is-primary" onClick={this.popup}>
-              Reservation
-            </a>
-          </div>
-        )}
-        {this.state.isActive && (
-          <div className="modal is-active">
-            <div className="modal-background" />
-            <div className="modal-card">
-              <header className="modal-card-head">
-                <Steps current={this.state.currentStep}>
-                  <Step icon={<Icon type="calendar" />} />
-                  <Step icon={<Icon type="address-card" />} />
-                  <Step icon={<Icon type="clock" />} />
-                  <Step icon={<Icon type="check" />} />
-                </Steps>
-              </header>
-              <section className="modal-card-body has-text-centered">
-                {this.state.currentStep === 0 && (
-                  <div>
-                    <strong>Pick Date </strong>
-                    <Calendar
-                      className="react-calender"
-                      minDate={new Date()}
-                      onChange={this.onChange}
-                      value={this.state.date}
-                    />
+      <React.Fragment>
+        <Navbar />
+        <div className="insideFrame">
+          <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+            integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+            crossOrigin="anonymous"
+          />
+          <div className="container">
+            <div className="box">
+              <img className="image" src={this.props.image_url} />
+              <div className="media">
+                <div className="media-left" />
+                <div className="media-content">
+                  <div className="title">
+                    <p>{this.props.business.name}</p>
                   </div>
-                )}
-                {this.state.currentStep === 1 && (
-                  <div>
-                    <strong>Pick Stylist </strong>
-                  </div>
-                )}
-                {this.state.currentStep === 2 && (
-                  <div>
-                    <strong>Pick Time </strong>
-                  </div>
-                )}
-                {this.state.currentStep === 3 && (
-                  <div>
-                    <div>
-                      <strong>Confirm </strong>
-                    </div>
-                    <div className="has-text-left">
-                      <div>Date: </div>
-                      <div>Stylist: </div>
-                      <div>Time: </div>
-                    </div>
-                  </div>
-                )}
-                {this.state.currentStep === 4 && (
-                  <div>
-                    <i
-                      className="fa fa-check-circle is-primary fa-3x"
-                      style={{color: 'green'}}
-                    />
+                  <div className="subtitle">
+                    <p>{this.props.business.address}</p>
+                    <p>{this.props.business.phoneNumber}</p>
                     <p>
-                      <strong>Congratz! Your reservation is confirmed!</strong>
+                      Price:{' '}
+                      {this.props.price ? this.props.price : 'not available'}
                     </p>
                   </div>
-                )}
-                <br />
-                {this.state.currentStep !== 4 && (
-                  <div>
-                    {this.state.currentStep !== 0 && (
+                  {this.props.isClosed ? (
+                    <p>Closed</p>
+                  ) : (
+                    <div>
+                      <p>
+                        <strong>Open</strong>
+                      </p>
                       <button
                         type="button"
                         className="button is-primary"
-                        onClick={this.backStep}
+                        onClick={this.popup}
                       >
-                        Back
+                        Reservation
                       </button>
-                    )}
-                    {this.state.currentStep !== 3 && (
-                      <button
-                        type="button"
-                        className="button is-warning"
-                        onClick={this.nextStep}
-                      >
-                        Next
-                      </button>
-                    )}
-                    {this.state.currentStep === 3 && (
-                      <button
-                        type="button"
-                        className="button is-success"
-                        onClick={this.nextStep}
-                      >
-                        Confirm
-                      </button>
-                    )}
-                  </div>
-                )}
-              </section>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-            <button
-              className="delete is-large"
-              aria-label="close"
-              onClick={this.doneInfo}
-            />
           </div>
-        )}
-        <p />
-      </div>
+          {this.state.isActive && (
+            <div className="modal is-active">
+              <div className="modal-background" />
+              <div className="modal-card">
+                <header className="modal-card-head">
+                  <Steps current={this.state.currentStep}>
+                    <Step icon={<Icon type="calendar" />} />
+                    <Step icon={<Icon type="address-card" />} />
+                    <Step icon={<Icon type="clock" />} />
+                    <Step icon={<Icon type="check" />} />
+                  </Steps>
+                </header>
+                <section className="modal-card-body has-text-centered">
+                  {this.state.currentStep === 0 && (
+                    <div>
+                      <strong>Pick Date </strong>
+                      <Calendar
+                        className="react-calender"
+                        minDate={new Date()}
+                        onChange={this.onChange}
+                        value={this.state.date}
+                      />
+                    </div>
+                  )}
+                  {this.state.currentStep === 1 && (
+                    <div>
+                      <strong>Pick Stylist </strong>
+                    </div>
+                  )}
+                  {this.state.currentStep === 2 && (
+                    <div>
+                      <strong>Pick Time </strong>
+                    </div>
+                  )}
+                  {this.state.currentStep === 3 && (
+                    <div>
+                      <div>
+                        <strong>Confirm </strong>
+                      </div>
+                      <div className="has-text-left">
+                        <div>Date: </div>
+                        <div>Stylist: </div>
+                        <div>Time: </div>
+                      </div>
+                    </div>
+                  )}
+                  {this.state.currentStep === 4 && (
+                    <div>
+                      <i
+                        className="fa fa-check-circle is-primary fa-3x"
+                        style={{color: 'green'}}
+                      />
+                      <p>
+                        <strong>
+                          Congratz! Your reservation is confirmed!
+                        </strong>
+                      </p>
+                    </div>
+                  )}
+                  <br />
+                  {this.state.currentStep !== 4 && (
+                    <div>
+                      {this.state.currentStep !== 0 && (
+                        <button
+                          type="button"
+                          className="button is-primary"
+                          onClick={this.backStep}
+                        >
+                          Back
+                        </button>
+                      )}
+                      {this.state.currentStep !== 3 && (
+                        <button
+                          type="button"
+                          className="button is-warning"
+                          onClick={this.nextStep}
+                        >
+                          Next
+                        </button>
+                      )}
+                      {this.state.currentStep === 3 && (
+                        <button
+                          type="button"
+                          className="button is-success"
+                          onClick={this.nextStep}
+                        >
+                          Confirm
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </section>
+              </div>
+              <button
+                className="delete is-large"
+                aria-label="close"
+                onClick={this.doneInfo}
+              />
+            </div>
+          )}
+        </div>
+        <Footer />
+      </React.Fragment>
     )
   }
 }
