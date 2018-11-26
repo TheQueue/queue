@@ -102,20 +102,16 @@ class SingleBusiness extends React.Component {
     return (
       <React.Fragment>
         <Navbar />
-        <section className="section">
-          <h1 className="title">Business View</h1>
-        </section>
-        <div>
+        <div className="insideFrame">
           <link
             rel="stylesheet"
             href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
             integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
             crossOrigin="anonymous"
           />
-
-          <div className="container">
+          <div className=" container">
             <div className="box">
-              <img className="image" src={this.props.business.imageUrl} />
+              <img className="image" src={this.props.image_url} />
               <div className="media">
                 <div className="media-left" />
                 <div className="media-content">

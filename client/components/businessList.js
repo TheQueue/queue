@@ -47,18 +47,13 @@ export class BusinessList extends React.Component {
     return (
       <React.Fragment>
         <Navbar />
-        <section className="section">
-          <h1 className="title">Business List</h1>
-        </section>
-        <section className="section">
+
+        <section className="section insideFrame">
           <div className="container">
             {this.props.business.map(busnss => (
               <BusinessCard key={busnss.id} business={busnss} />
             ))}
           </div>
-        </section>
-        <section className="section">
-          <h1 className="title">Business List</h1>
         </section>
         <Footer />
       </React.Fragment>
