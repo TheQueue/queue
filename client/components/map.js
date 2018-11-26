@@ -110,13 +110,14 @@ export class CurrentLocation extends React.Component {
     return (
       <div>
         <Navbar />
-        <div className="insideFrame">
-          <div style={style} ref="map">
+      
+          <div className="insideFrame map" style={style} ref="map">
             Loading map...
+            {this.renderChildren()}
           </div>
-          {this.renderChildren()}
+          
           <Footer />
-        </div>
+
       </div>
     )
   }

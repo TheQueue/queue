@@ -5,8 +5,9 @@ const Stylist = require('./stylist')
 const Reservation = require('./reservation')
 const Token = require('./token')
 const User = require('./user')
-
-
+const Preference = require('./preference')
+const Slot = require('./slot')
+const Appointment = require('./appointment')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -28,12 +29,70 @@ Reservation.belongsTo(Stylist)
 Stylist.hasMany(Reservation)
 
 // Business-Category many to many
-Business.belongsToMany(Category,{ through: 'CategoryBusiness', as: 'Category'})
-Category.belongsToMany(Business,{ through: 'CategoryBusiness', as: 'Business'})
+Business.belongsToMany(Category, {through: 'CategoryBusiness', as: 'Category'})
+Category.belongsToMany(Business, {through: 'CategoryBusiness', as: 'Business'})
 
 // favorites
-Business.belongsToMany(User,{ through: 'FavoriteBusiness', as: 'UserFavoriteBusiness'})
-User.belongsToMany(Business,{ through: 'FavoriteBusiness'})
+Business.belongsToMany(User, {through: 'FavoriteBusiness'})
+User.belongsToMany(Business, {
+  through: 'FavoriteBusiness',
+  as: 'UserFavoriteBusiness'
+})
+
+//preference-categories
+
+Preference.belongsToMany(Category, {
+  through: 'PreferenceCategories',
+  as: 'Category'
+})
+Category.belongsToMany(Preference, {through: 'PreferenceCategories'})
+
+//user-business-stylist to appointment
+
+User.belongsToMany(Slot, {
+  through: {
+    model: Appointment,
+    unique: false
+  },
+  constraints: false
+})
+
+Slot.belongsToMany(User, {
+  through: {
+    model: Appointment,
+    unique: false
+  }
+})
+
+Slot.belongsToMany(Stylist, {
+  through: {
+    model: Appointment,
+    unique: false
+  }
+})
+
+Stylist.belongsToMany(Slot, {
+  through: {
+    model: Appointment,
+    unique: false
+  },
+  constraints: false
+})
+
+//stylist and slot relationship on another table (for onwer to add and filter and map for user to choose)
+
+
+
+Slot.belongsToMany(Stylist, {
+  through: 
+    "SlotStylist"
+})
+
+Stylist.belongsToMany(Slot, {
+  through: 
+    "SlotStylist"
+})
+
 
 // business - user
 Business.belongsTo(User)
@@ -56,6 +115,10 @@ User.hasMany(Stylist)
 Token.belongsTo(User)
 User.hasMany(Token)
 
+// preference - user
+Preference.belongsTo(User)
+User.hasOne(Preference)
+
 /**
  * We'll export all of our models here, so that any time a module needs a model,
  * we can just require it from 'db/models'
@@ -63,5 +126,13 @@ User.hasMany(Token)
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User, Business, Reservation, Category, Token, Stylist, Image
+  User,
+  Business,
+  Reservation,
+  Category,
+  Slot,
+  Token,
+  Stylist,
+  Image,
+  Appointment
 }

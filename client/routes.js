@@ -18,6 +18,7 @@ import {
   MapContainer,
   BusinessList,
   Categories,
+  ReservationForm,
   SingleView
 } from './components'
 import {me} from './store'
@@ -38,15 +39,11 @@ class Routes extends Component {
         <Route path="/map" component={MapContainer} />
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
-        <Route path="/search" component={Search} />
         <Route path="/signup" component={Signup} />
-        <Route path="/QRcode" component={QRcode} />
         <Route path="/home" component={UserHome} />
         <Route path="/Qsetting" component={Qsetting} />
         <Route path="/myQs" component={myQs} />
         <Route path="/business/:id" component={SingleView} />
-        <Route path="/Qdata" component={Qdata} />
-
         <Route path="/categories" component={Categories} />
         <Route path="/businessList" component={BusinessList} />
         <Route path="/search" component={Search} />
@@ -54,6 +51,7 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
+            <Route path="/appointments" component={ReservationForm} />
             <Route
               path="/my-businesses/:businessId"
               component={MyBusinessDetail}
