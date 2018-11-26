@@ -44,7 +44,6 @@ router.get('/:id', async (req, res, next) => {
           location: 'chicago'
         })
         .then(response => {
-          console.log(response.jsonBody.businesses)
           closed = response.jsonBody.businesses[0].is_closed
           const {price, image_url, } = response.jsonBody.businesses[0]
           res.send({business, closed, price, image_url})

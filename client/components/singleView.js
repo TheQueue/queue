@@ -4,6 +4,11 @@ import {withRouter} from 'react-router-dom'
 import {getDetails} from '../store/business'
 import {createNewReservation} from '../store/reservation'
 import {Navbar, Footer} from './index'
+import Steps, {Step} from 'rc-steps'
+import Calendar from 'react-calendar'
+import 'rc-steps/assets/index.css'
+import 'rc-steps/assets/iconfont.css'
+
 function mapState(state) {
   return {
     business: state.business.single.business,
@@ -29,14 +34,16 @@ class SingleBusiness extends React.Component {
       isActive: false,
       partySize: 1,
       note: '',
-      doneReserve: false
+      doneReserve: false,
+      currentStep: 0,
+      date: new Date()
     }
     this.popup = this.popup.bind(this)
     this.doneInfo = this.doneInfo.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.plus = this.plus.bind(this)
-    this.minus = this.minus.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.nextStep = this.nextStep.bind(this)
+    this.backStep = this.backStep.bind(this)
   }
 
   componentDidMount() {
@@ -48,20 +55,27 @@ class SingleBusiness extends React.Component {
       name
     })
   }
-  componentWillUnmount() {}
-
-  plus() {
-    this.setState((prevState, props) => ({
-      partySize: prevState.partySize + 1
-    }))
+  nextStep = () => {
+    let s = this.state.currentStep + 1
+    this.setState({
+      currentStep: s
+    })
   }
-  minus() {
-    if (this.state.partySize > 1) {
-      this.setState((prevState, props) => ({
-        partySize: prevState.partySize - 1
-      }))
+  backStep = () => {
+    if (this.state.currentStep >= 0) {
+      let s = this.state.currentStep - 1
+      this.setState({
+        currentStep: s
+      })
     }
   }
+
+  onChange = async date => {
+    console.log(date)
+    await this.setState({date: date})
+    console.log(typeof this.state.date)
+  }
+
   popup() {
     this.setState({
       isActive: true
@@ -69,7 +83,8 @@ class SingleBusiness extends React.Component {
   }
   doneInfo() {
     this.setState({
-      isActive: false
+      isActive: false,
+      currentStep: 0
     })
   }
   handleSubmit = async event => {
@@ -92,13 +107,13 @@ class SingleBusiness extends React.Component {
   }
 
   render() {
-    console.log(this.props.user, this.state)
     if (
       (!this.props.business && !this.props.isClosed) ||
       this.props.business.id !== Number(this.props.match.params.id)
     ) {
       return <div />
     }
+    const Icon = ({type}) => <i className={`fa fa-${type}`} />
     return (
       <React.Fragment>
         <Navbar />
@@ -109,7 +124,7 @@ class SingleBusiness extends React.Component {
             integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
             crossOrigin="anonymous"
           />
-          <div className=" container">
+          <div className="container">
             <div className="box">
               <img className="image" src={this.props.image_url} />
               <div className="media">
@@ -121,7 +136,10 @@ class SingleBusiness extends React.Component {
                   <div className="subtitle">
                     <p>{this.props.business.address}</p>
                     <p>{this.props.business.phoneNumber}</p>
-                    <p>Price: {this.props.price ? this.props.price : 'not available'}</p>
+                    <p>
+                      Price:{' '}
+                      {this.props.price ? this.props.price : 'not available'}
+                    </p>
                   </div>
                   {this.props.isClosed ? (
                     <p>Closed</p>
@@ -139,7 +157,6 @@ class SingleBusiness extends React.Component {
                       </button>
                     </div>
                   )}
-
                 </div>
               </div>
             </div>
@@ -147,87 +164,104 @@ class SingleBusiness extends React.Component {
           {this.state.isActive && (
             <div className="modal is-active">
               <div className="modal-background" />
-              <div className="modal-content">
-                <form className="card is-rounded has-text-centered">
-                  <div className="card-content has-text-centered">
-                    <h3 className="has-text-centered">Party Size</h3>
-                    <i className="fa fa-minus fa-2x" onClick={this.minus} />
-                    <b className="is-size-4">
-                      <strong>
-                        {' '}
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-                          this.state.partySize
-                        }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      </strong>
-                    </b>
-                    <i className="fa fa-plus fa-2x" onClick={this.plus} />
-                    <p className="control has-icon">
-                      <i className="fa fa-user" />
-                      <input
-                        className="input"
-                        type="text"
-                        name="name"
-                        placeholder="Name"
-                        value={this.state.name}
-                        onChange={this.handleChange}
+              <div className="modal-card">
+                <header className="modal-card-head">
+                  <Steps current={this.state.currentStep}>
+                    <Step icon={<Icon type="calendar" />} />
+                    <Step icon={<Icon type="address-card" />} />
+                    <Step icon={<Icon type="clock" />} />
+                    <Step icon={<Icon type="check" />} />
+                  </Steps>
+                </header>
+                <section className="modal-card-body has-text-centered">
+                  {this.state.currentStep === 0 && (
+                    <div>
+                      <strong>Pick Date </strong>
+                      <Calendar
+                        className="react-calender"
+                        minDate={new Date()}
+                        onChange={this.onChange}
+                        value={this.state.date}
                       />
-                    </p>
-                    <p className="control has-icon">
-                      <i className="fa fa-envelope" />
-                      <input
-                        className="input"
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={this.state.email}
-                        onChange={this.handleChange}
+                    </div>
+                  )}
+                  {this.state.currentStep === 1 && (
+                    <div>
+                      <strong>Pick Stylist </strong>
+                    </div>
+                  )}
+                  {this.state.currentStep === 2 && (
+                    <div>
+                      <strong>Pick Time </strong>
+                    </div>
+                  )}
+                  {this.state.currentStep === 3 && (
+                    <div>
+                      <div>
+                        <strong>Confirm </strong>
+                      </div>
+                      <div className="has-text-left">
+                        <div>Date: </div>
+                        <div>Stylist: </div>
+                        <div>Time: </div>
+                      </div>
+                    </div>
+                  )}
+                  {this.state.currentStep === 4 && (
+                    <div>
+                      <i
+                        className="fa fa-check-circle is-primary fa-3x"
+                        style={{color: 'green'}}
                       />
-                    </p>
-                    <p className="control has-icon">
-                      <i className="fa fa-mobile" />
-                      <input
-                        className="input"
-                        type="text"
-                        name="phoneNumber"
-                        placeholder="Phone"
-                        value={this.state.phoneNumber}
-                        onChange={this.handleChange}
-                      />
-                    </p>
-                    <p className="control has-icon">
-                      <i className="fa fa-sticky-note" />
-                      <input
-                        className="input"
-                        type="text"
-                        name="note"
-                        placeholder="Note (ex. high chair, allergies)"
-                        value={this.state.note}
-                        onChange={this.handleChange}
-                      />
-                    </p>
-                    <p className="control">
-                      <button
-                        className="button is-primary is-medium is-fullwidth"
-                        type="submit"
-                      >
-                        Submit
-                      </button>
-                      <button
-                        className="button is-danger is-medium is-fullwidth"
-                        type="cancel"
-                        onClick={this.doneInfo}
-                      >
-                        Cancel
-                      </button>
-                    </p>
-                  </div>
-                </form>
+                      <p>
+                        <strong>
+                          Congratz! Your reservation is confirmed!
+                        </strong>
+                      </p>
+                    </div>
+                  )}
+                  <br />
+                  {this.state.currentStep !== 4 && (
+                    <div>
+                      {this.state.currentStep !== 0 && (
+                        <button
+                          type="button"
+                          className="button is-primary"
+                          onClick={this.backStep}
+                        >
+                          Back
+                        </button>
+                      )}
+                      {this.state.currentStep !== 3 && (
+                        <button
+                          type="button"
+                          className="button is-warning"
+                          onClick={this.nextStep}
+                        >
+                          Next
+                        </button>
+                      )}
+                      {this.state.currentStep === 3 && (
+                        <button
+                          type="button"
+                          className="button is-success"
+                          onClick={this.nextStep}
+                        >
+                          Confirm
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </section>
               </div>
+              <button
+                className="delete is-large"
+                aria-label="close"
+                onClick={this.doneInfo}
+              />
             </div>
           )}
-          <p />
         </div>
-
         <Footer />
       </React.Fragment>
     )
