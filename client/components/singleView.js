@@ -294,6 +294,18 @@ class SingleBusiness extends React.Component {
                     </div>
                     </div>
                 )}
+                {this.state.currentStep === 4 && (
+                  <div>
+                    <i
+                      className="fa fa-check-circle is-primary fa-3x"
+                      style={{color: 'green'}}
+                    />
+                    <p>
+                      <strong>Congratz! Your reservation is confirmed!</strong>
+                    </p>
+                  </div>
+                )}
+
                 <br />
                 {showPrev && (
                   <button
