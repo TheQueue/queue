@@ -18,7 +18,8 @@ import {
   MapContainer,
   BusinessList,
   Categories,
-  SingleView
+  SingleView,
+  Video
 } from './components'
 import {me} from './store'
 
@@ -50,6 +51,7 @@ class Routes extends Component {
         <Route path="/categories" component={Categories} />
         <Route path="/businessList" component={BusinessList} />
         <Route path="/search" component={Search} />
+        <Route exact path="/video" component={Video} />
 
         {isLoggedIn && (
           <Switch>
