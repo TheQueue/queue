@@ -49,6 +49,7 @@
     "express-session": "^1.15.1",
     "google-maps-react": "^2.0.2",
     "history": "^4.6.3",
+    "moment": "^2.22.2",
     "morgan": "^1.9.1",
     "nodemailer": "^4.6.8",
     "normalizr": "^3.3.0",
