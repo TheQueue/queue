@@ -2,11 +2,17 @@ import axios from 'axios'
 import {normalize, schema} from 'normalizr'
 
 // NORMALIZER DEFINITIONS
-// define reservation schema
-const reservation = new schema.Entity('reservations')
+// user & slot
+const user = new schema.Entity('users')
+const slot = new schema.Entity('slots')
+// define appt schema
+const appointment = new schema.Entity('appointments', {
+  slot: slot,
+  user: user
+})
 // define queue schema
 const stylist = new schema.Entity('stylists', {
-  reservations: [reservation]
+  appointments: [appointment],
 })
 // define business schema
 const business = new schema.Entity('businesses', {

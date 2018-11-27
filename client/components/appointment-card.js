@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {updateSingleReservationThunk} from '../store'
+import moment from 'moment'
 
-class ReservationCard extends Component {
+class AppointmentCard extends Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -27,33 +28,33 @@ class ReservationCard extends Component {
   }
 
   render() {
-    const {reservation} = this.props
+    const {appointment, slot, user} = this.props
     const handleCancel = this.handleCancel
     const handleService = this.handleService
-
+    const slotDate = moment(this.parseISOString(slot.date)).format('MMM Do YY')
     return (
       <article className="media box">
         <div className="media-left">
           <img src="" />
         </div>
         <div className="media-content">
-          <p>Name: {reservation.name}</p>
-          <p>Status: {reservation.status}</p>
-          <p>Phone #: {reservation.phoneNumber}</p>
           <p>
-            Start time:{' '}
-            {this.parseISOString(reservation.startDateAndTime).toString()}
+            Date:{' '}
+            {slotDate}
           </p>
           <p>
-            End time:{' '}
-            {this.parseISOString(reservation.endDateAndTime).toString()}
+            Time:{' '}
+            {slot.time}
           </p>
-          <p>Note: {reservation.note}</p>
+          <p>Username: {user.username}</p>
+          <p>Status: {appointment.status}</p>
+          <p>Phone #: {user.phoneNumber}</p>
+          <p>Note: {appointment.note}</p>
         </div>
         <div className="media-right">
-          {reservation.status === 'Active' && (
+          {appointment.status === 'Active' && (
             <button
-              name={reservation.id}
+              name={appointment.id}
               type="button"
               className="button"
               onClick={handleService}
@@ -61,9 +62,9 @@ class ReservationCard extends Component {
               Mark as served
             </button>
           )}
-          {reservation.status === 'Active' && (
+          {appointment.status === 'Active' && (
             <button
-              name={reservation.id}
+              name={appointment.id}
               type="button"
               className="button"
               onClick={handleCancel}
@@ -78,8 +79,8 @@ class ReservationCard extends Component {
 }
 
 const mapDispatch = dispatch => ({
-  updateSingleReservationThunk: (reservationId, action) =>
-    dispatch(updateSingleReservationThunk(reservationId, action))
+  updateSingleReservationThunk: (appointmentId, action) =>
+    dispatch(updateSingleReservationThunk(appointmentId, action))
 })
 
-export default connect(null, mapDispatch)(ReservationCard)
+export default connect(null, mapDispatch)(AppointmentCard)

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchMyBusinessDataThunk, deleteStylistThunk } from '../store'
-import {ReservationCard, AddStylist, EditStylist} from './index'
+import {AppointmentCard, AddStylist, EditStylist} from './index'
 
 class MyBusinessDetail extends Component {
   constructor(props) {
@@ -143,7 +143,15 @@ class MyBusinessDetail extends Component {
                         <p>{stylist.name}</p>
                         <p>{stylist.email}</p>
                         <p>{stylist.phoneNumber}</p>
-                        {stylist.reservations.map(reservationId => {
+                        {stylist.appointments.map(appId => {
+                          const app = entities.appointments[appId]
+                          const user = entities.users[app.user]
+                          const slot = entities.slots[app.slot]
+                          return (
+                            <AppointmentCard key={appId} appointment={app} user={user} slot={slot}/>
+                          )
+                        })}
+                        {/* {stylist.reservations.map(reservationId => {
                           let reservation = entities.reservations[reservationId]
                           return (
                             <ReservationCard
@@ -151,7 +159,7 @@ class MyBusinessDetail extends Component {
                               reservation={reservation}
                             />
                           )
-                        })}
+                        })} */}
                       </div>
                       <div className="media-right">
                         {this.renderEditStylistForm(stylist)}
