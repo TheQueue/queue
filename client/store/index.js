@@ -6,8 +6,9 @@ import user from './user'
 import myBusinesses from './myBusinesses'
 import business from './business'
 import categories from './categories'
+import slot from './slot'
 
-const reducer = combineReducers({user, myBusinesses, business, categories})
+const reducer = combineReducers({user, myBusinesses, business, categories, slot})
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -19,3 +20,5 @@ export * from './user'
 export * from './myBusinesses'
 export * from './business'
 export * from './categories'
+export * from './appointment'
+export * from './slot'

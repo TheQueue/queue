@@ -34,7 +34,7 @@ export const UserHome = props => {
       {isLoggedIn && (
         <div className="container has-text-centered">
           <div className="has-text-white">
-            <h1 className="is-large">Welcome, {email}</h1>
+            <p className="is-large"><h1>Welcome, {email}</h1></p>
           </div>
         </div>
       )}

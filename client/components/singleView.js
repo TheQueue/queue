@@ -2,20 +2,24 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getDetails} from '../store/business'
+import {fetchSlot} from '../store/slot'
 import {createNewReservation} from '../store/reservation'
+import {createAppointment} from '../store/appointment'
 import {Navbar, Footer} from './index'
 import Steps, {Step} from 'rc-steps'
 import Calendar from 'react-calendar'
 import 'rc-steps/assets/index.css'
 import 'rc-steps/assets/iconfont.css'
-
+import moment from 'moment'
+import { SSL_OP_NO_TICKET } from 'constants';
 function mapState(state) {
   return {
     business: state.business.single.business,
     isClosed: state.business.single.closed,
+    user: state.user,
+    slot: state.slot,
     image_url: state.business.single.image_url,
     price: state.business.single.price,
-    user: state.user
   }
 }
 function mapDispatch(dispatch) {
@@ -23,7 +27,10 @@ function mapDispatch(dispatch) {
     getB: id => dispatch(getDetails(id)),
     createNewReservation: reservationData => {
       dispatch(createNewReservation(reservationData))
-    }
+    },
+    getSlot: () => dispatch(fetchSlot()),
+    createAppointment: appointmentInfo =>
+      dispatch(createAppointment(appointmentInfo))
   }
 }
 
@@ -36,7 +43,9 @@ class SingleBusiness extends React.Component {
       note: '',
       doneReserve: false,
       currentStep: 0,
-      date: new Date()
+      date: new Date(),
+      stylistId: NaN,
+      slotId: NaN
     }
     this.popup = this.popup.bind(this)
     this.doneInfo = this.doneInfo.bind(this)
@@ -48,6 +57,7 @@ class SingleBusiness extends React.Component {
 
   componentDidMount() {
     this.props.getB(Number(this.props.match.params.id))
+    this.props.getSlot()
     const {email, phoneNumber, name} = this.props.user
     this.setState({
       email,
@@ -87,17 +97,21 @@ class SingleBusiness extends React.Component {
       currentStep: 0
     })
   }
+  handleSelect = event => {
+    console.log('Selected: ', event.target.value)
+    this.setState({[event.target.name]: event.target.value})
+  }
   handleSubmit = async event => {
     event.preventDefault()
+    let s = this.state.currentStep + 1
     if (this.state.partySize > 6) {
       alert('Please contact restaurant to make reservation')
     } else {
       this.setState({
-        isActive: false,
-        doneReserve: true
+        currentStep: s
       })
-      const reservationData = {...this.state}
-      await this.props.createNewReservation(reservationData)
+      const appointmentInfo = {...this.state}
+      await this.props.createAppointment(appointmentInfo)
     }
   }
   handleChange = event => {
@@ -114,7 +128,17 @@ class SingleBusiness extends React.Component {
       return <div />
     }
     const Icon = ({type}) => <i className={`fa fa-${type}`} />
+
+    const showPrev = !!this.state.currentStep && this.state.currentStep !== 4
+    const showNext = this.state.currentStep < 3
+    const showConfirm = this.state.currentStep === 3
+    console.log(
+      this.state.date,
+      moment(this.state.date).format('MMM Do YY'),
+      moment(this.props.slot[1].date).format('MMM Do YY')
+    )
     return (
+  
       <React.Fragment>
         <Navbar />
         <div className="insideFrame">
@@ -141,6 +165,7 @@ class SingleBusiness extends React.Component {
                       {this.props.price ? this.props.price : 'not available'}
                     </p>
                   </div>
+               
                   {this.props.isClosed ? (
                     <p>Closed</p>
                   ) : (
@@ -157,110 +182,173 @@ class SingleBusiness extends React.Component {
                       </button>
                     </div>
                   )}
-                </div>
-              </div>
-            </div>
-          </div>
-          {this.state.isActive && (
-            <div className="modal is-active">
-              <div className="modal-background" />
-              <div className="modal-card">
-                <header className="modal-card-head">
-                  <Steps current={this.state.currentStep}>
-                    <Step icon={<Icon type="calendar" />} />
-                    <Step icon={<Icon type="address-card" />} />
-                    <Step icon={<Icon type="clock" />} />
-                    <Step icon={<Icon type="check" />} />
-                  </Steps>
-                </header>
-                <section className="modal-card-body has-text-centered">
-                  {this.state.currentStep === 0 && (
-                    <div>
-                      <strong>Pick Date </strong>
-                      <Calendar
-                        className="react-calender"
-                        minDate={new Date()}
-                        onChange={this.onChange}
-                        value={this.state.date}
-                      />
+                  </div>
+                  </div>
+        {this.state.isActive && (
+          <div className="modal is-active">
+            <div className="modal-background" />
+            <div className="modal-card">
+              <header className="modal-card-head">
+                <Steps current={this.state.currentStep}>
+                  <Step icon={<Icon type="calendar" />} />
+                  <Step icon={<Icon type="address-card" />} />
+                  <Step icon={<Icon type="clock" />} />
+                  <Step icon={<Icon type="check" />} />
+                </Steps>
+              </header>
+              <section className="modal-card-body has-text-centered">
+                {this.state.currentStep === 0 && (
+                  <div>
+                    <strong>Pick Date </strong>
+                    <Calendar
+                      className="react-calender"
+                      minDate={new Date()}
+                      onChange={this.onChange}
+                      value={this.state.date}
+                    />
+                  </div>
+                )}
+                {this.state.currentStep === 1 && (
+                  <div>
+                    <strong>Pick Stylist </strong>
+                    <div className="control" onChange={this.handleSelect}>
+                      {this.props.business.stylists.map(stylist => {
+                        return (
+                          <p key={stylist.id}>
+                            <label className="radio">
+                              <input
+                                type="radio"
+                                name="stylistId"
+                                value={stylist.id}
+                              />
+                              {stylist.name}
+                            </label>
+                          </p>
+                        )
+                      })}
                     </div>
-                  )}
-                  {this.state.currentStep === 1 && (
-                    <div>
-                      <strong>Pick Stylist </strong>
+                  </div>
+                )}
+                {this.state.currentStep === 2 && (
+                  <div>
+                    <strong>Pick Time </strong>
+                    <div className="control" onChange={this.handleSelect}>
+                      {this.props.slot
+                        ? this.props.slot
+                            .filter(
+                              slot =>
+                                moment(slot.date).format('MMM Do YY') ===
+                                moment(this.state.date).format('MMM Do YY')
+                            )
+                            .map(slot => {
+                              return (
+                                <p key={slot.id}>
+                                  <label className="radio">
+                                    <input
+                                      type="radio"
+                                      name="slotId"
+                                      value={slot.id}
+                                    />
+                                    {slot.time}
+                                  </label>
+                                </p>
+                              )
+                            })
+                        : null}{' '}
                     </div>
-                  )}
-                  {this.state.currentStep === 2 && (
+                  </div>
+                )}
+                {this.state.currentStep === 3 && (
+                  <div>
                     <div>
-                      <strong>Pick Time </strong>
+                      <strong>Confirm </strong>
                     </div>
-                  )}
-                  {this.state.currentStep === 3 && (
-                    <div>
+                    <div className="has-text-left">
                       <div>
-                        <strong>Confirm </strong>
+                        Date: {moment(this.state.date).format('MMM Do YY')}{' '}
                       </div>
-                      <div className="has-text-left">
-                        <div>Date: </div>
-                        <div>Stylist: </div>
-                        <div>Time: </div>
+                      <div>
+                        Stylist:{' '}
+                        {
+                          this.props.business.stylists[this.state.stylistId - 1]
+                            .name
+                        }{' '}
+                      </div>
+                      <div>
+                        Time:{' '}
+                        {this.props.slot
+                          ? this.props.slot
+                              .filter(
+                                slot =>
+                                 this.state.slotId ===
+                                  slot.id.toString()
+                              )
+                              .map(slot => {
+                                console.log(slot.time)
+                                return (
+                                 slot.time
+                                )
+                              })
+                          : null}
                       </div>
                     </div>
-                  )}
-                  {this.state.currentStep === 4 && (
-                    <div>
-                      <i
-                        className="fa fa-check-circle is-primary fa-3x"
-                        style={{color: 'green'}}
-                      />
-                      <p>
-                        <strong>
-                          Congratz! Your reservation is confirmed!
-                        </strong>
-                      </p>
                     </div>
-                  )}
-                  <br />
-                  {this.state.currentStep !== 4 && (
-                    <div>
-                      {this.state.currentStep !== 0 && (
-                        <button
-                          type="button"
-                          className="button is-primary"
-                          onClick={this.backStep}
-                        >
-                          Back
-                        </button>
-                      )}
-                      {this.state.currentStep !== 3 && (
-                        <button
-                          type="button"
-                          className="button is-warning"
-                          onClick={this.nextStep}
-                        >
-                          Next
-                        </button>
-                      )}
-                      {this.state.currentStep === 3 && (
-                        <button
-                          type="button"
-                          className="button is-success"
-                          onClick={this.nextStep}
-                        >
-                          Confirm
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </section>
-              </div>
+                )}
+                {this.state.currentStep === 4 && (
+                  <div>
+                    <i
+                      className="fa fa-check-circle is-primary fa-3x"
+                      style={{color: 'green'}}
+                    />
+                    <p>
+                      <strong>Congratz! Your reservation is confirmed!</strong>
+                    </p>
+                  </div>
+                )}
+
+                <br />
+                {showPrev && (
+                  <button
+                    type="button"
+                    className="button is-primary"
+                    onClick={this.backStep}
+                  >
+                    Back
+                  </button>
+                )}
+                {showNext && (
+                  <button
+                    type="button"
+                    className="button is-warning"
+                    onClick={this.nextStep}
+                    disabled={
+                      this.state.currentStep === 1 &&
+                      isNaN(this.state.stylistId)
+                    }
+                  >
+                    Next
+                  </button>
+                )}
+                {showConfirm && (
+                  <button
+                    type="button"
+                    className="button is-success"
+                    onClick={this.handleSubmit}
+                  >
+                    Confirm
+                  </button>
+                )}
+              </section>
               <button
                 className="delete is-large"
                 aria-label="close"
                 onClick={this.doneInfo}
               />
+              </div>
             </div>
           )}
+        </div>
+        </div>
         </div>
         <Footer />
       </React.Fragment>
