@@ -12,16 +12,40 @@
     "businessId": 2
   },
   {
+    "name": "women hair cut",
+    "price": 30,
+    "duration": 30,
+    "businessId": 3
+  },
+  {
+    "name": "women hair cut",
+    "price": 50,
+    "duration": 45,
+    "businessId": 4
+  },
+  {
+    "name": "women hair cut",
+    "price": 30,
+    "duration": 30,
+    "businessId": 5
+  },
+  {
+    "name": "women hair cut",
+    "price": 50,
+    "duration": 45,
+    "businessId": 6
+  },
+  {
     "name": "men hair cut",
     "price": 15,
     "duration": 25,
-    "businessId": 1
+    "businessId": 7
   },
   {
     "name": "men hair cut",
     "price": 18,
     "duration": 20,
-    "businessId": 2
+    "businessId": 8
   },
   {
     "name": "color",
@@ -55,6 +79,66 @@
   },
   {
     "name": "highlights",
+    "price": 35,
+    "duration": 25,
+    "businessId": 2
+  },
+  {
+    "name": "relaxer",
+    "price": 35,
+    "duration": 25,
+    "businessId": 2
+  },
+  {
+    "name": "perm",
+    "price": 35,
+    "duration": 25,
+    "businessId": 2
+  },
+  {
+    "name": "curling",
+    "price": 35,
+    "duration": 25,
+    "businessId": 2
+  },
+  {
+    "name": "shampoo",
+    "price": 35,
+    "duration": 25,
+    "businessId": 2
+  },
+  {
+    "name": "conditioning",
+    "price": 35,
+    "duration": 25,
+    "businessId": 2
+  },
+  {
+    "name": "manicure",
+    "price": 35,
+    "duration": 25,
+    "businessId": 2
+  },
+  {
+    "name": "pedicure",
+    "price": 35,
+    "duration": 25,
+    "businessId": 2
+  },
+  {
+    "name": "polish",
+    "price": 35,
+    "duration": 25,
+    "businessId": 2
+  },
+  {
+    "name": "massage",
+    "price": 35,
+    "duration": 25,
+    "businessId": 2
+  },
+  {
+    "name": "waxing",
     "price": 35,
     "duration": 25,
     "businessId": 2

@@ -164,9 +164,6 @@ router.post('/inbound', async (req, res, next) => {
 
 router.post('/chatbot', async (req, res, next) => {
   try {
-    const duration = ['how long', 'duration']
-
-    const greeting = ['hello', 'hi', 'hey']
     //contains, includes, match
     if (
       req.body.data.toLowerCase().includes('price') ||
@@ -183,10 +180,36 @@ router.post('/chatbot', async (req, res, next) => {
           }
         })
         if (service) {
-          res.send(String(service.price))
+          res.send(`$$${service.price}`)
           return
         }
       }
+    } else if (
+      req.body.data.toLowerCase().includes('how long') ||
+      req.body.data.toLowerCase().includes('duration')
+    ) {
+      const arrayMes = req.body.data.split(' ')
+      for (let i = 0; i < arrayMes.length; i++) {
+        const service = await Service.findOne({
+          where: {
+            businessId: req.body.id,
+            name: {
+              [Op.iLike]: `%${arrayMes[i]}%`
+            }
+          }
+        })
+        console.log('Duration', service)
+        if (service) {
+          res.send(`${service.duration}mn`)
+          return
+        }
+      }
+    } else {
+      const business = await Business.findById(req.body.id)
+
+      res.send(
+        `Please contact us at ${business.phoneNumber} for more informations `
+      )
     }
     console.log('yep!')
 

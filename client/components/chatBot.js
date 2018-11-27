@@ -10,6 +10,10 @@ import 'react-chat-widget/lib/styles.css'
 import axios from 'axios'
 
 export default class ChatBot extends React.Component {
+  componentDidMount() {
+    addResponseMessage('Hello, how can I help you!')
+  }
+
   handleNewUserMessage = async newMessage => {
     const bId = this.props.id
     console.log(`New message incomig! ${newMessage} business id ${bId}`)
@@ -21,8 +25,7 @@ export default class ChatBot extends React.Component {
     const response = (await axios.post('/api/business/chatbot', message)).data
     console.log('Shoow up', response)
 
-    addResponseMessage(`$$$${response}`)
-    addResponseMessage(`$$$${response}`)
+    addResponseMessage(`${response}`)
   }
   render() {
     return (
