@@ -1,5 +1,6 @@
 const Business = require('./business')
 const Category = require('./category')
+const Service = require('./service')
 const Image = require('./image')
 const Stylist = require('./stylist')
 const Reservation = require('./reservation')
@@ -23,6 +24,10 @@ User.hasMany(Reservation)
 //Business-reservation
 Reservation.belongsTo(Business)
 Business.hasMany(Reservation)
+
+//Service and business
+Service.belongsTo(Business)
+Business.hasMany(Service)
 
 //stylist-reservation
 Reservation.belongsTo(Stylist)
@@ -92,12 +97,12 @@ Slot.hasMany(Appointment)
 
 
 Slot.belongsToMany(Stylist, {
-  through: 
+  through:
     "SlotStylist"
 })
 
 Stylist.belongsToMany(Slot, {
-  through: 
+  through:
     "SlotStylist"
 })
 
@@ -138,6 +143,7 @@ module.exports = {
   Business,
   Reservation,
   Category,
+  Service,
   Slot,
   Token,
   Stylist,

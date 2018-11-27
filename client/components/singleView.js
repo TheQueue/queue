@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getDetails, fetchSlot} from '../store'
 import {Navbar, Footer, ReservationForm, StylistCard} from './index'
+import ChatBot from './chatBot'
+import 'react-chat-widget/lib/styles.css'
 
 function mapState(state) {
   return {
@@ -114,6 +116,7 @@ class SingleBusiness extends React.Component {
                       >
                         Reservation
                       </button>
+                      <ChatBot id={Number(this.props.match.params.id)} />
                     </div>
                   )}
                 </div>
@@ -131,10 +134,13 @@ class SingleBusiness extends React.Component {
                 <p>Stylists</p>
               </div>
               <div>
-                {this.props.business.stylists.length > 0  ?
+                {this.props.business.stylists.length > 0 ? (
                   this.props.business.stylists.map(styl => (
                     <StylistCard stylist={styl} key={styl.id} />
-                  )) : <p>No stylists found!</p>}
+                  ))
+                ) : (
+                  <p>No stylists found!</p>
+                )}
               </div>
             </div>
           </div>
