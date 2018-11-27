@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getDetails} from '../store/business'
 import {createNewReservation} from '../store/reservation'
+import ChatBot from './chatBot'
 
 function mapState(state) {
   return {
@@ -119,6 +120,7 @@ class SingleBusiness extends React.Component {
             <a className="button is-primary" onClick={this.popup}>
               Reservation
             </a>
+            <ChatBot />
           </div>
         )}
         {this.state.isActive && (
