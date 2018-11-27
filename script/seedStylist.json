@@ -3,13 +3,15 @@
   "email": "stylist@email.com",
   "phoneNumber": "(999)-999-9999",
   "businessId": 1,
-  "slotId": 1
+  "slotId": 1,
+  "profile": "Hi, I'm Sally. I have over 10 years of experience in styling hair."
 },
 {
   "name": "Bobby Barber",
   "email": "barber@email.com",
   "phoneNumber": "(999)-999-1111",
   "businessId": 1,
-  "slotId":2
+  "slotId":2,
+  "profile": "I have 20 years of experience in cutting hair and styling moustaches."
 }
 ]
