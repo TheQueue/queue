@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 
 const Navbar = props => {
   const {prop1, prop2, isFilterVisible, showFilter, hideFilter} = props
-  // console.log(props.location.pathname)
   const isList = props.match.path === '/businessList'
   const isMap = props.match.path === '/map'
   const toggleFilter = () => {

@@ -7,8 +7,8 @@ import myBusinesses from './myBusinesses'
 import business from './business'
 import categories from './categories'
 import slot from './slot'
-
-const reducer = combineReducers({user, myBusinesses, business, categories, slot})
+import appointment from './appointment'
+const reducer = combineReducers({user, myBusinesses, business, categories, slot, appointment})
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

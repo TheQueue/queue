@@ -33,7 +33,6 @@ class MapContainer extends Component {
     this.props.fetchB()
   }
   onMarkerClick = (props, marker, e) => {
-    console.log('props: ', props)
     this.setState({
       selectedPlace: props,
       activeMarker: marker,

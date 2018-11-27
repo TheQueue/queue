@@ -79,6 +79,14 @@ Stylist.belongsToMany(Slot, {
   constraints: false
 })
 
+//Appointment-stylist
+Appointment.belongsTo(Stylist)
+Stylist.hasMany(Appointment)
+
+//Appointment-slot
+Appointment.belongsTo(Slot)
+Slot.hasMany(Appointment)
+
 //stylist and slot relationship on another table (for onwer to add and filter and map for user to choose)
 
 
