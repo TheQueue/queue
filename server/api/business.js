@@ -11,7 +11,7 @@ const authToken = process.env.APKEY
 const clientT = new twilio(accountSid, authToken)
 
 const router = require('express').Router()
-const {Business, Stylist, Category, Service} = require('../db/models')
+const {Business, Stylist, Category, Service, Slot} = require('../db/models')
 
 // E.G. api/business?category=Barbershop
 router.get('/', async (req, res, next) => {
@@ -39,7 +39,20 @@ router.get('/:id', async (req, res, next) => {
   today.setHours(0, 0, 0, 0) // sets time of date object to beginning of the day
   try {
     let closed = true
-    const business = await Business.findById(req.params.id)
+    const business = await Business.findById(req.params.id, {
+      include: [
+        {
+          model: Stylist,
+          required: false,
+          include: [
+            {
+              model: Slot,
+              required: false
+            }
+          ]
+        }
+      ]
+    })
     if (!business) {
       res.sendStatus(404)
     } else {
@@ -49,10 +62,9 @@ router.get('/:id', async (req, res, next) => {
           location: 'chicago'
         })
         .then(response => {
-          console.log(response.jsonBody.businesses)
           closed = response.jsonBody.businesses[0].is_closed
-          res.send({business, closed})
-          //console.log(business)
+          const {price, image_url} = response.jsonBody.businesses[0]
+          res.send({business, closed, price, image_url})
         })
         .catch(e => {
           console.log(e)

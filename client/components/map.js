@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Navbar from './navbar/navbarMain'
-import Footer from './footer'
-
+import {connect} from 'react-redux'
+import {Navbar, Footer, Categories} from './index'
 const mapStyles = {
   map: {
     position: 'absolute',
@@ -11,10 +10,13 @@ const mapStyles = {
   }
 }
 
-export class CurrentLocation extends React.Component {
+const mapState = state => ({
+  isFilterVisible: state.categories.isFilterVisible
+})
+
+class CurrentLocation extends React.Component {
   constructor(props) {
     super(props)
-
     const {lat, lng} = this.props.initialCenter
     this.state = {
       currentLocation: {
@@ -108,22 +110,25 @@ export class CurrentLocation extends React.Component {
   render() {
     const style = Object.assign({}, mapStyles.map)
     return (
-      <div>
+      <React.Fragment>
         <Navbar />
         <div className="insideFrame">
-          <div style={style} ref="map">
-            Loading map...
+          <div className="container">
+            {this.props.isFilterVisible && <Categories />}
           </div>
-          {this.renderChildren()}
-          <Footer />
+          <div className="map" style={style} ref="map">
+            Loading map...
+            {this.renderChildren()}
+          </div>
         </div>
-      </div>
+        <Footer />
+      </React.Fragment>
     )
   }
 }
 
 CurrentLocation.defaultProps = {
-  zoom: 18, // 18 seems like the sweet spot for zoom
+  zoom: 12, // 18 seems like the sweet spot for zoom
   initialCenter: {
     lat: 41.8953339,
     lng: -87.6390289
@@ -132,4 +137,4 @@ CurrentLocation.defaultProps = {
   visible: true
 }
 
-export default CurrentLocation
+export default connect(mapState)(CurrentLocation)

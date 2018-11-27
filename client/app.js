@@ -5,10 +5,8 @@ import Routes from './routes'
 
 const App = () => {
   return (
-    <div>
-
+    <div className="body">
       <Routes />
-
     </div>
   )
 }

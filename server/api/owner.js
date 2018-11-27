@@ -9,7 +9,6 @@ module.exports = router
 // each business eager loads 1 queue (the one for the current day)
 // the queue returns all associated reservations
 router.get('/businesses', loginRequired, async (req, res, next) => {
-  console.log('userId: ', req.user.id)
   try {
     const userId = req.user.id
     const businesses = await Business.findAll({
@@ -86,6 +85,76 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
           res.sendStatus(500)
           return;
       }
+    }
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+router.post('/stylists', async (req, res, next) => {
+  try {
+    const {name, phoneNumber, email, imageUrl, businessId} = req.body
+    const newStylist = {name, phoneNumber, email, imageUrl, businessId}
+    const stylist = await Stylist.create(newStylist)
+    const stylistAndReservs = await Stylist.findById(stylist.id, {
+      include: [{
+        model: Reservation,
+        required: false
+      }]
+    })
+    res.json(stylistAndReservs)
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+router.put('/stylists/:stylistId', async (req, res, next) => {
+  const stylistId = req.params.stylistId
+  try {
+    const oldStylist = await Stylist.findById(stylistId);
+    if (oldStylist === null) {
+      res.sendStatus(404);
+      return
+    }
+    const business = await oldStylist.getBusiness();
+    if (business === null) {
+      res.sendStatus(500);
+    } else if (business.userId !== req.user.id) {
+      res.sendStatus(403);
+    } else {
+      const {name, phoneNumber, email, imageUrl} = req.body
+      const stylistInfo = {name, phoneNumber, email}
+      if (imageUrl) stylistInfo.imageUrl = imageUrl
+      const updatedStylist = await oldStylist.update(stylistInfo)
+      const stylistAndReservs = await Stylist.findById(stylistId, {
+        include: [{
+          model: Reservation,
+          required: false
+        }]
+      })
+      res.json(stylistAndReservs)
+    }
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+router.delete('/stylists/:stylistId', async (req, res, next) => {
+  const stylistId = req.params.stylistId
+  try {
+    const oldStylist = await Stylist.findById(stylistId);
+    if (oldStylist === null) {
+      res.sendStatus(404);
+      return
+    }
+    const business = await oldStylist.getBusiness();
+    if (business === null) {
+      res.sendStatus(500);
+    } else if (business.userId !== req.user.id) {
+      res.sendStatus(403);
+    } else {
+      await oldStylist.destroy();
+      res.sendStatus(200);
     }
   } catch (err) {
     console.error(err)

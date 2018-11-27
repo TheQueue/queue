@@ -1,23 +1,25 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {getDetails} from '../store/business'
-import {createNewReservation} from '../store/reservation'
+import {getDetails, fetchSlot} from '../store'
+import {Navbar, Footer, ReservationForm, StylistCard} from './index'
 import ChatBot from './chatBot'
+
 
 function mapState(state) {
   return {
     business: state.business.single.business,
     isClosed: state.business.single.closed,
-    user: state.user
+    user: state.user,
+    slot: state.slot,
+    image_url: state.business.single.image_url,
+    price: state.business.single.price
   }
 }
 function mapDispatch(dispatch) {
   return {
     getB: id => dispatch(getDetails(id)),
-    createNewReservation: reservationData => {
-      dispatch(createNewReservation(reservationData))
-    }
+    getSlot: () => dispatch(fetchSlot())
   }
 }
 
@@ -25,42 +27,25 @@ class SingleBusiness extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isActive: false,
-      partySize: 1,
-      note: '',
-      doneReserve: false
+      isActive: false
+      // doneReserve: false,
+      // currentStep: 0
     }
     this.popup = this.popup.bind(this)
     this.doneInfo = this.doneInfo.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.plus = this.plus.bind(this)
-    this.minus = this.minus.bind(this)
-    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
     this.props.getB(Number(this.props.match.params.id))
-    const {email, phoneNumber, name} = this.props.user
-    this.setState({
-      email,
-      phoneNumber,
-      name
-    })
+    this.props.getSlot()
+    // const {email, phoneNumber, name} = this.props.user
+    // this.setState({
+    //   email,
+    //   phoneNumber,
+    //   name
+    // })
   }
-  componentWillUnmount() {}
 
-  plus() {
-    this.setState((prevState, props) => ({
-      partySize: prevState.partySize + 1
-    }))
-  }
-  minus() {
-    if (this.state.partySize > 1) {
-      this.setState((prevState, props) => ({
-        partySize: prevState.partySize - 1
-      }))
-    }
-  }
   popup() {
     this.setState({
       isActive: true
@@ -71,148 +56,94 @@ class SingleBusiness extends React.Component {
       isActive: false
     })
   }
-  handleSubmit = async event => {
-    event.preventDefault()
-    if (this.state.partySize > 6) {
-      alert('Please contact restaurant to make reservation')
-    } else {
-      this.setState({
-        isActive: false,
-        doneReserve: true
-      })
-      const reservationData = {...this.state}
-      await this.props.createNewReservation(reservationData)
-    }
-  }
-  handleChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
 
   render() {
-    console.log(this.props.user, this.state)
-
     if (
       (!this.props.business && !this.props.isClosed) ||
       this.props.business.id !== Number(this.props.match.params.id)
     ) {
-      return <div />
-    }
-    return (
-      <div className="sp">
-        <link
-          rel="stylesheet"
-          href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-          crossOrigin="anonymous"
-        />
-        <img src={this.props.business.imageUrl} />
-        <h3>{this.props.business.name}</h3>
-        <p />
-        Address: {this.props.business.address}
-        phoneNumber: {this.props.business.phoneNumber}
-        {this.props.isClosed ? (
-          <p>Closed</p>
-        ) : (
-          <div>
-            <p>Open</p>
-            <a className="button is-primary" onClick={this.popup}>
-              Reservation
-            </a>
-            <ChatBot id={Number(this.props.match.params.id)} />
-          </div>
-        )}
-        {this.state.isActive && (
-          <div className="modal is-active">
-            <div className="modal-background" />
-            <div className="modal-content">
-              <form
-                onClick={this.handleSubmit}
-                className="card is-rounded has-text-centered"
-              >
-                <div className="card-content has-text-centered">
-                  <h3 className="has-text-centered">Party Size</h3>
-
-                  <i className="fa fa-minus fa-2x" onClick={this.minus} />
-
-                  <b className="is-size-4">
-                    <strong>
-                      {' '}
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-                        this.state.partySize
-                      }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </strong>
-                  </b>
-
-                  <i className="fa fa-plus fa-2x" onClick={this.plus} />
-
-                  <p className="control has-icon">
-                    <i className="fa fa-user" />
-                    <input
-                      className="input"
-                      type="text"
-                      name="name"
-                      placeholder="Name"
-                      value={this.state.name}
-                      onChange={this.handleChange}
-                    />
-                  </p>
-                  <p className="control has-icon">
-                    <i className="fa fa-envelope" />
-                    <input
-                      className="input"
-                      type="email"
-                      name="email"
-                      placeholder="Email"
-                      value={this.state.email}
-                      onChange={this.handleChange}
-                    />
-                  </p>
-                  <p className="control has-icon">
-                    <i className="fa fa-mobile" />
-                    <input
-                      className="input"
-                      type="text"
-                      name="phoneNumber"
-                      placeholder="Phone"
-                      value={this.state.phoneNumber}
-                      onChange={this.handleChange}
-                    />
-                  </p>
-                  <p className="control has-icon">
-                    <i className="fa fa-sticky-note" />
-                    <input
-                      className="input"
-                      type="text"
-                      name="note"
-                      placeholder="Note (ex. high chair, allergies)"
-                      value={this.state.note}
-                      onChange={this.handleChange}
-                    />
-                  </p>
-                  <p className="control">
-                    <button
-                      className="button is-primary is-medium is-fullwidth"
-                      type="submit"
-                    >
-                      Submit
-                    </button>
-                    <button
-                      className="button is-danger is-medium is-fullwidth"
-                      type="cancel"
-                      onClick={this.doneInfo}
-                    >
-                      Cancel
-                    </button>
-                  </p>
-                </div>
-              </form>
+      return (
+        <React.Fragment>
+          <Navbar />
+          <div className="insideFrame">
+            <div className="container title">
+              <p>Loading...</p>
             </div>
           </div>
-        )}
-        <p />
-      </div>
+          <Footer />
+        </React.Fragment>
+      )
+    }
+    return (
+      <React.Fragment>
+        <Navbar />
+        <div className="insideFrame">
+          <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+            integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+            crossOrigin="anonymous"
+          />
+          <div className="container">
+            <div className="box">
+              <img className="image" src={this.props.image_url} />
+              <div className="media">
+                <div className="media-left" />
+                <div className="media-content">
+                  <div className="title">
+                    <p>{this.props.business.name}</p>
+                  </div>
+                  <div className="subtitle">
+                    <p>{this.props.business.address}</p>
+                    <p>{this.props.business.phoneNumber}</p>
+                    <p>
+                      Price:{' '}
+                      {this.props.price ? this.props.price : 'not available'}
+                    </p>
+                  </div>
+
+                  {this.props.isClosed ? (
+                    <p>Closed</p>
+                  ) : (
+                    <div>
+                      <p>
+                        <strong>Open</strong>
+                      </p>
+                      <button
+                        type="button"
+                        className="button is-primary"
+                        onClick={this.popup}
+                      >
+                        Reservation
+                      </button>
+
+                    </div>
+                  )}
+                </div>
+              </div>
+              {}
+              {this.state.isActive && (
+                <ReservationForm
+                  doneInfo={this.doneInfo}
+                  slot={this.props.slot}
+                />
+              )}
+            </div>
+            <div className="box">
+              <div className="title">
+                <p>Stylists</p>
+              </div>
+              <div>
+                {this.props.business.stylists.length > 0  ?
+                  this.props.business.stylists.map(styl => (
+                    <StylistCard stylist={styl} key={styl.id} />
+                  )) : <p>No stylists found!</p>}
+              </div>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </React.Fragment>
     )
   }
 }

@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchMyBusinessData} from '../store'
+import {fetchMyBusinessDataThunk} from '../store'
 import {Link} from 'react-router-dom'
 class MyBusinesses extends Component {
   componentDidMount() {
-    this.props.fetchMyBusinessData()
+    this.props.fetchMyBusinessDataThunk()
   }
   render() {
     const {myBusinesses} = this.props
@@ -51,7 +51,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  fetchMyBusinessData: () => dispatch(fetchMyBusinessData())
+  fetchMyBusinessDataThunk: () => dispatch(fetchMyBusinessDataThunk())
 })
 
 export default connect(mapState, mapDispatch)(MyBusinesses)

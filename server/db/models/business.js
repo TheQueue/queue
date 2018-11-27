@@ -13,9 +13,12 @@ const Business = db.define('business', {
   imageUrl: {
     type: Sequelize.STRING
   },
+<<<<<<< HEAD
   description: {
     type: Sequelize.TEXT
   },
+=======
+>>>>>>> master
   address: {
     type: Sequelize.STRING,
     allowNull: false,

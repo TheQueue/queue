@@ -6,10 +6,11 @@ import axios from 'axios'
 const GET_BUSINESS = 'GET_BUSINESS'
 const GET_DETAILS = 'GET_DETAILS'
 const GET_BUSINESS_BY_SEARCH = 'GET_BUSINESS_BY_SEARCH'
+const CLEAR_BUSINESS_SEARCH = 'CLEAR_BUSINESS_SEARCH'
 /**
  * INITIAL STATE
  */
-const defaultUser = {
+const defaultBusiness = {
   businesses: [],
   single: {}
 }
@@ -22,6 +23,9 @@ const getSingleB = business => ({type: GET_DETAILS, business})
 const getBusinessBySearch = businesses => ({
   type: GET_BUSINESS_BY_SEARCH,
   businesses
+})
+export const clearBusinessSearch = () => ({
+  type: CLEAR_BUSINESS_SEARCH
 })
 /**
  * THUNK CREATORS
@@ -39,7 +43,6 @@ export const searchBusiness = keyword => {
 export const getDetails = id => async dispatch => {
   try {
     const business = (await axios.get(`/api/business/${id}`)).data
-    console.log(business)
     dispatch(getSingleB(business))
   } catch (err) {
     console.log(err)
@@ -60,7 +63,7 @@ export const thunkAllB = category => async dispatch => {
 /**
  * REDUCER
  */
-export default function(state = defaultUser, action) {
+export default function(state = defaultBusiness, action) {
   switch (action.type) {
     case GET_BUSINESS:
       return {...state, businesses: action.business}
@@ -68,6 +71,8 @@ export default function(state = defaultUser, action) {
       return {...state, single: action.business}
     case GET_BUSINESS_BY_SEARCH:
       return {...state, businesses: action.businesses}
+    case CLEAR_BUSINESS_SEARCH:
+      return defaultBusiness
     default:
       return state
   }

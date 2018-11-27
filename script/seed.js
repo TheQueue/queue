@@ -7,7 +7,9 @@ const {
   Service,
   Category,
   Reservation,
-  Stylist
+  Stylist,
+  Slot,
+  Appointment
 } = require('../server/db/models')
 const seedCategory = require('./seedCategory.json')
 const seedUser = require('./seedUser.json')
@@ -15,6 +17,10 @@ const seedBusiness = require('./seedBusiness.json')
 const seedReservation = require('./seedReservation.json')
 const seedStylist = require('./seedStylist.json')
 const seedService = require('./seedService.json')
+const seedSlot = require('./seedSlot.json')
+const seedAppointment = require('./seedAppointment')
+
+
 async function seed() {
   try {
     await db.sync({force: true})
@@ -31,8 +37,14 @@ async function seed() {
         return Category.create(category)
       })
     )
+    // slots
     console.log(`seeded ${categories.length} categories`)
-
+    const slots = await Promise.all(
+      seedSlot.map(slot =>{
+        return Slot.create(slot)
+      })
+    )
+    console.log(`seeded ${slots.length} slots`)
     // users
     const users = await Promise.all(
       seedUser.map(user => {
@@ -75,6 +87,14 @@ async function seed() {
     )
 
     console.log(`seeded ${services.length} services`)
+    // Appointment
+    const appointments = await Promise.all(
+      seedAppointment.map(appointment => {
+        return Appointment.create(appointment)
+      })
+    )
+    console.log(`seeded ${appointments.length} Appointment`)
+
 
     // console.log(`seeded ${categoryBusiness.length} cat-business association`)
 

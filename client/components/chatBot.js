@@ -38,3 +38,8 @@ export default class ChatBot extends React.Component {
     )
   }
 }
+
+
+/* <ChatBot id={Number(this.props.match.params.id)}
+import ChatBot from './chatBot'
+*/
