@@ -31,18 +31,6 @@
     "userId": 1,
     "categoryId": [1, 10]
   },
-
-  {
-    "yelpId": "F5w5miIWXpEmKMCO2japPA",
-    "name": "Edit Salon",
-    "imageUrl":
-      "https://s3-media2.fl.yelpcdn.com/bphoto/JXgamxSvkWkHBusZxSchdA/o.jpg",
-    "address": "1369 W Chicago Ave, Chicago, IL 60642",
-    "phoneNumber": "+13127330123",
-    "coordinates": [41.89591, -87.66202],
-    "userId": 1,
-    "categoryId": 1
-  },
   {
     "yelpId": "TpXnwGZwiLnE-_nJ-oc5dg",
     "name": "Cellar Door Salon & Studio",
@@ -65,7 +53,6 @@
     "userId": 1,
     "categoryId": [1, 2, 4, 7, 8]
   },
-
   {
     "yelpId": "Y2nEUSKHYGwMAa9UAqNJrg",
     "name": "Sparrow",

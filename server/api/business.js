@@ -2,11 +2,16 @@
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const yelp = require('yelp-fusion')
-
+const twilio = require('twilio')
+//const Stylist= require('../db/models')
 const client = yelp.client(process.env.YELP_KEY)
+//const Service= require('')
+const accountSid = process.env.SID
+const authToken = process.env.APKEY
+const clientT = new twilio(accountSid, authToken)
 
 const router = require('express').Router()
-const {Business, Category, Stylist, Slot} = require('../db/models')
+const {Business, Stylist, Category, Service, Slot} = require('../db/models')
 
 // E.G. api/business?category=Barbershop
 router.get('/', async (req, res, next) => {
@@ -58,7 +63,7 @@ router.get('/:id', async (req, res, next) => {
         })
         .then(response => {
           closed = response.jsonBody.businesses[0].is_closed
-          const {price, image_url, } = response.jsonBody.businesses[0]
+          const {price, image_url} = response.jsonBody.businesses[0]
           res.send({business, closed, price, image_url})
         })
         .catch(e => {
@@ -83,6 +88,146 @@ router.get('/search/:keyword', async (req, res, next) => {
     res.json(businesses)
   } catch (err) {
     next(err)
+  }
+})
+
+//messages Twilio
+router.post('/inbound', async (req, res, next) => {
+  try {
+    let stylistExist = false
+    let stylistName = ''
+    if (req.body.Body.toLowerCase() === 'rsvp') {
+      clientT.messages
+        .create({
+          body: `Hello,thanks for you Trust. Respond with the salon name (ex: Sparrow)`,
+          to: req.body.From,
+          from: '+13312446019'
+        })
+        .then(() => {})
+    } else {
+      const business = Business.findOne({
+        where: {
+          name: {
+            [Op.iLike]: `%${req.body.Body}%`
+          }
+        }
+      })
+      if (business) {
+        clientT.messages
+          .create({
+            body: `Respond with your favorite stylist (ex: Bobby Barber)`,
+            to: req.body.From,
+            from: '+13312446019'
+          })
+          .then(() => {})
+      } else {
+        const stylist = await Stylist.findOne({
+          where: {
+            name: {
+              [Op.iLike]: `%${req.body.Body}%`
+            }
+          }
+        })
+        if (stylist) {
+          clientT.messages
+            .create({
+              body: `respond with a day and time (ex: mm/dd/yyyy hh:mm AM)`,
+              to: req.body.From,
+              from: '+13312446019'
+            })
+            .then(() => {})
+        } else {
+          if (
+            req.body.Body.match(
+              /(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}/
+            )
+          ) {
+            clientT.messages
+              .create({
+                body: `All set you're schedule with ${stylist.name} at ${
+                  req.body.Body
+                }`,
+                to: req.body.From,
+                from: '+13312446019'
+              })
+              .then(() => {})
+
+            //Need appointements table to store information
+          }
+        }
+      }
+    }
+
+    /* clientT.messages
+      .create({
+        body: `Hello ${req.body.FromCity} ${
+          req.body.FromState
+        },  thanks for you fidelite`,
+        to: req.body.From,
+        from: '+13312446019'
+      })
+      .then(() => {}) */
+    console.log(req.body)
+    res.send('')
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/chatbot', async (req, res, next) => {
+  try {
+    //contains, includes, match
+    if (
+      req.body.data.toLowerCase().includes('price') ||
+      req.body.data.toLowerCase().includes('how much')
+    ) {
+      const arrayMes = req.body.data.split(' ')
+      for (let i = 0; i < arrayMes.length; i++) {
+        const service = await Service.findOne({
+          where: {
+            businessId: req.body.id,
+            name: {
+              [Op.iLike]: `%${arrayMes[i]}%`
+            }
+          }
+        })
+        if (service) {
+          res.send(`$$${service.price}`)
+          return
+        }
+      }
+    } else if (
+      req.body.data.toLowerCase().includes('how long') ||
+      req.body.data.toLowerCase().includes('duration')
+    ) {
+      const arrayMes = req.body.data.split(' ')
+      for (let i = 0; i < arrayMes.length; i++) {
+        const service = await Service.findOne({
+          where: {
+            businessId: req.body.id,
+            name: {
+              [Op.iLike]: `%${arrayMes[i]}%`
+            }
+          }
+        })
+        console.log('Duration', service)
+        if (service) {
+          res.send(`${service.duration}mn`)
+          return
+        }
+      }
+    } else {
+      const business = await Business.findById(req.body.id)
+
+      res.send(
+        `Please contact us at ${business.phoneNumber} for more informations `
+      )
+    }
+    console.log('yep!')
+
+    //res.send('')
+  } catch (err) {
+    console.log(err)
   }
 })
 
