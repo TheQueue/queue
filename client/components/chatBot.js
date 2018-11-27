@@ -29,16 +29,17 @@ export default class ChatBot extends React.Component {
   }
   render() {
     return (
-      <Widget
-        handleNewUserMessage={this.handleNewUserMessage}
-        //profileAvatar=
-        title="My new awesome title"
-        subtitle="And my cool subtitle"
-      />
+      <div>
+        <Widget
+          handleNewUserMessage={this.handleNewUserMessage}
+          //profileAvatar=
+          title="My new awesome title"
+          subtitle="And my cool subtitle"
+        />
+      </div>
     )
   }
 }
-
 
 /* <ChatBot id={Number(this.props.match.params.id)}
 import ChatBot from './chatBot'
