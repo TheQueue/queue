@@ -4,8 +4,12 @@ body {
 .insideFrame {
   margin-top: 90px;
   margin-bottom: 90px;
+  background-color: rgb(247, 211, 183)
 }
-
+.front-page{
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .react-calender {
   margin-left: auto;

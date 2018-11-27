@@ -11,6 +11,14 @@ const Appointment = db.define('appointment', {
  },
   note: {
     type: Sequelize.STRING
+  },
+  status: {
+    type: Sequelize.ENUM([
+      'Active',
+      'Serviced',
+      'Cancelled',
+    ]),
+    defaultValue: 'Active'
   }
 })
 
