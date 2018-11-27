@@ -87,7 +87,6 @@ router.post('/add', async (req, res, next) => {
         }
       ]
     })
-    console.log(appointmentWithInclude)
     res.json(appointmentWithInclude)
   } catch (err) {
     next(err)
@@ -98,10 +97,13 @@ router.put('/', async (req, res, next) => {
   try {
     const {status, id} = req.body
     const oldAppointment = await Appointment.findOne({where: {id: id}})
-    console.log(status, id)
-    const newAppointment = {status}
-    const appointment = await oldAppointment.update(newAppointment)
-    res.json(appointment)
+    if (!oldAppointment) {
+      res.sendStatus(404)
+    } else {
+      const newAppointment = {status}
+      const appointment = await oldAppointment.update(newAppointment)
+      res.json(appointment)
+    }
   } catch (err) {
     next(err)
   }

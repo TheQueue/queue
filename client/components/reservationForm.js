@@ -36,7 +36,6 @@ class ReservationForm extends Component {
     }
   }
   onChange = date => {
-    console.log(date)
     this.setState({date})
   }
   handleSelect = event => {
@@ -126,7 +125,6 @@ class ReservationForm extends Component {
               ? this.props.slot
                   .filter(slot => this.state.slotId === slot.id.toString())
                   .map(slot => {
-                    console.log(slot.time)
                     return slot.time
                   })
               : null}

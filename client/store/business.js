@@ -43,7 +43,6 @@ export const searchBusiness = keyword => {
 export const getDetails = id => async dispatch => {
   try {
     const business = (await axios.get(`/api/business/${id}`)).data
-    console.log(business)
     dispatch(getSingleB(business))
   } catch (err) {
     console.log(err)

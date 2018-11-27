@@ -20,7 +20,6 @@ class SearchBar extends Component {
     const urlParamStr = this.props.location.search.slice(1)
     if (urlParamStr.includes("key=")) {
       const key = urlParamStr.slice(urlParamStr.indexOf("key=") + 4)
-      console.log(key)
       this.props.loadMap(key)
       this.setState({prevSearch: key})
     } else {

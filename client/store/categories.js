@@ -32,7 +32,6 @@ export const hideFilter = () => ({
 export const fetchCategories = () => {
   return async dispatch => {
     const {data} = await axios.get(`api/categories`)
-    console.log('ZZZ', data)
     dispatch(setCategories(data))
   }
 }

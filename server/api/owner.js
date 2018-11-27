@@ -9,7 +9,6 @@ module.exports = router
 // each business eager loads 1 queue (the one for the current day)
 // the queue returns all associated reservations
 router.get('/businesses', loginRequired, async (req, res, next) => {
-  console.log('userId: ', req.user.id)
   try {
     const userId = req.user.id
     const businesses = await Business.findAll({

@@ -53,7 +53,6 @@ export class UserHome extends React.Component {
       appointment
     } = this.props
     let imgUrl = 'https://victoriassalon.com/wp-content/uploads/2015/02/rev.jpg'
-    console.log(appointment)
     return (
       <div className="login">
         <link
