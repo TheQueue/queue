@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import Calendar from 'react-calendar'
-import {AppointmentCard} from './index'
+import {AppointmentCard, CreateSlotForm} from './index'
 import moment from 'moment'
 
 class MyBusinessCalendar extends Component {
   state = {
-    date: new Date()
+    date: new Date(),
+    isCreateSlotActive: false
   }
 
   onChange = date => this.setState({date})
@@ -20,10 +21,17 @@ class MyBusinessCalendar extends Component {
     var b = s.split(/\D+/)
     return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]))
   }
+  toggleCreateSlotForm = event => {
+    let curVal = this.state.isCreateSlotActive
+    this.setState({isCreateSlotActive: !curVal})
+  }
 
   render() {
     const {currBusiness, entities} = this.props
+    const stylists = entities.stylists
+    const {isCreateSlotActive} = this.state
     return (
+      <React.Fragment>
       <div className="columns">
         <div className="column is-narrow">
           <Calendar onChange={this.onChange} value={this.state.date} />
@@ -34,7 +42,7 @@ class MyBusinessCalendar extends Component {
               <p className="title">Slots</p>
             </div>
             <div className="media-right">
-              <button className="button" type="button">
+              <button className="button" type="button" onClick={this.toggleCreateSlotForm}>
                 Create slot
               </button>
             </div>
@@ -59,6 +67,8 @@ class MyBusinessCalendar extends Component {
           })}
         </div>
       </div>
+      {isCreateSlotActive && <CreateSlotForm isActive={isCreateSlotActive} toggleForm={this.toggleCreateSlotForm} stylists={stylists} date={this.state.date}/>}
+      </React.Fragment>
     )
   }
 }

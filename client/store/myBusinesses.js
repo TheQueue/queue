@@ -12,7 +12,7 @@ const appointment = new schema.Entity('appointments', {
 })
 // define queue schema
 const stylist = new schema.Entity('stylists', {
-  appointments: [appointment],
+  appointments: [appointment]
 })
 // define business schema
 const business = new schema.Entity('businesses', {
@@ -36,6 +36,7 @@ const UPDATE_APPOINTMENT = 'UPDATE_APPOINTMENT'
 const CREATE_STYLIST = 'CREATE_STYLIST'
 const UPDATE_STYLIST = 'UPDATE_STYLIST'
 const DELETE_STYLIST = 'DELETE_STYLIST'
+const CREATE_SLOT = 'CREATE_SLOT'
 
 // action creators
 const setMyBusinesses = businessData => ({
@@ -52,7 +53,7 @@ const updateAppointmentState = updatedAppointment => ({
   type: UPDATE_APPOINTMENT,
   appointment: updatedAppointment
 })
-const createStylist = (newStylist) => ({
+const createStylist = newStylist => ({
   type: CREATE_STYLIST,
   stylist: newStylist
 })
@@ -64,6 +65,9 @@ const deleteStylistState = (stylistId, businessId) => ({
   type: DELETE_STYLIST,
   stylistId,
   businessId
+})
+const createNewSlot = SLOT_DATA_GOES_HERE => ({
+  type: CREATE_SLOT
 })
 // thunk creators
 
@@ -81,18 +85,22 @@ export const fetchMyBusinessDataThunk = () => async dispatch => {
   }
 }
 
-export const updateSingleAppointmentThunk = (apptId, action) => async dispatch => {
+export const updateSingleAppointmentThunk = (
+  apptId,
+  action
+) => async dispatch => {
   try {
     const route = `/api/owner/appointments/${apptId}?action=${action}`
     const {data} = await axios.put(route)
-    dispatch(
-      updateAppointmentState(data)
-    )
+    dispatch(updateAppointmentState(data))
   } catch (err) {
     console.error(err)
   }
 }
-export const createNewStylistThunk = (newStylist, businessId) => async dispatch => {
+export const createNewStylistThunk = (
+  newStylist,
+  businessId
+) => async dispatch => {
   try {
     newStylist.businessId = businessId
     const {data} = await axios.post(`/api/owner/stylists`, newStylist)
@@ -101,7 +109,7 @@ export const createNewStylistThunk = (newStylist, businessId) => async dispatch 
     console.error(err)
   }
 }
-export const updateStylistThunk = (updatedStylist) => async dispatch => {
+export const updateStylistThunk = updatedStylist => async dispatch => {
   try {
     const route = `/api/owner/stylists/${updatedStylist.id}`
     const {data} = await axios.put(route, updatedStylist)
@@ -120,61 +128,85 @@ export const deleteStylistThunk = (stylistId, businessId) => async dispatch => {
     console.error(err)
   }
 }
-// reducer
 
-const myBusinessesReducer = (state = initialState, action) => {
-  let newAppointment, newBusinessData, apptId, newStylist, stylistId, businessId, stylistsArr
-  switch (action.type) {
-    case SET_MY_BUSINESSES_DATA:
-      return {...state, businessData: action.businessData}
-    case SET_MY_BUSINESSES_IS_LOADING_FALSE:
-      return {...state, isLoading: false}
-    case SET_MY_BUSINESSES_IS_LOADING_TRUE:
-      return {...state, isLoading: true}
-    case UPDATE_APPOINTMENT:
-      newBusinessData = {...state.businessData}
-      newAppointment = action.appointment
-      apptId = newAppointment.id
-      newAppointment.stylist = newAppointment.stylistId
-      newAppointment.slot = newAppointment.slotId
-      newAppointment.user = newAppointment.userId
-      newBusinessData.entities.appointments[apptId] = newAppointment
-      return {
-        ...state,
-        businessData: newBusinessData
-      }
-    case CREATE_STYLIST:
-      newBusinessData = {...state.businessData}
-      newStylist = action.stylist
-      businessId = action.stylist.businessId
-      stylistId = action.stylist.id
-      newBusinessData.entities.businesses[businessId].stylists.push(stylistId)
-      newBusinessData.entities.stylists[stylistId] = newStylist
-      return {
-        ...state,
-        businessData: newBusinessData
-      }
-    case UPDATE_STYLIST:
-      newBusinessData = {...state.businessData}
-      newStylist = action.stylist
-      newBusinessData.entities.stylists[newStylist.id] = newStylist
-      return {
-        ...state,
-        businessData: newBusinessData
-      }
-    case DELETE_STYLIST:
-      stylistId = action.stylistId
-      businessId = action.businessId
-      newBusinessData = {...state.businessData}
-      stylistsArr = newBusinessData.entities.businesses[businessId].stylists
-      newBusinessData.entities.businesses[businessId].stylists = stylistsArr.filter(id => id !== stylistId)
-      return {
-        ...state,
-        businessData: newBusinessData
-      }
-    default:
-      return state
+export const createSlotThunk = slotData => async dispatch => {
+  try {
+    const {data} = await axios.post(`/api/owner/slots/`, slotData)
+    dispatch(createNewSlot(data))
+  } catch (err) {
+    console.error(err)
   }
+}
+// reducer
+const handler = {
+  [SET_MY_BUSINESSES_DATA]: (state, action) => {
+    return {...state, businessData: action.businessData}
+  },
+  [SET_MY_BUSINESSES_IS_LOADING_FALSE]: (state, action) => {
+    return {...state, isLoading: false}
+  },
+  [SET_MY_BUSINESSES_IS_LOADING_TRUE]: (state, action) => {
+    return {...state, isLoading: true}
+  },
+  [UPDATE_APPOINTMENT]: (state, action) => {
+    const newBusinessData = {...state.businessData}
+    const newAppointment = action.appointment
+    const apptId = newAppointment.id
+    newAppointment.stylist = newAppointment.stylistId
+    newAppointment.slot = newAppointment.slotId
+    newAppointment.user = newAppointment.userId
+    newBusinessData.entities.appointments[apptId] = newAppointment
+    return {
+      ...state,
+      businessData: newBusinessData
+    }
+  },
+  [CREATE_STYLIST]: (state, action) => {
+    const newBusinessData = {...state.businessData}
+    const newStylist = action.stylist
+    const businessId = action.stylist.businessId
+    const stylistId = action.stylist.id
+    newBusinessData.entities.businesses[businessId].stylists.push(stylistId)
+    newBusinessData.entities.stylists[stylistId] = newStylist
+    return {
+      ...state,
+      businessData: newBusinessData
+    }
+  },
+  [UPDATE_STYLIST]: (state, action) => {
+    const newBusinessData = {...state.businessData}
+    const newStylist = action.stylist
+    newBusinessData.entities.stylists[newStylist.id] = newStylist
+    return {
+      ...state,
+      businessData: newBusinessData
+    }
+  },
+  [DELETE_STYLIST]: (state, action) => {
+    const stylistId = action.stylistId
+    const businessId = action.businessId
+    const newBusinessData = {...state.businessData}
+    const stylistsArr = newBusinessData.entities.businesses[businessId].stylists
+    newBusinessData.entities.businesses[
+      businessId
+    ].stylists = stylistsArr.filter(id => id !== stylistId)
+    return {
+      ...state,
+      businessData: newBusinessData
+    }
+  },
+  [CREATE_SLOT]: (state, action) => {
+    // complete later
+    return {
+      ...state
+    }
+  }
+}
+const myBusinessesReducer = (state = initialState, action) => {
+  if (!handler.hasOwnProperty(action.type)) {
+    return state
+  }
+  return handler[action.type](state, action)
 }
 // export
 export default myBusinessesReducer

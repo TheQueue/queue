@@ -25,7 +25,8 @@ router.get('/businesses', loginRequired, async (req, res, next) => {
                 {
                   model: Slot,
                   required: false
-                }, {
+                },
+                {
                   model: User,
                   required: false
                 }
@@ -106,9 +107,23 @@ router.put(
   }
 )
 
-router.post('/stylists', async (req, res, next) => {
+router.post('/stylists', loginRequired, async (req, res, next) => {
   try {
     const {name, phoneNumber, email, imageUrl, businessId} = req.body
+    const business = await Business.findByPk(businessId)
+    if (!business) {
+      res.sendStatus(404)
+      return
+    }
+    const user = await Business.getUser()
+    if (!user) {
+      res.sendStatus(404)
+      return
+    }
+    if (user.id !== req.user.id) {
+      res.sendStatus(403)
+      return
+    }
     const newStylist = {name, phoneNumber, email, imageUrl, businessId}
     const stylist = await Stylist.create(newStylist)
     const stylistAndReservs = await Stylist.findById(stylist.id, {
@@ -181,6 +196,31 @@ router.delete('/stylists/:stylistId', async (req, res, next) => {
       await oldStylist.destroy()
       res.sendStatus(200)
     }
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+router.post('/slots', loginRequired, async (req, res, next) => {
+  const {date, time, stylistId} = req.body
+  try {
+    const stylist = await Stylist.findById(stylistId)
+    if (!stylist) {
+      res.sendStatus(404)
+      return
+    }
+    const business = await stylist.getBusiness()
+    if (!business) {
+      res.sendStatus(500)
+      return
+    } else if (business.userId !== req.user.id) {
+      res.sendStatus(403)
+      return
+    }
+
+    const slotData = {date, time, stylistId}
+    const slot = await Slot.create(slotData)
+    res.sendStatus(200)
   } catch (err) {
     console.error(err)
   }

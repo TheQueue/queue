@@ -15,7 +15,7 @@ class MyBusinessDetail extends Component {
       businessId: props.match.params.businessId,
       isAddStylistActive: false,
       currentEditStylistId: NaN,
-      isEditStylistActive: false
+      isEditStylistActive: false,
     }
   }
   async componentDidMount() {
