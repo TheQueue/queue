@@ -26,6 +26,10 @@ const Stylist = db.define('stylist', {
     validate: {
       notEmpty: true
     }
+  },
+  profile: {
+    type: Sequelize.TEXT,
+    allowNull: true
   }
 })
 
