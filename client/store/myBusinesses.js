@@ -100,6 +100,7 @@ export const updateStylistThunk = (updatedStylist) => async dispatch => {
   try {
     const route = `/api/owner/stylists/${updatedStylist.id}`
     const {data} = await axios.put(route, updatedStylist)
+    // REVIEW: discuss data scoping
     const normalizedData = normalize(data, stylist)
     const newStylist = normalizedData.entities.stylists[updatedStylist.id]
     dispatch(updateStylistState(newStylist))

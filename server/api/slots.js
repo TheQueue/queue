@@ -4,6 +4,7 @@ const {loginRequired} = require('../utils')
 
 router.get('/', loginRequired, async (req, res, next) => {
   try {
+    // REVIEW: why is this access unscoped?
     const slots = await Slot.findAll()
 
     res.json(slots)

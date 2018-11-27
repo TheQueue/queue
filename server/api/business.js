@@ -64,6 +64,7 @@ router.get('/search/:keyword', async (req, res, next) => {
     const businesses = await Business.findAll({
       where: {
         name: {
+          // REVIEW: nice use of `iLike`
           [Op.iLike]: `%${keyword}%`
         }
       }

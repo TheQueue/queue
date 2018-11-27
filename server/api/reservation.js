@@ -35,7 +35,7 @@ router.get('/:reservationId', loginRequired, async (req, res, next) => {
     const queue = req.query.queueId
     const business = Queue.getBusiness()
 
-    
+
     if (req.user.id === business.userId) {
       const findOneReservation = await Reservation.findById(
         req.params.reservationId
@@ -96,6 +96,7 @@ router.put('/:reservationId', loginRequired, async (req, res, next) => {
 
 router.delete('/:reservationId', loginRequired, async (req, res, next) => {
   try {
+    // REVIEW: should confirm the reservation id matches the user id
     await Reservation.destroy({
       where: {
         id: req.params.reservationId

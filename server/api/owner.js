@@ -12,6 +12,7 @@ router.get('/businesses', loginRequired, async (req, res, next) => {
   console.log('userId: ', req.user.id)
   try {
     const userId = req.user.id
+    // REVIEW: discuss data selection concerns
     const businesses = await Business.findAll({
       where: {
         userId: userId
@@ -69,6 +70,7 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
     if (req.user.id !== business.userId) {
       res.sendStatus(403) // send 403 is user is unauthorized
     } else {
+      // REVIEW: rest vs RPC
       switch (action) {
         case 'cancel':
           await reservation.update({
@@ -94,6 +96,7 @@ router.put('/reservations/:reservationId', loginRequired, async (req, res, next)
 
 router.post('/stylists', async (req, res, next) => {
   try {
+    // REVIEW: gateways?
     const {name, phoneNumber, email, imageUrl, businessId} = req.body
     const newStylist = {name, phoneNumber, email, imageUrl, businessId}
     const stylist = await Stylist.create(newStylist)
