@@ -1,7 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchMyBusinessDataThunk, deleteStylistThunk } from '../store'
-import {AppointmentCard, AddStylist, EditStylist} from './index'
+import {fetchMyBusinessDataThunk, deleteStylistThunk} from '../store'
+import {
+  AppointmentCard,
+  AddStylist,
+  EditStylist,
+  MyBusinessCalendar
+} from './index'
 
 class MyBusinessDetail extends Component {
   constructor(props) {
@@ -56,11 +61,17 @@ class MyBusinessDetail extends Component {
     if (curVal) {
       this.setState({isEditStylistActive: false, currentEditStylistId: NaN})
     } else {
-      this.setState({isEditStylistActive: true, currentEditStylistId: Number(event.target.name)})
+      this.setState({
+        isEditStylistActive: true,
+        currentEditStylistId: Number(event.target.name)
+      })
     }
   }
   handleDeleteStylist = async event => {
-    await this.props.deleteStylistThunk(Number(event.target.name), Number(this.state.businessId))
+    await this.props.deleteStylistThunk(
+      Number(event.target.name),
+      Number(this.state.businessId)
+    )
   }
 
   render() {
@@ -143,47 +154,46 @@ class MyBusinessDetail extends Component {
                         <p>{stylist.name}</p>
                         <p>{stylist.email}</p>
                         <p>{stylist.phoneNumber}</p>
-                        {stylist.appointments.map(appId => {
+                        {/* {stylist.appointments.map(appId => {
                           const app = entities.appointments[appId]
                           const user = entities.users[app.user]
                           const slot = entities.slots[app.slot]
                           return (
                             <AppointmentCard key={appId} appointment={app} user={user} slot={slot}/>
                           )
-                        })}
-                        {/* {stylist.reservations.map(reservationId => {
-                          let reservation = entities.reservations[reservationId]
-                          return (
-                            <ReservationCard
-                              key={reservationId}
-                              reservation={reservation}
-                            />
-                          )
                         })} */}
                       </div>
                       <div className="media-right">
                         {this.renderEditStylistForm(stylist)}
-                        <p><button
-                          type="button"
-                          className="button"
-                          onClick={this.toggleEditStylist}
-                          name={stylist.id}
-                        >
-                          Edit information
-                        </button></p>
-                        <p><button
-                          type="button"
-                          className="button"
-                          onClick={this.handleDeleteStylist}
-                          name={stylist.id}
-                        >
-                          Delete stylist
-                        </button></p>
+                        <p>
+                          <button
+                            type="button"
+                            className="button"
+                            onClick={this.toggleEditStylist}
+                            name={stylist.id}
+                          >
+                            Edit information
+                          </button>
+                        </p>
+                        <p>
+                          <button
+                            type="button"
+                            className="button"
+                            onClick={this.handleDeleteStylist}
+                            name={stylist.id}
+                          >
+                            Delete stylist
+                          </button>
+                        </p>
                       </div>
                     </div>
                   )
                 })}
               </div>
+              <MyBusinessCalendar
+                currBusiness={currBusiness}
+                entities = {entities}
+              />
             </div>
           )
         }
@@ -206,7 +216,8 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   fetchMyBusinessDataThunk: () => dispatch(fetchMyBusinessDataThunk()),
-  deleteStylistThunk: (stylistId, businessId) => dispatch(deleteStylistThunk(stylistId, businessId))
+  deleteStylistThunk: (stylistId, businessId) =>
+    dispatch(deleteStylistThunk(stylistId, businessId))
 })
 
 export default connect(mapState, mapDispatch)(MyBusinessDetail)
