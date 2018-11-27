@@ -1,21 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import history from '../history'
-// import IconButton from '@material-ui/core/IconButton'
 import {searchBusiness, clearBusinessSearch} from '../store/'
 import {Link} from 'react-router-dom'
-// import Grid from '@material-ui/core/Grid'
-import {withStyles} from '@material-ui/core/styles'
-import {Footer, Navbar, BusinessCard} from './index'
+import {Footer, Navbar, BusinessCard, Categories} from './index'
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    direction: 'col',
-    justify: 'flex-start',
-    alignItems: 'baseline'
-  }
-})
 
 class SearchBar extends Component {
   constructor() {
@@ -93,6 +82,7 @@ class SearchBar extends Component {
             ))}
           </div>
         </section>
+        <Categories/>
         <Footer />
       </React.Fragment>
     )
@@ -109,6 +99,4 @@ const mapDispatchToProps = dispatch => {
     clearBusinessSearch: () => dispatch(clearBusinessSearch())
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(
-  withStyles(styles)(SearchBar)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
