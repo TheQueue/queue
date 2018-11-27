@@ -32,7 +32,7 @@ const initialState = {
 const SET_MY_BUSINESSES_DATA = 'SET_MY_BUSINESSES_DATA'
 const SET_MY_BUSINESSES_IS_LOADING_TRUE = 'SET_MY_BUSINESSES_IS_LOADING_TRUE'
 const SET_MY_BUSINESSES_IS_LOADING_FALSE = 'SET_MY_BUSINESSES_IS_LOADING_FALSE'
-const UPDATE_RESERVATION = 'UPDATE_RESERVATION'
+const UPDATE_APPOINTMENT = 'UPDATE_APPOINTMENT'
 const CREATE_STYLIST = 'CREATE_STYLIST'
 const UPDATE_STYLIST = 'UPDATE_STYLIST'
 const DELETE_STYLIST = 'DELETE_STYLIST'
@@ -48,9 +48,9 @@ const setMyBusinessesIsLoadingTrue = () => ({
 const setMyBusinessesIsLoadingFalse = () => ({
   type: SET_MY_BUSINESSES_IS_LOADING_FALSE
 })
-const updateReservationState = updatedReservation => ({
-  type: UPDATE_RESERVATION,
-  reservation: updatedReservation
+const updateAppointmentState = updatedAppointment => ({
+  type: UPDATE_APPOINTMENT,
+  appointment: updatedAppointment
 })
 const createStylist = (newStylist) => ({
   type: CREATE_STYLIST,
@@ -81,13 +81,12 @@ export const fetchMyBusinessDataThunk = () => async dispatch => {
   }
 }
 
-export const updateSingleReservationThunk = (reservationId, action) => async dispatch => {
+export const updateSingleAppointmentThunk = (apptId, action) => async dispatch => {
   try {
-    const route = `/api/owner/reservations/${reservationId}?action=${action}`
+    const route = `/api/owner/appointments/${apptId}?action=${action}`
     const {data} = await axios.put(route)
-    // normalizes data and updates store
     dispatch(
-      updateReservationState(data)
+      updateAppointmentState(data)
     )
   } catch (err) {
     console.error(err)
@@ -124,7 +123,7 @@ export const deleteStylistThunk = (stylistId, businessId) => async dispatch => {
 // reducer
 
 const myBusinessesReducer = (state = initialState, action) => {
-  let newReservation, newBusinessData, reservationId, newStylist, stylistId, businessId, stylistsArr
+  let newAppointment, newBusinessData, apptId, newStylist, stylistId, businessId, stylistsArr
   switch (action.type) {
     case SET_MY_BUSINESSES_DATA:
       return {...state, businessData: action.businessData}
@@ -132,11 +131,14 @@ const myBusinessesReducer = (state = initialState, action) => {
       return {...state, isLoading: false}
     case SET_MY_BUSINESSES_IS_LOADING_TRUE:
       return {...state, isLoading: true}
-    case UPDATE_RESERVATION:
+    case UPDATE_APPOINTMENT:
       newBusinessData = {...state.businessData}
-      newReservation = action.reservation
-      reservationId = newReservation.id
-      newBusinessData.entities.reservations[reservationId] = newReservation
+      newAppointment = action.appointment
+      apptId = newAppointment.id
+      newAppointment.stylist = newAppointment.stylistId
+      newAppointment.slot = newAppointment.slotId
+      newAppointment.user = newAppointment.userId
+      newBusinessData.entities.appointments[apptId] = newAppointment
       return {
         ...state,
         businessData: newBusinessData

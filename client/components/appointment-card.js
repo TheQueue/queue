@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {updateSingleReservationThunk} from '../store'
+import {updateSingleAppointmentThunk} from '../store'
 import moment from 'moment'
 
 class AppointmentCard extends Component {
@@ -11,14 +11,14 @@ class AppointmentCard extends Component {
 
   handleCancel = event => {
     event.preventDefault()
-    const reservationId = event.target.name
-    this.props.updateSingleReservationThunk(reservationId, 'cancel')
+    const apptId = event.target.name
+    this.props.updateSingleAppointmentThunk(apptId, 'cancel')
   }
 
   handleService = event => {
     event.preventDefault()
-    const reservationId = event.target.name
-    this.props.updateSingleReservationThunk(reservationId, 'service')
+    const apptId = event.target.name
+    this.props.updateSingleAppointmentThunk(apptId, 'service')
   }
 
   // converts dateandtime value from sequelize -> Date object
@@ -28,49 +28,42 @@ class AppointmentCard extends Component {
   }
 
   render() {
-    const {appointment, slot, user} = this.props
+    const {appointment, slot, user, stylist} = this.props
     const handleCancel = this.handleCancel
     const handleService = this.handleService
     const slotDate = moment(this.parseISOString(slot.date)).format('MMM Do YY')
     return (
       <article className="media box">
         <div className="media-left">
-          <img src="" />
+          {/* <p>Date: {slotDate}</p> */}
+          <p><strong>{slot.time}</strong></p>
+          <p>{appointment.status}</p>
+          <p>{stylist.name}</p>
         </div>
         <div className="media-content">
-          <p>
-            Date:{' '}
-            {slotDate}
-          </p>
-          <p>
-            Time:{' '}
-            {slot.time}
-          </p>
           <p>Username: {user.username}</p>
-          <p>Status: {appointment.status}</p>
           <p>Phone #: {user.phoneNumber}</p>
           <p>Note: {appointment.note}</p>
-        </div>
-        <div className="media-right">
+
           {appointment.status === 'Active' && (
-            <button
-              name={appointment.id}
-              type="button"
-              className="button"
-              onClick={handleService}
-            >
-              Mark as served
-            </button>
-          )}
-          {appointment.status === 'Active' && (
-            <button
-              name={appointment.id}
-              type="button"
-              className="button"
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
+            <div className="level">
+              <button
+                name={appointment.id}
+                type="button"
+                className="button level-item"
+                onClick={handleService}
+              >
+                Mark as served
+              </button>
+              <button
+                name={appointment.id}
+                type="button"
+                className="button level-item"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </div>
           )}
         </div>
       </article>
@@ -79,8 +72,8 @@ class AppointmentCard extends Component {
 }
 
 const mapDispatch = dispatch => ({
-  updateSingleReservationThunk: (appointmentId, action) =>
-    dispatch(updateSingleReservationThunk(appointmentId, action))
+  updateSingleAppointmentThunk: (appointmentId, action) =>
+    dispatch(updateSingleAppointmentThunk(appointmentId, action))
 })
 
 export default connect(null, mapDispatch)(AppointmentCard)

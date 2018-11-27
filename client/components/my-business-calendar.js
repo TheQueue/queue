@@ -29,21 +29,30 @@ class MyBusinessCalendar extends Component {
           <Calendar onChange={this.onChange} value={this.state.date} />
         </div>
         <div className="column box">
-          <p className="title">Slots <button className="button" type="button">Create slot</button></p>
-
-
+          <div className="media">
+            <div className="media-content">
+              <p className="title">Slots</p>
+            </div>
+            <div className="media-right">
+              <button className="button" type="button">
+                Create slot
+              </button>
+            </div>
+          </div>
           {currBusiness.stylists.map(styId => {
             const stylist = entities.stylists[styId]
             return stylist.appointments.map(appId => {
               const app = entities.appointments[appId]
               const user = entities.users[app.user]
               const slot = entities.slots[app.slot]
+              const styl = entities.stylists[app.stylistId]
               return this.doSlotAndStateDateMatch(slot) ? (
                 <AppointmentCard
                   key={appId}
                   appointment={app}
                   user={user}
                   slot={slot}
+                  stylist={styl}
                 />
               ) : null
             })
