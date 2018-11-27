@@ -51,6 +51,7 @@ class SearchBar extends Component {
       <React.Fragment>
         <Navbar />
         <section className="section insideFrame">
+          <Categories/>
           <div className="field has-addons">
             <div className="control is-expanded">
               <input
@@ -82,7 +83,6 @@ class SearchBar extends Component {
             ))}
           </div>
         </section>
-        <Categories/>
         <Footer />
       </React.Fragment>
     )

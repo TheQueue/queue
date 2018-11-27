@@ -3,7 +3,7 @@ import {Map, GoogleApiWrapper, Marker, InfoWindow} from 'google-maps-react'
 import CurrentLocation from './map'
 import {thunkAllB} from '../store/business'
 import {connect} from 'react-redux'
-
+import {Link} from 'react-router-dom'
 const mapStyles = {
   width: '100%',
   height: '100%'
@@ -72,7 +72,7 @@ export class MapContainer extends Component {
             visible={true}
           >
             <div>
-              <h4>{business.name}</h4>
+              <a href={`/business/${business.id}`}>{business.name}</a>
             </div>
           </InfoWindow>
         ))}

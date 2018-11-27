@@ -21,7 +21,7 @@ class Categories extends Component {
   handleChange(event) {
     this.setState({category: event.target.value})
   }
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault()
     const currCat = this.state.category
     this.props.loadBusinesses(currCat)
@@ -32,27 +32,29 @@ class Categories extends Component {
     }
     const {classes} = this.props
     return (
-      <React.Fragment>
-        <div className="field has-addons">
-          <div className="control">
-            <span className="select">
-              <select onChange={this.handleChange}>
-                <option>Show all</option>
-                {this.props.categories.map(category => (
-                  <option key={category.id} value={category.categoryType}>
-                    {category.categoryType}
-                  </option>
-                ))}
-              </select>
-            </span>
-          </div>
-          <div className="control">
-            <button type="button" className="button is-info" onClick={this.handleSubmit}>
-              Apply Filter
-            </button>
-          </div>
+      <div className="field has-addons">
+        <div className="control">
+          <span className="select">
+            <select onChange={this.handleChange}>
+              <option>Show all</option>
+              {this.props.categories.map(category => (
+                <option key={category.id} value={category.categoryType}>
+                  {category.categoryType}
+                </option>
+              ))}
+            </select>
+          </span>
         </div>
-      </React.Fragment>
+        <div className="control">
+          <button
+            type="button"
+            className="button is-info"
+            onClick={this.handleSubmit}
+          >
+            Apply Filter
+          </button>
+        </div>
+      </div>
     )
   }
 }

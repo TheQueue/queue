@@ -9,7 +9,7 @@ const Navbar = props => {
   const isList = props.match.path === '/businessList'
   const isMap = props.match.path === '/map'
   const toggleFilter = () => {
-    (isFilterVisible) ? hideFilter() : showFilter()
+    isFilterVisible ? hideFilter() : showFilter()
   }
 
   if (isList) {
@@ -30,7 +30,7 @@ const Navbar = props => {
         </Link>
         <a
           className="navbar-item is-expanded is-block has-text-centered"
-          onClick = {toggleFilter}
+          onClick={toggleFilter}
         >
           <i className="fa fa-filter" />
           <p className="is-size-7">Filter</p>
@@ -53,13 +53,13 @@ const Navbar = props => {
         >
           <img src="/logo.png" height="32" width="32" />
         </Link>
-        <Link
-          to="/categories"
+        <a
           className="navbar-item is-expanded is-block has-text-centered"
+          onClick={toggleFilter}
         >
           <i className="fa fa-filter" />
           <p className="is-size-7">Filter</p>
-        </Link>
+        </a>
       </nav>
     )
   } else {
@@ -90,10 +90,10 @@ const Navbar = props => {
   }
 }
 
-const mapState = (state) => ({
+const mapState = state => ({
   isFilterVisible: state.categories.isFilterVisible
 })
-const mapDispatch =(dispatch) => ({
+const mapDispatch = dispatch => ({
   showFilter: () => dispatch(showFilter()),
   hideFilter: () => dispatch(hideFilter())
 })
