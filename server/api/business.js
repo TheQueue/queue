@@ -5,13 +5,13 @@ const yelp = require('yelp-fusion')
 const twilio = require('twilio')
 //const Stylist= require('../db/models')
 const client = yelp.client(process.env.YELP_KEY)
-
+//const Service= require('')
 const accountSid = process.env.SID
 const authToken = process.env.APKEY
 const clientT = new twilio(accountSid, authToken)
 
 const router = require('express').Router()
-const {Business, Stylist, Category} = require('../db/models')
+const {Business, Stylist, Category, Service} = require('../db/models')
 
 // E.G. api/business?category=Barbershop
 router.get('/', async (req, res, next) => {
@@ -79,7 +79,7 @@ router.get('/search/:keyword', async (req, res, next) => {
   }
 })
 
-//messages
+//messages Twilio
 router.post('/inbound', async (req, res, next) => {
   try {
     let stylistExist = false
@@ -159,6 +159,40 @@ router.post('/inbound', async (req, res, next) => {
     res.send('')
   } catch (err) {
     next(err)
+  }
+})
+
+router.post('/chatbot', async (req, res, next) => {
+  try {
+    const duration = ['how long', 'duration']
+
+    const greeting = ['hello', 'hi', 'hey']
+    //contains, includes, match
+    if (
+      req.body.data.toLowerCase().includes('price') ||
+      req.body.data.toLowerCase().includes('how much')
+    ) {
+      const arrayMes = req.body.data.split(' ')
+      for (let i = 0; i < arrayMes.length; i++) {
+        const service = await Service.findOne({
+          where: {
+            businessId: req.body.id,
+            name: {
+              [Op.iLike]: `%${arrayMes[i]}%`
+            }
+          }
+        })
+        if (service) {
+          res.send(String(service.price))
+          return
+        }
+      }
+    }
+    console.log('yep!')
+
+    //res.send('')
+  } catch (err) {
+    console.log(err)
   }
 })
 

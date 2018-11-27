@@ -4,6 +4,7 @@ const db = require('../server/db')
 const {
   User,
   Business,
+  Service,
   Category,
   Reservation,
   Stylist
@@ -13,7 +14,7 @@ const seedUser = require('./seedUser.json')
 const seedBusiness = require('./seedBusiness.json')
 const seedReservation = require('./seedReservation.json')
 const seedStylist = require('./seedStylist.json')
-
+const seedService = require('./seedService.json')
 async function seed() {
   try {
     await db.sync({force: true})
@@ -65,6 +66,15 @@ async function seed() {
     )
 
     console.log(`seeded ${reservations.length} reservations`)
+
+    //SAervices
+    const services = await Promise.all(
+      seedService.map(reservation => {
+        return Service.create(reservation)
+      })
+    )
+
+    console.log(`seeded ${services.length} services`)
 
     // console.log(`seeded ${categoryBusiness.length} cat-business association`)
 

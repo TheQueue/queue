@@ -120,7 +120,7 @@ class SingleBusiness extends React.Component {
             <a className="button is-primary" onClick={this.popup}>
               Reservation
             </a>
-            <ChatBot />
+            <ChatBot id={Number(this.props.match.params.id)} />
           </div>
         )}
         {this.state.isActive && (
