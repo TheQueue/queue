@@ -4,13 +4,16 @@ body {
 .insideFrame {
   margin-top: 90px;
   margin-bottom: 90px;
-  background-color: rgb(247, 211, 183)
+  background-color: rgb(247, 211, 183);
 }
-.front-page{
+.front-page {
   margin-left: auto;
   margin-right: auto;
 }
 
+.rcw-launcher {
+  margin-bottom: 100px;
+}
 .react-calender {
   margin-left: auto;
   margin-right: auto;
@@ -47,15 +50,15 @@ form div {
   padding: 0;
 }
 
-.navbar-menu{
+.navbar-menu {
   flex-grow: 1;
   flex-shrink: 0;
 }
-.navbar-start{
+.navbar-start {
   justify-content: flex-start;
   margin-right: auto;
 }
-.navbar-end{
+.navbar-end {
   justify-content: flex-end;
   margin-left: auto;
 }
@@ -63,7 +66,6 @@ form div {
 .navbar-item.is-logo {
   justify-content: center;
   align-items: center;
-  
 }
 .footers {
   position: fixed;
