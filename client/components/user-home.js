@@ -89,7 +89,8 @@ export class UserHome extends React.Component {
             </header>
             <div className="card-content has-text-centered">
               <div className="content">
-                <strong>{appointment[0].stylist.business.name}</strong>
+               <Link to={`/business/${appointment[0].stylist.business}`}>
+                <strong>{appointment[0].stylist.business.name}</strong></Link>
                 <p>{appointment[0].stylist.business.address}</p>
                 <p>{appointment[0].stylist.business.phoneNumber}</p>
                 <p>Stylist: {appointment[0].stylist.name}</p>

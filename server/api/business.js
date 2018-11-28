@@ -9,9 +9,17 @@ const client = yelp.client(process.env.YELP_KEY)
 const accountSid = process.env.SID
 const authToken = process.env.APKEY
 const clientT = new twilio(accountSid, authToken)
-
 const router = require('express').Router()
-const {Business, Stylist, Category, Service, Slot} = require('../db/models')
+const {
+  Business,
+  Stylist,
+  Category,
+  Service,
+  Slot,
+  StylistSlot,
+  Appointment
+} = require('../db/models')
+const axios = require('axios')
 
 // E.G. api/business?category=Barbershop
 router.get('/', async (req, res, next) => {
@@ -91,11 +99,16 @@ router.get('/search/:keyword', async (req, res, next) => {
   }
 })
 
+let slotId = 0
+let bId = 0
+let stySlotId = 0
+let stylistId = 0
+let businessT
+let stylistT
+let availSlot = []
 //messages Twilio
 router.post('/inbound', async (req, res, next) => {
   try {
-    let stylistExist = false
-    let stylistName = ''
     if (req.body.Body.toLowerCase() === 'rsvp') {
       clientT.messages
         .create({
@@ -105,14 +118,16 @@ router.post('/inbound', async (req, res, next) => {
         })
         .then(() => {})
     } else {
-      const business = Business.findOne({
+      businessT = await Business.findOne({
         where: {
           name: {
             [Op.iLike]: `%${req.body.Body}%`
           }
         }
       })
-      if (business) {
+      console.log('business in twilio ', businessT)
+      if (businessT) {
+        bId = businessT.id
         clientT.messages
           .create({
             body: `Respond with your favorite stylist (ex: Bobby Barber)`,
@@ -121,17 +136,39 @@ router.post('/inbound', async (req, res, next) => {
           })
           .then(() => {})
       } else {
-        const stylist = await Stylist.findOne({
+        stylistT = await Stylist.findOne({
           where: {
             name: {
               [Op.iLike]: `%${req.body.Body}%`
             }
           }
         })
-        if (stylist) {
+        console.log('stylist in twilio ', stylistT)
+        if (stylistT) {
+          stylistId = stylistT.id
+          availSlot = await StylistSlot.findAll({
+            where: {
+              stylistId: stylistT.id,
+              status: 'Open'
+            },
+            include: [
+              {
+                model: Slot
+              }
+            ],
+            order: [[{model: Slot}, 'time', 'ASC']]
+          })
+          stySlotId = availSlot.id
+          slotId = availSlot.slotId
+          const times = availSlot.map(
+            obj => `${obj.slot.time} ${obj.slot.date}`
+          )
+
           clientT.messages
             .create({
-              body: `respond with a day and time (ex: mm/dd/yyyy hh:mm AM)`,
+              body: `${stylistT.name} is available on: ${times.join(
+                '\n'
+              )}\n respond with a day and time (ex: mm/dd/yyyy hh:mm AM)`,
               to: req.body.From,
               from: '+13312446019'
             })
@@ -144,30 +181,59 @@ router.post('/inbound', async (req, res, next) => {
           ) {
             clientT.messages
               .create({
-                body: `All set you're schedule with ${stylist.name} at ${
-                  req.body.Body
-                }`,
+                body: `All set you're schedule at ${req.body.Body}`,
                 to: req.body.From,
                 from: '+13312446019'
               })
               .then(() => {})
+            //get Dat month year
+            const reqArr = req.body.Body.split(' ')
+            const dayTimeY = reqArr[0].split('/')
+            let day = Number(dayTimeY[1]) + 1
+            if (day < 10) {
+              day = `0${day}`
+            }
+            const mth = dayTimeY[0]
+            const yr = dayTimeY[2]
+
+            const timeChoose = availSlot.filter(obj => {
+              console.log('Date ', obj.slot.date)
+              console.log(obj.slot.date.toISOString().slice(0, 10))
+              console.log(yr + '-' + mth + '-' + day)
+              return (
+                obj.stylistId === stylistId &&
+                obj.slot.time === reqArr[1] &&
+                obj.slot.date.toISOString().slice(0, 10) ===
+                  yr + '-' + mth + '-' + day
+              )
+            })[0]
+
+            console.log('Time Id ', timeChoose.slotId)
 
             //Need appointements table to store information
+            //update StylistSlot to booked
+            const update = await StylistSlot.update(
+              {status: 'Booked'},
+              {
+                where: {
+                  slotId: timeChoose.slotId,
+                  stylistId: timeChoose.stylistId
+                }
+              }
+            )
+
+            //create app
+            await Appointment.create({
+              slotId: timeChoose.slotId,
+              stylistId: timeChoose.stylistId,
+              note: req.body.From
+            })
           }
         }
       }
     }
 
-    /* clientT.messages
-      .create({
-        body: `Hello ${req.body.FromCity} ${
-          req.body.FromState
-        },  thanks for you fidelite`,
-        to: req.body.From,
-        from: '+13312446019'
-      })
-      .then(() => {}) */
-    console.log(req.body)
+    console.log(slotId, bId, stySlotId, stylistId)
     res.send('')
   } catch (err) {
     next(err)
