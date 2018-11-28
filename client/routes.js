@@ -9,7 +9,7 @@ import {
   Search,
   QRcode,
   Qsetting,
-  myQs,
+  MyQs,
   Qdata,
   favorites,
   profile,
@@ -42,7 +42,7 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route path="/home" component={UserHome} />
         <Route path="/Qsetting" component={Qsetting} />
-        <Route path="/myQs" component={myQs} />
+        <Route path="/myQs" component={MyQs} />
         <Route path="/business/:id" component={SingleView} />
         <Route path="/categories" component={Categories} />
         <Route path="/businessList" component={BusinessList} />
