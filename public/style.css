@@ -1,11 +1,12 @@
 body {
   font-family: sans-serif;
 }
+
 .insideFrame {
   margin-top: 90px;
   margin-bottom: 90px;
   background-color: rgb(247, 211, 183);
-  display: flex;
+  /* display: flex; */
 }
 .front-page {
   margin-left: auto;
