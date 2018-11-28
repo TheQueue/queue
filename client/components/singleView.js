@@ -116,12 +116,11 @@ class SingleBusiness extends React.Component {
                       >
                         Reservation
                       </button>
-                      <ChatBot id={Number(this.props.match.params.id)} />
                     </div>
                   )}
                 </div>
               </div>
-              {}
+              
               {this.state.isActive && (
                 <ReservationForm
                   doneInfo={this.doneInfo}
@@ -144,7 +143,9 @@ class SingleBusiness extends React.Component {
               </div>
             </div>
           </div>
+         
         </div>
+        <ChatBot id={Number(this.props.match.params.id)} />
         <Footer />
       </React.Fragment>
     )

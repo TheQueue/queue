@@ -14,7 +14,7 @@ const Footer = () => {
             <i className="fa fa-search"></i>
             <p className="is-size-7">Search</p>
         </Link>
-       <Link to="/search" className="navbar-item is-expanded is-block has-text-centered">
+       <Link to="/myQs" className="navbar-item is-expanded is-block has-text-centered">
             <i className="fa fa-hourglass"></i>
             <p className="is-size-7">Qs</p>
         </Link>
