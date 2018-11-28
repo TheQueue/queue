@@ -91,7 +91,6 @@ class ReservationForm extends Component {
     ) : null
   }
   renderStepTwo() {
-    console.log(this.state)
     return this.state.currentStep === 2 ? (
       <div>
         <strong>Pick Time</strong>
@@ -144,7 +143,7 @@ class ReservationForm extends Component {
           <div>Date: {moment(this.state.date).format('MMM Do YY')} </div>
           <div>
             Stylist:{' '}
-            {this.props.business.stylists.filter(styl=> styl.id === this.state.stylistId)[0].name}{' '}
+            {this.props.business.stylists.filter(styl=> styl.id === Number(this.state.stylistId))[0].name}{' '}
           </div>
           <div>
             Time:{' '}
