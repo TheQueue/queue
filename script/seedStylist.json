@@ -32,7 +32,7 @@
     "phoneNumber": "(510)-666-1111",
     "businessId": 2,
     "slotId": 2,
-    "profile": "I have 7 years of experience in manicurer and pedecure."
+    "profile": "I have 7 years of experience in manicures and pedicures."
   },
   {
     "name": "Jemmy",
@@ -40,7 +40,7 @@
     "phoneNumber": "(510)-666-2222",
     "businessId": 3,
     "slotId": 2,
-    "profile": "I have 7 years of experience in manicurer and pedecure."
+    "profile": "I have 7 years of experience in manicures and pedicures."
   },
   {
     "name": "Menan",
@@ -57,7 +57,7 @@
     "phoneNumber": "(510)-444-4444",
     "businessId": 4,
     "slotId": 2,
-    "profile": "I am an expert for nail arts."
+    "profile": "I am an expert at nail art."
   },
   {
     "name": "Regi",
@@ -74,7 +74,7 @@
     "phoneNumber": "(703)-888-4444",
     "businessId": 5,
     "slotId": 2,
-    "profile": "Hi I'm Sudan. People like me for their beautiful hair cut"
+    "profile": "Hi I'm Sudan. People call me when they need a beautiful hair cut."
   },
   {
     "name": "Farzana",
@@ -91,7 +91,7 @@
     "phoneNumber": "(703)-666-7777",
     "businessId": 6,
     "slotId": 2,
-    "profile": "Hi I'm Himan. People like me for their beautiful hair cut"
+    "profile": "Hi, I'm Himan. I am a wizard at cutting hair."
   },
   {
     "name": "Jerry",
@@ -108,7 +108,7 @@
     "phoneNumber": "(703)-888-8888",
     "businessId": 7,
     "slotId": 2,
-    "profile": "Hi I'm Herry. People like me for their beautiful hair cut"
+    "profile": "Hi I'm Herry. I'm an artist, and your hair is my canvas."
   },
   {
     "name": "Farzana",
