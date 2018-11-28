@@ -20,7 +20,7 @@ const seedStylist = require('./seedStylist.json')
 const seedService = require('./seedService.json')
 const seedSlot = require('./seedSlot.json')
 const seedAppointment = require('./seedAppointment.json')
-const seedStylistSlot = require('./seedstylistSlot.json')
+const seedStylistSlot = require('./seedStylistSlot.json')
 
 async function seed() {
   try {
