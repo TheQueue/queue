@@ -16,5 +16,41 @@
     "isAdmin": false,
     "isSmsAuthenticated": true,
     "isEmailAuthenticated": true
+  },
+  {
+    "username": "david",
+    "email": "david@email.com",
+    "phoneNumber": "(333)-333-3333",
+    "password": "123",
+    "isAdmin": false,
+    "isSmsAuthenticated": true,
+    "isEmailAuthenticated": true
+  },
+  {
+    "username": "roy",
+    "email": "roy@email.com",
+    "phoneNumber": "(444)-444-4444",
+    "password": "123",
+    "isAdmin": false,
+    "isSmsAuthenticated": true,
+    "isEmailAuthenticated": true
+  },
+  {
+    "username": "nishi",
+    "email": "nishi@email.com",
+    "phoneNumber": "(555)-555-5555",
+    "password": "123",
+    "isAdmin": false,
+    "isSmsAuthenticated": true,
+    "isEmailAuthenticated": true
+  },
+  {
+    "username": "guethie",
+    "email": "guethei@email.com",
+    "phoneNumber": "(666)-666-6666",
+    "password": "123",
+    "isAdmin": false,
+    "isSmsAuthenticated": true,
+    "isEmailAuthenticated": true
   }
 ]
