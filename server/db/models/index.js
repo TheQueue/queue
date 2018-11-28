@@ -103,7 +103,6 @@ Slot.hasMany(StylistSlot)
 
 
 Slot.belongsToMany(Stylist, {
-<<<<<<< HEAD
   through: 
   {model: StylistSlot}
 })
@@ -111,15 +110,6 @@ Slot.belongsToMany(Stylist, {
 Stylist.belongsToMany(Slot, {
   through: 
   {model: StylistSlot}
-=======
-  through:
-    "SlotStylist"
-})
-
-Stylist.belongsToMany(Slot, {
-  through:
-    "SlotStylist"
->>>>>>> master
 })
 
 
