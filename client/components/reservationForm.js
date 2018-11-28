@@ -6,6 +6,7 @@ import 'rc-steps/assets/index.css'
 import 'rc-steps/assets/iconfont.css'
 import moment from 'moment'
 import {createAppointment} from '../store'
+import {fetchStylistSlot, updateStylistSlot} from '../store/stylistSlot'
 
 class ReservationForm extends Component {
   // Initialize all input of date type.
@@ -21,11 +22,14 @@ class ReservationForm extends Component {
     }
   }
 
-  nextStep = () => {
+  nextStep = async () => {
     let s = this.state.currentStep + 1
     this.setState({
       currentStep: s
     })
+    if (this.state.stylistId && s === 2) {
+      await this.props.getStylistSlot(this.state.stylistId)
+    }
   }
   backStep = () => {
     if (this.state.currentStep >= 0) {
@@ -48,6 +52,12 @@ class ReservationForm extends Component {
       currentStep: s
     })
     const appointmentInfo = {...this.state}
+    const info = {
+      stylistId: this.state.stylistId,
+      status: "Booked",
+      slotId: this.state.slotId
+    }
+    await this.props.bookStylistSlot(info)
     await this.props.createAppointment(appointmentInfo)
   }
   renderStepZero() {
@@ -81,28 +91,45 @@ class ReservationForm extends Component {
     ) : null
   }
   renderStepTwo() {
+    console.log(this.state)
     return this.state.currentStep === 2 ? (
       <div>
         <strong>Pick Time</strong>
         <div className="control" onChange={this.handleSelect}>
-          {this.props.slot
-            ? this.props.slot
+          {this.props.stylistSlots
+            .filter(
+              ss =>
+                moment(ss.slot.date).format('MMM Do YY') ===
+                moment(this.state.date).format('MMM Do YY')
+            )
+            .map(ss => {
+              return (
+                <p key={ss.slot.id}>
+                  <label className="radio">
+                    <input type="radio" name="slotId" value={ss.slot.id} />
+                    {ss.slot.time}
+                  </label>
+                </p>
+              )
+            })}
+          {/* {this.props.stylistSlots.length
+            ? this.props.stylistSlots
                 .filter(
-                  slot =>
-                    moment(slot.date).format('MMM Do YY') ===
+                  ss =>
+                    moment(ss.slot.date).format('MMM Do YY') ===
                     moment(this.state.date).format('MMM Do YY')
                 )
-                .map(slot => {
+                .map(ss => {
                   return (
-                    <p key={slot.id}>
+                    <p key={ss.slot.id}>
                       <label className="radio">
-                        <input type="radio" name="slotId" value={slot.id} />
-                        {slot.time}
+                        <input type="radio" name="slotId" value={ss.slot.id} />
+                        {ss.slot.time}
                       </label>
                     </p>
                   )
                 })
-            : null}
+            : null} */}
         </div>
       </div>
     ) : null
@@ -121,13 +148,11 @@ class ReservationForm extends Component {
           </div>
           <div>
             Time:{' '}
-            {this.props.slot
-              ? this.props.slot
-                  .filter(slot => this.state.slotId === slot.id.toString())
-                  .map(slot => {
-                    return slot.time
-                  })
-              : null}
+            {this.props.stylistSlots
+              .filter(slot => this.state.slotId === slot.slot.id.toString())
+              .map(slot => {
+                return slot.slot.time
+              })}
           </div>
         </div>
       </div>
@@ -223,14 +248,17 @@ class ReservationForm extends Component {
   }
 }
 
-
-const mapState = (state) => ({
+const mapState = state => ({
   business: state.business.single.business,
+  stylistSlots: state.stylistSlot
 })
 
-const mapDispatch = (dispatch) => ({
+const mapDispatch = dispatch => ({
   createAppointment: appointmentInfo =>
-  dispatch(createAppointment(appointmentInfo))
+    dispatch(createAppointment(appointmentInfo)),
+  getStylistSlot: stylistId => dispatch(fetchStylistSlot(stylistId)),
+  bookStylistSlot: stylistSlotInfo =>
+    dispatch(updateStylistSlot(stylistSlotInfo))
 })
 
 export default connect(mapState, mapDispatch)(ReservationForm)

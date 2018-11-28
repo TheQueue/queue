@@ -8,7 +8,9 @@ import business from './business'
 import categories from './categories'
 import slot from './slot'
 import appointment from './appointment'
-const reducer = combineReducers({user, myBusinesses, business, categories, slot, appointment})
+import stylistSlot from './stylistSlot'
+
+const reducer = combineReducers({user, myBusinesses, business, categories, slot, appointment,stylistSlot})
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -22,3 +24,4 @@ export * from './business'
 export * from './categories'
 export * from './appointment'
 export * from './slot'
+export * from './stylistSlot'
