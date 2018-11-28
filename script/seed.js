@@ -9,7 +9,8 @@ const {
   Reservation,
   Stylist,
   Slot,
-  Appointment
+  Appointment,
+  StylistSlot
 } = require('../server/db/models')
 const seedCategory = require('./seedCategory.json')
 const seedUser = require('./seedUser.json')
@@ -18,8 +19,8 @@ const seedReservation = require('./seedReservation.json')
 const seedStylist = require('./seedStylist.json')
 const seedService = require('./seedService.json')
 const seedSlot = require('./seedSlot.json')
-const seedAppointment = require('./seedAppointment')
-
+const seedAppointment = require('./seedAppointment.json')
+const seedStylistSlot = require('./seedstylistSlot.json')
 
 async function seed() {
   try {
@@ -97,6 +98,15 @@ async function seed() {
 
 
     // console.log(`seeded ${categoryBusiness.length} cat-business association`)
+
+    // stylistslot
+    const stylistslot = await Promise.all(
+      seedStylistSlot.map(ss => {
+        return StylistSlot.create(ss)
+      })
+    )
+    console.log(`seeded ${stylistslot.length} StylistSlot`)
+
 
     console.log(`seeded successfully`)
   } catch (err) {

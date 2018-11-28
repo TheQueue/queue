@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login} from './auth-form'
-import {me, logout, fetchUserAppointment, updateAppointment} from '../store'
+import {me, logout, fetchUserAppointment, updateAppointment, updateStylistSlot} from '../store'
 import Footer from './footer'
 import moment from 'moment'
 
@@ -27,9 +27,13 @@ export class UserHome extends React.Component {
               status: 'Cancelled',
               id: this.props.appointment[0].id
             }
-
+            const stylistSlotInfo = {
+              status: "Open",
+              stylistId: this.props.appointment[0].stylistId,
+              slotId: this.props.appointment[0].slotId
+            }
             await this.props.cancelAppointment(appointmentInfo)
-            // await this.props.getAppointment()
+            await this.props.bookStylistSlot(stylistSlotInfo)
             alert('Reservation is canceled')
           }
         },
@@ -160,7 +164,9 @@ const mapDispatch = dispatch => {
       dispatch(logout())
     },
     getAppointment: () => dispatch(fetchUserAppointment()),
-    cancelAppointment: status => dispatch(updateAppointment(status))
+    cancelAppointment: status => dispatch(updateAppointment(status)),
+    bookStylistSlot: stylistSlotInfo =>
+    dispatch(updateStylistSlot(stylistSlotInfo))
   }
 }
 

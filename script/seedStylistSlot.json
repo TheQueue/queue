@@ -1,0 +1,22 @@
+[
+  {
+    "status": "Open",
+    "slotId": 1,
+    "stylistId": 1
+  },
+  {
+    "status": "Booked",
+    "slotId": 2,
+    "stylistId": 1
+  },
+  {
+    "status": "Booked",
+    "slotId": 1,
+    "stylistId": 2
+  },
+  {
+    "status": "Open",
+    "slotId": 2,
+    "stylistId": 2
+  }
+]

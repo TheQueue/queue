@@ -51,7 +51,8 @@ router.get('/user', async (req, res, next) => {
           model: Slot,
           required: false
         }
-      ]
+      ],
+      order:[[{model: Slot}, 'date', 'ASC']]
     })
 
     res.json(appointments)

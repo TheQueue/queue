@@ -8,6 +8,7 @@ router.use('/reservation', require('./reservation'))
 router.use('/categories', require('./categories'))
 router.use('/appointments', require('./appointments'))
 router.use('/slots', require('./slots'))
+router.use('/stylistSlot', require("./stylistSlot"))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')
