@@ -9,7 +9,12 @@ const StylistSlot = db.define('stylistSlot', {
       'Booked'
     ]),
     defaultValue: 'Open'
-  }
+  },
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
 })
 
 module.exports = StylistSlot

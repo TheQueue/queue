@@ -51,7 +51,9 @@ export const createAppointment = (appointmentInfo) => async dispatch => {
 }
 export const updateAppointment = (appointmentInfo) => async dispatch => {
   try {
+    console.log(appointmentInfo)
       let appointment = await axios.put(`/api/appointments/`, appointmentInfo)
+      
     dispatch(cancelAppointment(appointment.data))
   } catch (err) {
     console.log(err)

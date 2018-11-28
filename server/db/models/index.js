@@ -92,23 +92,27 @@ Stylist.hasMany(Appointment)
 Appointment.belongsTo(Slot)
 Slot.hasMany(Appointment)
 
+//appointment user
+Appointment.belongsTo(User)
+User.hasMany(Appointment)
 
 
 //slot to stylistSlot
 StylistSlot.belongsTo(Slot)
 Slot.hasMany(StylistSlot)
 
+//stylist to stylistSlot
+StylistSlot.belongsTo(Stylist)
+Stylist.hasMany(StylistSlot)
+
 //stylist and slot relationship on another table (for onwer to add and filter and map for user to choose)
-
-
-
 Slot.belongsToMany(Stylist, {
-  through: 
+  through:
   {model: StylistSlot}
 })
 
 Stylist.belongsToMany(Slot, {
-  through: 
+  through:
   {model: StylistSlot}
 })
 
