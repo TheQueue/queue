@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Stylist, Business, Appointment, Slot} = require('../db/models')
+const {User, Stylist, Business, Appointment, Slot, StylistSlot} = require('../db/models')
 const {loginRequired} = require('../utils')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
@@ -31,6 +31,11 @@ router.get('/businesses', loginRequired, async (req, res, next) => {
                   required: false
                 }
               ]
+            }, {
+              model: StylistSlot,
+              include: [{
+                model: Slot
+              }]
             }
           ]
         }
@@ -217,10 +222,49 @@ router.post('/slots', loginRequired, async (req, res, next) => {
       res.sendStatus(403)
       return
     }
-
     const slotData = {date, time, stylistId}
-    const slot = await Slot.create(slotData)
-    res.sendStatus(200)
+    // check if slot with date and time already exist
+    const findSlot = await Slot.findOne({
+      where: {
+        time: time,
+        date: date
+      }
+    })
+    // if it doesn't, create a new slot, create new StylistSlot entry
+    if (!findSlot) {
+      const slot = await Slot.create(slotData)
+      const newStylSlot = await StylistSlot.create({
+        slotId: slot.id,
+        stylistId: stylistId
+      })
+      res.json({
+        slot: slot,
+        stylistSlot: newStylSlot
+      })
+    // if it does, check if a style-slot exists
+    } else {
+      const stylSlot = await StylistSlot.findOne({
+        where: {
+          slotId: findSlot.id,
+          stylistId: stylistId
+        }
+      })
+      // if it does, send an error
+      if (stylSlot) {
+        res.sendStatus(500)
+        return
+      } else {
+        // if it doesn't, create a new styl-slot entry
+        const newStylSlot = await StylistSlot.create({
+          slotId: findSlot.id,
+          stylistId: stylistId
+        })
+        res.json({
+          slot: findSlot,
+          stylistSlot: newStylSlot
+        })
+      }
+    }
   } catch (err) {
     console.error(err)
   }

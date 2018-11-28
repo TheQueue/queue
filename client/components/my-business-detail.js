@@ -121,7 +121,7 @@ class MyBusinessDetail extends Component {
           const matchingReservs = {}
           const statusList = ['Active', 'Serviced', 'Cancelled']
           return (
-            <div className="container">
+            <div className="container insideFrame">
               <div className="box">
                 <h1 className="title">{currBusiness.name}</h1>
                 <h2>Business ID: {currBusiness.id}</h2>

@@ -1,18 +1,16 @@
 [
-    {
-      "note": "I am a cat",
-      "userId": 1,
-      "slotId": 1,
-      "stylistId": 1,
-      "status": "Active"
-    },
-    {
-    "note": "I am a dog",
+  {
+    "note": "I am a cat",
     "userId": 1,
     "slotId": 1,
     "stylistId": 1,
-    "status": "Cancelled"
+    "status": "Active"
+  },
+  {
+    "note": "I am a dog",
+    "userId": 2,
+    "slotId": 1,
+    "stylistId": 2,
+    "status": "Active"
   }
-
-  ]
-  
+]

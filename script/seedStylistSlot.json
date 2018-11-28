@@ -1,12 +1,12 @@
 [
   {
     "status": "Open",
-    "slotId": 1,
+    "slotId": 2,
     "stylistId": 1
   },
   {
     "status": "Booked",
-    "slotId": 2,
+    "slotId": 1,
     "stylistId": 1
   },
   {

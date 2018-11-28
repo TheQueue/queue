@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Calendar from 'react-calendar'
-import {AppointmentCard, CreateSlotForm} from './index'
+import {AppointmentCard, CreateSlotForm, SlotCard} from './index'
 import moment from 'moment'
 
 class MyBusinessCalendar extends Component {
@@ -30,6 +30,7 @@ class MyBusinessCalendar extends Component {
     const {currBusiness, entities} = this.props
     const stylists = entities.stylists
     const {isCreateSlotActive} = this.state
+    const displayDate = moment(this.state.date).format('MMM Do YY')
     return (
       <React.Fragment>
       <div className="columns">
@@ -39,7 +40,7 @@ class MyBusinessCalendar extends Component {
         <div className="column box">
           <div className="media">
             <div className="media-content">
-              <p className="title">Slots</p>
+              <p className="title">{displayDate}</p>
             </div>
             <div className="media-right">
               <button className="button" type="button" onClick={this.toggleCreateSlotForm}>
@@ -47,7 +48,7 @@ class MyBusinessCalendar extends Component {
               </button>
             </div>
           </div>
-          {currBusiness.stylists.map(styId => {
+          {/* {currBusiness.stylists.map(styId => {
             const stylist = entities.stylists[styId]
             return stylist.appointments.map(appId => {
               const app = entities.appointments[appId]
@@ -61,6 +62,22 @@ class MyBusinessCalendar extends Component {
                   user={user}
                   slot={slot}
                   stylist={styl}
+                />
+              ) : null
+            })
+          })} */}
+          {currBusiness.stylists.map(styId => {
+            const stylist = entities.stylists[styId]
+            return stylist.stylistSlots.map(stylSlotId => {
+              const stylSlot = entities.stylistSlots[stylSlotId]
+              const slot = entities.slots[stylSlot.slotId]
+              return this.doSlotAndStateDateMatch(slot) ? (
+                <SlotCard
+                  key={stylSlotId}
+                  slot={slot}
+                  stylSlot={stylSlot}
+                  stylist={stylist}
+                  entities={entities}
                 />
               ) : null
             })

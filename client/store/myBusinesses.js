@@ -2,9 +2,12 @@ import axios from 'axios'
 import {normalize, schema} from 'normalizr'
 
 // NORMALIZER DEFINITIONS
-// user & slot
+// user & slot & stylistSlot
 const user = new schema.Entity('users')
 const slot = new schema.Entity('slots')
+const stylistSlot = new schema.Entity('stylistSlots', {
+  slot: slot
+})
 // define appt schema
 const appointment = new schema.Entity('appointments', {
   slot: slot,
@@ -12,7 +15,8 @@ const appointment = new schema.Entity('appointments', {
 })
 // define queue schema
 const stylist = new schema.Entity('stylists', {
-  appointments: [appointment]
+  appointments: [appointment],
+  stylistSlots: [stylistSlot]
 })
 // define business schema
 const business = new schema.Entity('businesses', {
@@ -66,8 +70,10 @@ const deleteStylistState = (stylistId, businessId) => ({
   stylistId,
   businessId
 })
-const createNewSlot = SLOT_DATA_GOES_HERE => ({
-  type: CREATE_SLOT
+const createNewSlot = (slot, stylistSlot) => ({
+  type: CREATE_SLOT,
+  slot: slot,
+  stylistSlot: stylistSlot
 })
 // thunk creators
 
@@ -132,7 +138,9 @@ export const deleteStylistThunk = (stylistId, businessId) => async dispatch => {
 export const createSlotThunk = slotData => async dispatch => {
   try {
     const {data} = await axios.post(`/api/owner/slots/`, slotData)
-    dispatch(createNewSlot(data))
+    console.log('SLOT CREATE THUNK RETURNS :', data)
+    const {slot, stylistSlot} = data
+    dispatch(createNewSlot(slot, stylistSlot))
   } catch (err) {
     console.error(err)
   }
@@ -197,8 +205,22 @@ const handler = {
   },
   [CREATE_SLOT]: (state, action) => {
     // complete later
+    const newBusinessData = {...state.businessData}
+    const newSlot = action.slot
+    const newStylistSlot = action.stylistSlot
+    const stylistSlotId = newStylistSlot.id
+    const stylistId = newStylistSlot.stylistId
+    // add slot to entities
+    newBusinessData.entities.slots[newSlot.id] = newSlot
+    // fill out stylistSlot data
+    newStylistSlot.slot = newSlot.id
+    // add newStylist to entites
+    newBusinessData.entities.stylistSlots[newStylistSlot.id] = newStylistSlot
+    // append stylistSlot id to field in stylist
+    newBusinessData.entities.stylists[stylistId].stylistSlots.push(stylistSlotId)
     return {
-      ...state
+      ...state,
+      businessData: newBusinessData
     }
   }
 }
