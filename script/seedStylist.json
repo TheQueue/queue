@@ -19,8 +19,8 @@
   },
   {
     "name": "Bob",
-    "email": "bob@email.com",
-    "phoneNumber": "(999)-999-9999",
+    "email": "bob2@email.com",
+    "phoneNumber": "(999)-999-2222",
     "businessId": 2,
     "slotId": 1,
     "profile":
@@ -28,7 +28,7 @@
   },
   {
     "name": "Mary",
-    "email": "mary@email.com",
+    "email": "mary3@email.com",
     "phoneNumber": "(510)-666-1111",
     "businessId": 2,
     "slotId": 2,
@@ -36,16 +36,16 @@
   },
   {
     "name": "Jemmy",
-    "email": "jemmy@email.com",
-    "phoneNumber": "(510)-666-1111",
+    "email": "jemmy6@email.com",
+    "phoneNumber": "(510)-666-2222",
     "businessId": 3,
     "slotId": 2,
     "profile": "I have 7 years of experience in manicurer and pedecure."
   },
   {
     "name": "Menan",
-    "email": "bobmenan@email.com",
-    "phoneNumber": "(630)-999-9999",
+    "email": "menan4@email.com",
+    "phoneNumber": "(630)-333-9999",
     "businessId": 3,
     "slotId": 1,
     "profile":
@@ -53,16 +53,16 @@
   },
   {
     "name": "Sara",
-    "email": "sara@email.com",
-    "phoneNumber": "(510)-666-4444",
+    "email": "sara2@email.com",
+    "phoneNumber": "(510)-444-4444",
     "businessId": 4,
     "slotId": 2,
     "profile": "I am an expert for nail arts."
   },
   {
     "name": "Regi",
-    "email": "regi@email.com",
-    "phoneNumber": "(630)-222-9999",
+    "email": "regi1@email.com",
+    "phoneNumber": "(630)-666-9999",
     "businessId": 4,
     "slotId": 1,
     "profile":
@@ -70,16 +70,16 @@
   },
   {
     "name": "Sudan",
-    "email": "sudan@email.com",
-    "phoneNumber": "(703)-666-4444",
+    "email": "sudan1@email.com",
+    "phoneNumber": "(703)-888-4444",
     "businessId": 5,
     "slotId": 2,
     "profile": "Hi I'm Sudan. People like me for their beautiful hair cut"
   },
   {
     "name": "Farzana",
-    "email": "farzana@email.com",
-    "phoneNumber": "(630)-222-1111",
+    "email": "farzana6@email.com",
+    "phoneNumber": "(630)-777-1111",
     "businessId": 5,
     "slotId": 1,
     "profile":
@@ -87,16 +87,16 @@
   },
   {
     "name": "Himan",
-    "email": "himan@email.com",
-    "phoneNumber": "(703)-666-4444",
+    "email": "himan78@email.com",
+    "phoneNumber": "(703)-666-7777",
     "businessId": 6,
     "slotId": 2,
     "profile": "Hi I'm Himan. People like me for their beautiful hair cut"
   },
   {
     "name": "Jerry",
-    "email": "jerry@email.com",
-    "phoneNumber": "(630)-222-1111",
+    "email": "jerry12@email.com",
+    "phoneNumber": "(630)-222-8888",
     "businessId": 6,
     "slotId": 1,
     "profile":
@@ -104,16 +104,16 @@
   },
   {
     "name": "Herry",
-    "email": "herry@email.com",
-    "phoneNumber": "(703)-666-4444",
+    "email": "herry34@email.com",
+    "phoneNumber": "(703)-888-8888",
     "businessId": 7,
     "slotId": 2,
     "profile": "Hi I'm Herry. People like me for their beautiful hair cut"
   },
   {
     "name": "Farzana",
-    "email": "farzana@email.com",
-    "phoneNumber": "(630)-222-3333",
+    "email": "farzana12@email.com",
+    "phoneNumber": "(630)-888-3333",
     "businessId": 8,
     "slotId": 1,
     "profile":
@@ -121,17 +121,17 @@
   },
   {
     "name": "Bob",
-    "email": "bob@email.com",
-    "phoneNumber": "(630)-222-3333",
-    "businessId": 9,
+    "email": "bob34@email.com",
+    "phoneNumber": "(630)-222-3567",
+    "businessId": 6,
     "slotId": 1,
     "profile": "Hi, I'm Bob. I have over 8 years of experience in cutting hair."
   },
   {
     "name": "Regan",
-    "email": "regan@email.com",
-    "phoneNumber": "(630)-222-3333",
-    "businessId": 10,
+    "email": "regan12@email.com",
+    "phoneNumber": "(630)-222-1234",
+    "businessId": 7,
     "slotId": 1,
     "profile":
       "Hi, I'm Regan. I have over 8 years of experience for cutting hair of kids."
