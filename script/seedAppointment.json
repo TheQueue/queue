@@ -1,13 +1,13 @@
 [
   {
-    "note": "I am a cat",
+    "note": "I want my hair to be redder than a strawberry!",
     "userId": 1,
     "slotId": 1,
     "stylistId": 1,
     "status": "Active"
   },
   {
-    "note": "I am a dog",
+    "note": "I have a fancy shindig coming up, and I need a fancy hairdo to match.",
     "userId": 2,
     "slotId": 1,
     "stylistId": 2,

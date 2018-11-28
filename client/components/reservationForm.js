@@ -144,7 +144,7 @@ class ReservationForm extends Component {
           <div>Date: {moment(this.state.date).format('MMM Do YY')} </div>
           <div>
             Stylist:{' '}
-            {this.props.business.stylists[this.state.stylistId - 1].name}{' '}
+            {this.props.business.stylists.filter(styl=> styl.id === this.state.stylistId)[0].name}{' '}
           </div>
           <div>
             Time:{' '}

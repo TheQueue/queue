@@ -1,144 +1,144 @@
 [
   {
-    "name": "women hair cut",
+    "name": "Women's hair cut",
     "price": 30,
     "duration": 30,
     "businessId": 1
   },
   {
-    "name": "women hair cut",
+    "name": "Women's hair cut",
     "price": 50,
     "duration": 45,
     "businessId": 2
   },
   {
-    "name": "women hair cut",
+    "name": "Women's hair cut",
     "price": 30,
     "duration": 30,
     "businessId": 3
   },
   {
-    "name": "women hair cut",
+    "name": "Women's hair cut",
     "price": 50,
     "duration": 45,
     "businessId": 4
   },
   {
-    "name": "women hair cut",
+    "name": "Women's hair cut",
     "price": 30,
     "duration": 30,
     "businessId": 5
   },
   {
-    "name": "women hair cut",
+    "name": "Women's hair cut",
     "price": 50,
     "duration": 45,
     "businessId": 6
   },
   {
-    "name": "men hair cut",
+    "name": "Men's hair cut",
     "price": 15,
     "duration": 25,
     "businessId": 7
   },
   {
-    "name": "men hair cut",
+    "name": "Men's hair cut",
     "price": 18,
     "duration": 20,
     "businessId": 8
   },
   {
-    "name": "color",
+    "name": "Coloring",
     "price": 55,
     "duration": 60,
     "businessId": 1
   },
   {
-    "name": "color",
+    "name": "Coloring",
     "price": 75,
     "duration": 80,
     "businessId": 2
   },
   {
-    "name": "extensions",
+    "name": "Extensions",
     "price": 50,
     "duration": 45,
     "businessId": 1
   },
   {
-    "name": "extensions",
+    "name": "Extensions",
     "price": 40,
     "duration": 55,
     "businessId": 2
   },
   {
-    "name": "highlights",
+    "name": "Highlights",
     "price": 40,
     "duration": 25,
     "businessId": 1
   },
   {
-    "name": "highlights",
+    "name": "Highlights",
     "price": 35,
     "duration": 25,
     "businessId": 2
   },
   {
-    "name": "relaxer",
+    "name": "Relaxer",
     "price": 35,
     "duration": 25,
     "businessId": 2
   },
   {
-    "name": "perm",
+    "name": "Perm",
     "price": 35,
     "duration": 25,
     "businessId": 2
   },
   {
-    "name": "curling",
+    "name": "Curling",
     "price": 35,
     "duration": 25,
     "businessId": 2
   },
   {
-    "name": "shampoo",
+    "name": "Shampoo",
     "price": 35,
     "duration": 25,
     "businessId": 2
   },
   {
-    "name": "conditioning",
+    "name": "Conditioning",
     "price": 35,
     "duration": 25,
     "businessId": 2
   },
   {
-    "name": "manicure",
+    "name": "Manicure",
     "price": 35,
     "duration": 25,
     "businessId": 2
   },
   {
-    "name": "pedicure",
+    "name": "Pedicure",
     "price": 35,
     "duration": 25,
     "businessId": 2
   },
   {
-    "name": "polish",
+    "name": "Polish",
     "price": 35,
     "duration": 25,
     "businessId": 2
   },
   {
-    "name": "massage",
+    "name": "Massage",
     "price": 35,
     "duration": 25,
     "businessId": 2
   },
   {
-    "name": "waxing",
+    "name": "Waxing",
     "price": 35,
     "duration": 25,
     "businessId": 2
