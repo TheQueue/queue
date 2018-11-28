@@ -5,7 +5,9 @@ import {
   AppointmentCard,
   AddStylist,
   EditStylist,
-  MyBusinessCalendar
+  MyBusinessCalendar,
+  Navbar,
+  Footer
 } from './index'
 
 class MyBusinessDetail extends Component {
@@ -15,7 +17,7 @@ class MyBusinessDetail extends Component {
       businessId: props.match.params.businessId,
       isAddStylistActive: false,
       currentEditStylistId: NaN,
-      isEditStylistActive: false,
+      isEditStylistActive: false
     }
   }
   async componentDidMount() {
@@ -81,10 +83,14 @@ class MyBusinessDetail extends Component {
     // if isLoading value is true -> loading msg
     if (myBusinesses.isLoading) {
       return (
-        <div className="box">
-          <h1 className="title">My Business - Detail</h1>
-          <div>Loading...</div>
-        </div>
+        <React.Fragment>
+          <Navbar />
+          <div className="insideFrame box">
+            <h1 className="title">My Business - Detail</h1>
+            <div>Loading...</div>
+          </div>
+          <Footer />
+        </React.Fragment>
       )
     }
     // check if entities exists in businessData
@@ -96,65 +102,81 @@ class MyBusinessDetail extends Component {
         // return this
         if (!currBusiness.stylists.length) {
           return (
-            <div className="container">
-              <div className="box">
-                <h1 className="title">{currBusiness.name}</h1>
-                <h2>Business ID: {currBusiness.id}</h2>
-                <h2>Address: {currBusiness.address}</h2>
-                <h2>Phone: {currBusiness.phoneNumber}</h2>
+            <React.Fragment>
+              <Navbar />
+              <div className="insideFrame">
+                <div className="box">
+                  <h1 className="title">{currBusiness.name}</h1>
+                  <h2>Business ID: {currBusiness.id}</h2>
+                  <h2>Address: {currBusiness.address}</h2>
+                  <h2>Phone: {currBusiness.phoneNumber}</h2>
+                </div>
+                <div className="box">
+                  <h2>No stylist found.</h2>
+                  <button
+                    type="button"
+                    className="button is-primary"
+                    onClick={this.toggleAddStylist}
+                  >
+                    Add new stylist
+                  </button>
+                  {this.renderAddStylistForm()}
+                </div>
               </div>
-              <div className="box">
-                <h2>No stylist found.</h2>
-                <button
-                  type="button"
-                  className="button"
-                  onClick={this.toggleAddStylist}
-                >
-                  Add new stylist
-                </button>
-                {this.renderAddStylistForm()}
-              </div>
-            </div>
+              <Footer />
+            </React.Fragment>
           )
         } else {
           // this else block renders business info + queue data
           const matchingReservs = {}
           const statusList = ['Active', 'Serviced', 'Cancelled']
           return (
-            <div className="container insideFrame">
-              <div className="box">
-                <h1 className="title">{currBusiness.name}</h1>
-                <h2>Business ID: {currBusiness.id}</h2>
-                <h2>Address: {currBusiness.address}</h2>
-                <h2>Phone: {currBusiness.phoneNumber}</h2>
-              </div>
-              <div className="box">
-                <button
-                  type="button"
-                  className="button"
-                  onClick={this.toggleAddStylist}
-                >
-                  Add new stylist
-                </button>
-              </div>
-              <div className="box">
-                {this.renderAddStylistForm()}
-                {currBusiness.stylists.map(stylistId => {
-                  let stylist = entities.stylists[stylistId]
-                  return (
-                    <div className="media" key={stylist.id}>
-                      <div className="media-left">
-                        {stylist.imageUrl ? (
-                          <img src="imageUrl" />
-                        ) : (
-                          <p>No image</p>
-                        )}
-                      </div>
+            <React.Fragment>
+              <Navbar />
+              <div className="insideFrame">
+                <div className="container">
+                  <div className="box">
+                    <h1 className="title has-text-centered">{currBusiness.name}</h1>
+                    <h2>Address: {currBusiness.address}</h2>
+                    <h2>Phone: {currBusiness.phoneNumber}</h2>
+                  </div>
+                  <div className="box">
+                    <div className="media">
                       <div className="media-content">
-                        <p>{stylist.name}</p>
-                        <p>{stylist.email}</p>
-                        <p>{stylist.phoneNumber}</p>
-                        {/* {stylist.appointments.map(appId => {
+                        <p className="title">Stylists</p>
+                      </div>
+                      <div className="media-right">
+                        <button
+                          type="button"
+                          className="button is-primary"
+                          onClick={this.toggleAddStylist}
+                        >
+                          Add new stylist
+                        </button>
+                      </div>
+                    </div>
+                    {this.renderAddStylistForm()}
+                    {currBusiness.stylists.map(stylistId => {
+                      let stylist = entities.stylists[stylistId]
+                      return (
+                        <div className="media" key={stylist.id}>
+                          <div className="media-left">
+                            {stylist.imageUrl ? (
+                              <figure className="image is-64x64">
+                                <img
+                                  className="is-rounded"
+                                  src={stylist.imageUrl}
+                                />
+                              </figure>
+                            ) : (
+                              <p>No image</p>
+                            )}
+                          </div>
+                          <div className="media-content">
+                            <p>{stylist.name}</p>
+                            <p>{stylist.email}</p>
+                            <p>{stylist.phoneNumber}</p>
+                            {/* {stylist.appointments.map(appId => {
                           const app = entities.appointments[appId]
                           const user = entities.users[app.user]
                           const slot = entities.slots[app.slot]
@@ -162,48 +184,55 @@ class MyBusinessDetail extends Component {
                             <AppointmentCard key={appId} appointment={app} user={user} slot={slot}/>
                           )
                         })} */}
-                      </div>
-                      <div className="media-right">
-                        {this.renderEditStylistForm(stylist)}
-                        <p>
-                          <button
-                            type="button"
-                            className="button"
-                            onClick={this.toggleEditStylist}
-                            name={stylist.id}
-                          >
-                            Edit information
-                          </button>
-                        </p>
-                        <p>
-                          <button
-                            type="button"
-                            className="button"
-                            onClick={this.handleDeleteStylist}
-                            name={stylist.id}
-                          >
-                            Delete stylist
-                          </button>
-                        </p>
-                      </div>
-                    </div>
-                  )
-                })}
+                          </div>
+                          <div className="media-right">
+                            {this.renderEditStylistForm(stylist)}
+                            <p>
+                              <button
+                                type="button"
+                                className="button is-info is-fullwidth"
+                                onClick={this.toggleEditStylist}
+                                name={stylist.id}
+                              >
+                                Edit
+                              </button>
+                            </p>
+                            <p>
+                              <button
+                                type="button"
+                                className="button is-danger is-fullwidth"
+                                onClick={this.handleDeleteStylist}
+                                name={stylist.id}
+                              >
+                                Delete
+                              </button>
+                            </p>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                  <MyBusinessCalendar
+                    currBusiness={currBusiness}
+                    entities={entities}
+                  />
+                </div>
               </div>
-              <MyBusinessCalendar
-                currBusiness={currBusiness}
-                entities = {entities}
-              />
-            </div>
+              <Footer />
+            </React.Fragment>
           )
         }
       } else {
         // this is for if the business with specified businessId
         // is not found in the loaded data
         return (
-          <div>
-            <h1>Business not found</h1>
-          </div>
+          <React.Fragment>
+            <Navbar />
+            <div className="insideFrame box">
+              <h1>Business not found</h1>
+            </div>
+            <Footer />
+          </React.Fragment>
         )
       }
     }

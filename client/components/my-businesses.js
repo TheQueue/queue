@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchMyBusinessDataThunk} from '../store'
 import {Link} from 'react-router-dom'
+import {Navbar, Footer} from './index'
 class MyBusinesses extends Component {
   componentDidMount() {
     this.props.fetchMyBusinessDataThunk()
@@ -12,35 +13,41 @@ class MyBusinesses extends Component {
     // if isLoading value is true -> loading msg
     if (myBusinesses.isLoading) {
       return (
-        <div>
-          <h1>My Businesses</h1>
-          <div>Loading...</div>
-        </div>
+        <React.Fragment>
+          <Navbar />
+          <div className="insideFrame">
+            <h1>My Businesses</h1>
+            <div>Loading...</div>
+          </div>
+          <Footer />
+        </React.Fragment>
       )
     }
     // else render returned data
     if (myBusinesses.businessData.hasOwnProperty('entities')) {
       const {entities, result} = myBusinesses.businessData
       return (
-        <div className="container">
-          <h1 className="title">My Businesses</h1>
-          <div className="box">
-            {result.map(businessId => {
-              const business = entities.businesses[businessId]
-              return (
-                <div className="box" key={business.id}>
-                  <Link to={`/my-businesses/${business.id}`}>
-                    <h1>{business.name}</h1>
-                  </Link>
-                  <h2>Business ID: {business.id}</h2>
-                  <h2>
-                    Stylists: {business.stylists.length}
-                  </h2>
-                </div>
-              )
-            })}
+        <React.Fragment>
+          <Navbar />
+          <div className="insideFrame">
+            <div className="container">
+                <h1 className="box title has-text-centered">My Businesses</h1>
+                {result.map(businessId => {
+                  const business = entities.businesses[businessId]
+                  return (
+                    <div className="box has-background-light" key={business.id}>
+                      <Link to={`/my-businesses/${business.id}`}>
+                        <h1 className="title">{business.name}</h1>
+                      </Link>
+                      <h2>Business ID: {business.id}</h2>
+                      <h2>Stylists: {business.stylists.length}</h2>
+                    </div>
+                  )
+                })}
+            </div>
           </div>
-        </div>
+          <Footer />
+        </React.Fragment>
       )
     }
   }

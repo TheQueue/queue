@@ -65,7 +65,7 @@ class ReservationForm extends Component {
       <div>
         <strong>Pick Date </strong>
         <Calendar
-          className="react-calender"
+          className="react-calendar"
           minDate={new Date()}
           onChange={this.onChange}
           value={this.state.date}

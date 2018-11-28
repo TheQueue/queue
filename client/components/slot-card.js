@@ -55,20 +55,25 @@ class SlotCard extends Component {
             <p>
               <strong>{slot.time}</strong>
             </p>
+            <figure className="image is-64x64">
+              <img className="is-rounded" src={stylist.imageUrl} />
+            </figure>
             <p>{stylist.name}</p>
           </div>
           <div className="media-content">
-            <p>{stylSlot.status}</p>
             <p>
-              <button
-                name={stylSlot.id}
-                type="button"
-                className="button level-item"
-                onClick={handleCancel}
-              >
-                Delete
-              </button>
+              <strong>{stylSlot.status}</strong>
             </p>
+          </div>
+          <div className="media-right">
+            <button
+              name={stylSlot.id}
+              type="button"
+              className="button is-danger"
+              onClick={handleCancel}
+            >
+              Delete
+            </button>
           </div>
         </article>
       )

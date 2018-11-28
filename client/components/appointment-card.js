@@ -38,6 +38,9 @@ class AppointmentCard extends Component {
           {/* <p>Date: {slotDate}</p> */}
           <p><strong>{slot.time}</strong></p>
           <p>{appointment.status}</p>
+          <figure className="image is-64x64">
+              <img className="is-rounded" src={stylist.imageUrl} />
+            </figure>
           <p>{stylist.name}</p>
         </div>
         <div className="media-content">

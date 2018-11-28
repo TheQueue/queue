@@ -38,11 +38,14 @@ class MyBusinessCalendar extends Component {
     }, [])
   }
   sortByTime = (objA, objB) => {
-    return this.convertTimeToInteger(objA.slot.time) - this.convertTimeToInteger(objB.slot.time)
+    return (
+      this.convertTimeToInteger(objA.slot.time) -
+      this.convertTimeToInteger(objB.slot.time)
+    )
   }
   renderSlots = (currBusiness, entities) => {
     // sorts and renders slotcard
-    return this.flatten(
+    const slotArr = this.flatten(
       currBusiness.stylists.map(styId => {
         const stylist = entities.stylists[styId]
         return stylist.stylistSlots.map(stylSlotId => {
@@ -56,18 +59,31 @@ class MyBusinessCalendar extends Component {
       .sort(this.sortByTime)
       .map((obj, idx) => {
         const {stylSlot, slot, stylist} = obj
-        return <SlotCard
-          key={idx}
-          slot={slot}
-          stylSlot={stylSlot}
-          stylist={stylist}
-          entities={entities}
-        />
+        return (
+          <SlotCard
+            key={idx}
+            slot={slot}
+            stylSlot={stylSlot}
+            stylist={stylist}
+            entities={entities}
+          />
+        )
       })
+    if (!slotArr.length) {
+      return (
+        <div className="has-text-centered">
+          <strong>No slots found!</strong>
+        </div>
+      )
+    } else {
+      return slotArr
+    }
   }
   render() {
     const {currBusiness, entities} = this.props
-    const stylists = entities.stylists
+    const stylists = currBusiness.stylists.map(stylId => {
+      return entities.stylists[stylId]
+    })
     const {isCreateSlotActive} = this.state
     const displayDate = moment(this.state.date).format('MMM Do YY')
     const flatten = this.flatten
@@ -75,7 +91,7 @@ class MyBusinessCalendar extends Component {
       <React.Fragment>
         <div className="columns">
           <div className="column is-narrow">
-            <Calendar onChange={this.onChange} value={this.state.date} />
+            <Calendar className="react-calendar" onChange={this.onChange} value={this.state.date} />
           </div>
           <div className="column box">
             <div className="media">
@@ -84,7 +100,7 @@ class MyBusinessCalendar extends Component {
               </div>
               <div className="media-right">
                 <button
-                  className="button"
+                  className="button is-primary"
                   type="button"
                   onClick={this.toggleCreateSlotForm}
                 >
