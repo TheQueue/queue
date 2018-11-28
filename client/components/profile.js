@@ -25,13 +25,12 @@ class Profile extends React.Component {
     return (
       <div>
         <Navbar />
-
-        <div className="insideFrame has-text-centered">
-          <div className="card is-centered">
-            <div className="card-image has-text-centered is-centered">
-              <figure className="image is-128x128 is-centered">
+        <div className="insideFrame">
+          <div className="card">
+            <div className="card-image">
+              <figure className="image">
                 <img
-                  className="is-rounded"
+                  className="image"
                   src="http://thehivedaily.com/wp-content/uploads/2018/09/crazy-hairstyles-cool-for-hair-day-hairstyle-tattoo.jpg"
                   alt="Placeholder image"
                 />
@@ -41,24 +40,33 @@ class Profile extends React.Component {
               <div className="media">
                 <div className="media-left" />
                 <div className="media-content">
-                  <p className="title is-4">{user.username}</p>
-                  <p className="subtitle is-6">{user.email}</p>
-                  <p className="subtitle is-6">{user.phoneNumber}</p>
+                  <div className="title is-4">
+                    <p>{user.username}</p>
+                  </div>
+                  <div className="subtitle">
+                    <p>{user.email}</p>
+                    <p>{user.phoneNumber}</p>
+                  </div>
+                  <p>
+                    About me: I love crazy hair styles, and I love this app!
+                  </p>
+                  <p>
+                    <a>#animalstyle </a>
+                    <a href="#">#longhair</a> <a href="#">#horseonhead</a>
+                    <p>
+                      Member since: {moment(user.createdAt).format('MMM Do YY')}
+                    </p>
+                  </p>
                 </div>
               </div>
 
-              <div className="content">
-                I love to have werid hair style, and I love this app.
-                <br />
-                <a>#animalstyle </a>
-                <a href="#">#longhair</a> <a href="#">#horseonhead</a>
-                <br />
-                <p>
-                  Joined since: {moment(user.createdAt).format('MMM Do YY')}
-                </p>
-              </div>
-              <div className="content has-text-centered">
-                <strong> Images</strong>
+              <br />
+            </div>
+            <div className="container">
+              <div>
+                <div className="has-text-centered">
+                <p><strong>Images</strong></p></div>
+
                 <figure className="image is-128x128 has-text-centered">
                   <img
                     className="is-rounded"
@@ -66,7 +74,6 @@ class Profile extends React.Component {
                     alt="Placeholder image"
                   />
                 </figure>
-
               </div>
             </div>
           </div>

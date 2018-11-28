@@ -81,15 +81,17 @@ class MyBusinessCalendar extends Component {
   }
   render() {
     const {currBusiness, entities} = this.props
-    const stylists = entities.stylists
+    const stylists = currBusiness.stylists.map(stylId => {
+      return entities.stylists[stylId]
+    })
     const {isCreateSlotActive} = this.state
     const displayDate = moment(this.state.date).format('MMM Do YY')
     const flatten = this.flatten
     return (
       <React.Fragment>
-        <div className="columns container">
+        <div className="columns">
           <div className="column is-narrow">
-            <Calendar onChange={this.onChange} value={this.state.date} />
+            <Calendar className="react-calendar" onChange={this.onChange} value={this.state.date} />
           </div>
           <div className="column box">
             <div className="media">
