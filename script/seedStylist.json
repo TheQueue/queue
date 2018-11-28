@@ -1,17 +1,139 @@
-[{
-  "name": "Sally Stylist",
-  "email": "stylist@email.com",
-  "phoneNumber": "(999)-999-9999",
-  "businessId": 1,
-  "slotId": 1,
-  "profile": "Hi, I'm Sally. I have over 10 years of experience in styling hair."
-},
-{
-  "name": "Bobby Barber",
-  "email": "barber@email.com",
-  "phoneNumber": "(999)-999-1111",
-  "businessId": 1,
-  "slotId":2,
-  "profile": "I have 20 years of experience in cutting hair and styling moustaches."
-}
+[
+  {
+    "name": "Sally Stylist",
+    "email": "stylist@email.com",
+    "phoneNumber": "(999)-999-9999",
+    "businessId": 1,
+    "slotId": 1,
+    "profile":
+      "Hi, I'm Sally. I have over 10 years of experience in styling hair."
+  },
+  {
+    "name": "Bobby Barber",
+    "email": "barber@email.com",
+    "phoneNumber": "(999)-999-1111",
+    "businessId": 1,
+    "slotId": 2,
+    "profile":
+      "I have 20 years of experience in cutting hair and styling moustaches."
+  },
+  {
+    "name": "Bob",
+    "email": "bob2@email.com",
+    "phoneNumber": "(999)-999-2222",
+    "businessId": 2,
+    "slotId": 1,
+    "profile":
+      "Hi, I'm Bob. I have over 10 years of experience in styling hair."
+  },
+  {
+    "name": "Mary",
+    "email": "mary3@email.com",
+    "phoneNumber": "(510)-666-1111",
+    "businessId": 2,
+    "slotId": 2,
+    "profile": "I have 7 years of experience in manicures and pedicures."
+  },
+  {
+    "name": "Jemmy",
+    "email": "jemmy6@email.com",
+    "phoneNumber": "(510)-666-2222",
+    "businessId": 3,
+    "slotId": 2,
+    "profile": "I have 7 years of experience in manicures and pedicures."
+  },
+  {
+    "name": "Menan",
+    "email": "menan4@email.com",
+    "phoneNumber": "(630)-333-9999",
+    "businessId": 3,
+    "slotId": 1,
+    "profile":
+      "Hi, I'm Menan. I have over 10 years of experience in styling hair."
+  },
+  {
+    "name": "Sara",
+    "email": "sara2@email.com",
+    "phoneNumber": "(510)-444-4444",
+    "businessId": 4,
+    "slotId": 2,
+    "profile": "I am an expert at nail art."
+  },
+  {
+    "name": "Regi",
+    "email": "regi1@email.com",
+    "phoneNumber": "(630)-666-9999",
+    "businessId": 4,
+    "slotId": 1,
+    "profile":
+      "Hi, I'm Regi. I have over 8 years of experience in styling hair."
+  },
+  {
+    "name": "Sudan",
+    "email": "sudan1@email.com",
+    "phoneNumber": "(703)-888-4444",
+    "businessId": 5,
+    "slotId": 2,
+    "profile": "Hi I'm Sudan. People call me when they need a beautiful hair cut."
+  },
+  {
+    "name": "Farzana",
+    "email": "farzana6@email.com",
+    "phoneNumber": "(630)-777-1111",
+    "businessId": 5,
+    "slotId": 1,
+    "profile":
+      "Hi, I'm Farzana. I have over 8 years of experience in coloring hair."
+  },
+  {
+    "name": "Himan",
+    "email": "himan78@email.com",
+    "phoneNumber": "(703)-666-7777",
+    "businessId": 6,
+    "slotId": 2,
+    "profile": "Hi, I'm Himan. I am a wizard at cutting hair."
+  },
+  {
+    "name": "Jerry",
+    "email": "jerry12@email.com",
+    "phoneNumber": "(630)-222-8888",
+    "businessId": 6,
+    "slotId": 1,
+    "profile":
+      "Hi, I'm Jerry. If you want to relax for sometime, please come to me"
+  },
+  {
+    "name": "Herry",
+    "email": "herry34@email.com",
+    "phoneNumber": "(703)-888-8888",
+    "businessId": 7,
+    "slotId": 2,
+    "profile": "Hi I'm Herry. I'm an artist, and your hair is my canvas."
+  },
+  {
+    "name": "Farzana",
+    "email": "farzana12@email.com",
+    "phoneNumber": "(630)-888-3333",
+    "businessId": 8,
+    "slotId": 1,
+    "profile":
+      "Hi, I'm Farzana. I have over 8 years of experience in coloring hair."
+  },
+  {
+    "name": "Bob",
+    "email": "bob34@email.com",
+    "phoneNumber": "(630)-222-3567",
+    "businessId": 6,
+    "slotId": 1,
+    "profile": "Hi, I'm Bob. I have over 8 years of experience in cutting hair."
+  },
+  {
+    "name": "Regan",
+    "email": "regan12@email.com",
+    "phoneNumber": "(630)-222-1234",
+    "businessId": 7,
+    "slotId": 1,
+    "profile":
+      "Hi, I'm Regan. I have over 8 years of experience for cutting hair of kids."
+  }
 ]

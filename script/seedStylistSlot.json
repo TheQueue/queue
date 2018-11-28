@@ -1,12 +1,12 @@
 [
   {
     "status": "Open",
-    "slotId": 1,
+    "slotId": 2,
     "stylistId": 1
   },
   {
     "status": "Booked",
-    "slotId": 2,
+    "slotId": 1,
     "stylistId": 1
   },
   {
@@ -18,5 +18,245 @@
     "status": "Open",
     "slotId": 2,
     "stylistId": 2
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 1
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 2
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 3
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 4
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 5
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 6
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 7
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 8
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 9
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 10
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 11
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 12
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 13
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 14
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 15
+  },
+  {
+    "status": "Open",
+    "slotId": 5,
+    "stylistId": 16
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 1
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 2
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 3
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 4
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 5
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 6
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 7
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 8
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 9
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 10
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 11
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 12
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 13
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 14
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 15
+  },
+  {
+    "status": "Open",
+    "slotId": 6,
+    "stylistId": 16
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 1
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 2
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 3
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 4
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 5
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 6
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 7
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 8
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 9
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 10
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 11
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 12
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 13
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 14
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 15
+  },
+  {
+    "status": "Open",
+    "slotId": 7,
+    "stylistId": 16
   }
 ]
