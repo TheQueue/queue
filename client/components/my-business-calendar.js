@@ -38,11 +38,14 @@ class MyBusinessCalendar extends Component {
     }, [])
   }
   sortByTime = (objA, objB) => {
-    return this.convertTimeToInteger(objA.slot.time) - this.convertTimeToInteger(objB.slot.time)
+    return (
+      this.convertTimeToInteger(objA.slot.time) -
+      this.convertTimeToInteger(objB.slot.time)
+    )
   }
   renderSlots = (currBusiness, entities) => {
     // sorts and renders slotcard
-    return this.flatten(
+    const slotArr = this.flatten(
       currBusiness.stylists.map(styId => {
         const stylist = entities.stylists[styId]
         return stylist.stylistSlots.map(stylSlotId => {
@@ -56,14 +59,25 @@ class MyBusinessCalendar extends Component {
       .sort(this.sortByTime)
       .map((obj, idx) => {
         const {stylSlot, slot, stylist} = obj
-        return <SlotCard
-          key={idx}
-          slot={slot}
-          stylSlot={stylSlot}
-          stylist={stylist}
-          entities={entities}
-        />
+        return (
+          <SlotCard
+            key={idx}
+            slot={slot}
+            stylSlot={stylSlot}
+            stylist={stylist}
+            entities={entities}
+          />
+        )
       })
+    if (!slotArr.length) {
+      return (
+        <div className="has-text-centered">
+          <strong>No slots found!</strong>
+        </div>
+      )
+    } else {
+      return slotArr
+    }
   }
   render() {
     const {currBusiness, entities} = this.props
@@ -73,7 +87,7 @@ class MyBusinessCalendar extends Component {
     const flatten = this.flatten
     return (
       <React.Fragment>
-        <div className="columns">
+        <div className="columns container">
           <div className="column is-narrow">
             <Calendar onChange={this.onChange} value={this.state.date} />
           </div>
@@ -84,7 +98,7 @@ class MyBusinessCalendar extends Component {
               </div>
               <div className="media-right">
                 <button
-                  className="button"
+                  className="button is-primary"
                   type="button"
                   onClick={this.toggleCreateSlotForm}
                 >
