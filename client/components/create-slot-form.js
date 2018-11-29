@@ -28,7 +28,6 @@ class CreateSlotForm extends Component {
       time: this.state.time,
       stylistId: this.state.stylistId
     }
-    console.log(slotData)
     try {
       this.props.createSlotThunk(slotData)
       this.props.toggleForm()

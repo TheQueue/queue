@@ -154,8 +154,6 @@ export const createSlotThunk = slotData => async dispatch => {
 export const deleteStylistSlotThunk = stylSlotId => async dispatch => {
   try {
     const {data} = await axios.delete(`/api/owner/stylistSlots/${stylSlotId}`)
-    console.log('delete styl slot thunk')
-    console.log('data: ', data)
     dispatch(deleteStylistSlot(Number(stylSlotId), Number(data.stylistId)))
   } catch (err) {
     console.error(err)

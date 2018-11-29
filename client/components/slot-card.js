@@ -82,9 +82,8 @@ class SlotCard extends Component {
 }
 
 const mapDispatch = dispatch => ({
-  updateSingleAppointmentThunk: (appointmentId, action) =>
-    dispatch(updateSingleAppointmentThunk(appointmentId, action)),
-    deleteStylistSlotThunk: (stylSlotId) => dispatch(deleteStylistSlotThunk(stylSlotId))
+  deleteStylistSlotThunk: stylSlotId =>
+    dispatch(deleteStylistSlotThunk(stylSlotId))
 })
 
 export default connect(null, mapDispatch)(SlotCard)
