@@ -258,7 +258,7 @@ router.post('/chatbot', async (req, res, next) => {
           }
         })
         if (service) {
-          res.send(`$$${service.price}`)
+          res.send(`$${service.price}`)
           return
         }
       }
@@ -278,7 +278,7 @@ router.post('/chatbot', async (req, res, next) => {
         })
         console.log('Duration', service)
         if (service) {
-          res.send(`${service.duration}mn`)
+          res.send(`${service.duration} min`)
           return
         }
       }
