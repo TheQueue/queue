@@ -58,7 +58,7 @@ export class UserHome extends React.Component {
     } = this.props
     let imgUrl = 'https://victoriassalon.com/wp-content/uploads/2015/02/rev.jpg'
     return (
-      <div className="login">
+      <div className="insideFrameHome">
         <link
           rel="stylesheet"
           href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"

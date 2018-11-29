@@ -8,6 +8,11 @@ body {
   /* background-color: rgb(247, 211, 183); */
   /* display: flex; */
 }
+.insideFrameHome {
+  margin-bottom: 90px;
+  /* background-color: rgb(247, 211, 183); */
+  /* display: flex; */
+}
 .front-page {
   margin-left: auto;
   margin-right: auto;
