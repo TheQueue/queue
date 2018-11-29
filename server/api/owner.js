@@ -1,5 +1,12 @@
 const router = require('express').Router()
-const {User, Stylist, Business, Appointment, Slot, StylistSlot} = require('../db/models')
+const {
+  User,
+  Stylist,
+  Business,
+  Appointment,
+  Slot,
+  StylistSlot
+} = require('../db/models')
 const {loginRequired} = require('../utils')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
@@ -31,11 +38,14 @@ router.get('/businesses', loginRequired, async (req, res, next) => {
                   required: false
                 }
               ]
-            }, {
+            },
+            {
               model: StylistSlot,
-              include: [{
-                model: Slot
-              }]
+              include: [
+                {
+                  model: Slot
+                }
+              ]
             }
           ]
         }
@@ -115,12 +125,12 @@ router.put(
 router.post('/stylists', loginRequired, async (req, res, next) => {
   try {
     const {name, phoneNumber, email, imageUrl, businessId} = req.body
-    const business = await Business.findByPk(businessId)
+    const business = await Business.findById(businessId)
     if (!business) {
       res.sendStatus(404)
       return
     }
-    const user = await Business.getUser()
+    const user = await business.getUser()
     if (!user) {
       res.sendStatus(404)
       return
@@ -131,15 +141,23 @@ router.post('/stylists', loginRequired, async (req, res, next) => {
     }
     const newStylist = {name, phoneNumber, email, imageUrl, businessId}
     const stylist = await Stylist.create(newStylist)
-    const stylistAndReservs = await Stylist.findById(stylist.id, {
+    const stylistAndIncludes = await Stylist.findById(stylist.id, {
       include: [
         {
           model: Appointment,
           required: false
+        },
+        {
+          model: StylistSlot,
+          include: [
+            {
+              model: Slot
+            }
+          ]
         }
       ]
     })
-    res.json(stylistAndReservs)
+    res.json(stylistAndIncludes)
   } catch (err) {
     console.error(err)
   }
@@ -170,7 +188,7 @@ router.put('/stylists/:stylistId', async (req, res, next) => {
             required: false,
             include: [
               {
-                model: scrollTo,
+                model: Slot,
                 required: false
               }
             ]
@@ -241,7 +259,7 @@ router.post('/slots', loginRequired, async (req, res, next) => {
         slot: slot,
         stylistSlot: newStylSlot
       })
-    // if it does, check if a style-slot exists
+      // if it does, check if a style-slot exists
     } else {
       const stylSlot = await StylistSlot.findOne({
         where: {
