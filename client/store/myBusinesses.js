@@ -41,6 +41,7 @@ const CREATE_STYLIST = 'CREATE_STYLIST'
 const UPDATE_STYLIST = 'UPDATE_STYLIST'
 const DELETE_STYLIST = 'DELETE_STYLIST'
 const CREATE_SLOT = 'CREATE_SLOT'
+const DELETE_STYLIST_SLOT = 'DELETE_STYLIST_SLOT'
 
 // action creators
 const setMyBusinesses = businessData => ({
@@ -74,6 +75,11 @@ const createNewSlot = (slot, stylistSlot) => ({
   type: CREATE_SLOT,
   slot: slot,
   stylistSlot: stylistSlot
+})
+const deleteStylistSlot = (stylistSlotId, stylistId) => ({
+  type: DELETE_STYLIST_SLOT,
+  stylistSlotId,
+  stylistId
 })
 // thunk creators
 
@@ -138,9 +144,17 @@ export const deleteStylistThunk = (stylistId, businessId) => async dispatch => {
 export const createSlotThunk = slotData => async dispatch => {
   try {
     const {data} = await axios.post(`/api/owner/slots/`, slotData)
-    console.log('SLOT CREATE THUNK RETURNS :', data)
     const {slot, stylistSlot} = data
     dispatch(createNewSlot(slot, stylistSlot))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const deleteStylistSlotThunk = stylSlotId => async dispatch => {
+  try {
+    const {data} = await axios.delete(`/api/owner/stylistSlots/${stylSlotId}`)
+    dispatch(deleteStylistSlot(Number(stylSlotId), Number(data.stylistId)))
   } catch (err) {
     console.error(err)
   }
@@ -203,6 +217,7 @@ const handler = {
       businessData: newBusinessData
     }
   },
+
   [CREATE_SLOT]: (state, action) => {
     // complete later
     const newBusinessData = {...state.businessData}
@@ -218,6 +233,27 @@ const handler = {
     newBusinessData.entities.stylistSlots[newStylistSlot.id] = newStylistSlot
     // append stylistSlot id to field in stylist
     newBusinessData.entities.stylists[stylistId].stylistSlots.push(stylistSlotId)
+    return {
+      ...state,
+      businessData: newBusinessData
+    }
+  },
+  [DELETE_STYLIST_SLOT]: (state, action) => {
+    // complete later
+    const newBusinessData = {...state.businessData}
+    const stylistSlotId = action.stylistSlotId
+    const stylistId = action.stylistId
+    // remove stylistSlot from stylist
+    const newStylist = {...newBusinessData.entities.stylists[stylistId]}
+    newStylist.stylistSlots = newStylist.stylistSlots.filter(stylSlotId => stylSlotId !== stylistSlotId)
+    newBusinessData.entities.stylists[stylistId] = newStylist
+    // destroy stylistSlot from collection
+    const oldStylistSlots = newBusinessData.entities.stylistSlots
+    const newStylistSlots = {}
+    Object.keys(oldStylistSlots).filter(stylSlotId => stylSlotId !== stylistSlotId).forEach(key => {
+      newStylistSlots[key] = oldStylistSlots[key]
+    })
+    newBusinessData.entities.stylistSlots = newStylistSlots
     return {
       ...state,
       businessData: newBusinessData
