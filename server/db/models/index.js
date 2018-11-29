@@ -18,39 +18,39 @@ const StylistSlot = require('./stylistSlot')
  */
 
 // reservation - user
-Reservation.belongsTo(User)
-User.hasMany(Reservation)
+// Reservation.belongsTo(User)
+// User.hasMany(Reservation)
 
 //Business-reservation
-Reservation.belongsTo(Business)
-Business.hasMany(Reservation)
+// Reservation.belongsTo(Business)
+// Business.hasMany(Reservation)
 
 //Service and business
 Service.belongsTo(Business)
 Business.hasMany(Service)
 
 //stylist-reservation
-Reservation.belongsTo(Stylist)
-Stylist.hasMany(Reservation)
+// Reservation.belongsTo(Stylist)
+// Stylist.hasMany(Reservation)
 
 // Business-Category many to many
 Business.belongsToMany(Category, {through: 'CategoryBusiness', as: 'Category'})
 Category.belongsToMany(Business, {through: 'CategoryBusiness', as: 'Business'})
 
 // favorites
-Business.belongsToMany(User, {through: 'FavoriteBusiness'})
-User.belongsToMany(Business, {
-  through: 'FavoriteBusiness',
-  as: 'UserFavoriteBusiness'
-})
+// Business.belongsToMany(User, {through: 'FavoriteBusiness'})
+// User.belongsToMany(Business, {
+//   through: 'FavoriteBusiness',
+//   as: 'UserFavoriteBusiness'
+// })
 
 //preference-categories
 
-Preference.belongsToMany(Category, {
-  through: 'PreferenceCategories',
-  as: 'Category'
-})
-Category.belongsToMany(Preference, {through: 'PreferenceCategories'})
+// Preference.belongsToMany(Category, {
+//   through: 'PreferenceCategories',
+//   as: 'Category'
+// })
+// Category.belongsToMany(Preference, {through: 'PreferenceCategories'})
 
 //user-business-stylist to appointment
 
