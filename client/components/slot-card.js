@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {AppointmentCard} from './index'
-// import {updateSingleAppointmentThunk} from '../store'
+import {deleteStylistSlotThunk} from '../store'
 import moment from 'moment'
 
 class SlotCard extends Component {
@@ -12,8 +12,8 @@ class SlotCard extends Component {
 
   handleCancel = event => {
     event.preventDefault()
-    // const apptId = event.target.name
-    // this.props.updateSingleAppointmentThunk(apptId, 'cancel')
+    const stylSlotId = event.target.name
+    this.props.deleteStylistSlotThunk(stylSlotId)
   }
 
   // converts dateandtime value from sequelize -> Date object
@@ -83,7 +83,8 @@ class SlotCard extends Component {
 
 const mapDispatch = dispatch => ({
   updateSingleAppointmentThunk: (appointmentId, action) =>
-    dispatch(updateSingleAppointmentThunk(appointmentId, action))
+    dispatch(updateSingleAppointmentThunk(appointmentId, action)),
+    deleteStylistSlotThunk: (stylSlotId) => dispatch(deleteStylistSlotThunk(stylSlotId))
 })
 
 export default connect(null, mapDispatch)(SlotCard)

@@ -202,6 +202,38 @@ router.put('/stylists/:stylistId', async (req, res, next) => {
   }
 })
 
+router.delete('/stylistSlots/:stylistSlotId', loginRequired, async (req, res, next) => {
+  try {
+    const stylistSlotId = req.params.stylistSlotId
+    const stylistSlot = await StylistSlot.findById(stylistSlotId)
+    if (!stylistSlot) {
+      res.sendStatus(404)
+      return
+    }
+    const stylist = await stylistSlot.getStylist()
+    if (!stylist) {
+      res.sendStatus(404)
+      return
+    }
+    const business = await stylist.getBusiness()
+    if (!business) {
+      res.sendStatus(404)
+      return
+    }
+    const userId = business.userId
+    if (req.user.id !== userId) {
+      res.sendStatus(403)
+      return
+    }
+    await stylistSlot.destroy()
+    res.json({
+      stylistId: stylist.id
+    })
+  } catch (err) {
+    console.error(err)
+  }
+})
+
 router.delete('/stylists/:stylistId', async (req, res, next) => {
   const stylistId = req.params.stylistId
   try {
