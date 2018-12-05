@@ -45,7 +45,9 @@ export class UserHome extends React.Component {
     })
   }
   componentDidMount() {
-    this.props.getAppointment()
+    if (this.props.isLoggedIn) {
+      this.props.getAppointment()
+    }
   }
 
   render() {
@@ -80,7 +82,7 @@ export class UserHome extends React.Component {
             </div>
           </div>
         )}
-        {appointment.length !== 0 && (
+        {isLoggedIn && appointment.length !== 0 && (
           <div className="card front-page animated fadeInDown">
             <header className="card-header has-text-centered">
               <p className="card-header-title has-text-centered">

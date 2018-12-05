@@ -14,7 +14,14 @@ const AuthForm = props => {
     const formName = evt.target.name
     const email = evt.target.email.value
     const password = evt.target.password.value
-    await props.auth(email, password, formName)
+    if (name === 'signup') {
+      const phoneNumber = evt.target.phoneNumber.value
+      const username = evt.target.username.value
+      await props.auth(email, password, formName, username, phoneNumber)
+    } else {
+      await props.auth(email, password, formName)
+
+    }
   }
   const buttonLabel = name.split('')[0].toUpperCase() + name.slice(1)
   const isLogin = name === 'login'
@@ -37,11 +44,11 @@ const AuthForm = props => {
           {isSignup && (
             <React.Fragment>
               <div className="control">
-                <label htmlFor="userName">
+                <label htmlFor="username">
                   <input
                     className="input is-large"
                     type="text"
-                    name="userName"
+                    name="username"
                     placeholder="Your User Name"
                   />
                 </label>
@@ -51,7 +58,7 @@ const AuthForm = props => {
                   <input
                     className="input is-large"
                     type="text"
-                    name="phoneNumer"
+                    name="phoneNumber"
                     placeholder="Your Phone Number"
                   />
                 </label>
@@ -110,8 +117,8 @@ const mapSignup = state => {
 
 const mapDispatch = dispatch => {
   return {
-    auth: (email, password, formName) =>
-      dispatch(auth(email, password, formName))
+    auth: (email, password, formName, username, phoneNumber) =>
+      dispatch(auth(email, password, formName, username, phoneNumber))
   }
 }
 
