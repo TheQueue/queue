@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
+import {Link} from 'react-router-dom'
 
 /**
  * COMPONENT
@@ -13,9 +14,18 @@ const AuthForm = props => {
     const formName = evt.target.name
     const email = evt.target.email.value
     const password = evt.target.password.value
-    await props.auth(email, password, formName)
-  }
+    if (name === 'signup') {
+      const phoneNumber = evt.target.phoneNumber.value
+      const username = evt.target.username.value
+      await props.auth(email, password, formName, username, phoneNumber)
+    } else {
+      await props.auth(email, password, formName)
 
+    }
+  }
+  const buttonLabel = name.split('')[0].toUpperCase() + name.slice(1)
+  const isLogin = name === 'login'
+  const isSignup = name === 'signup'
   return (
     <div className="column is-4 is-offset-4">
       <div className="box is-centered">
@@ -31,6 +41,30 @@ const AuthForm = props => {
               />
             </label>
           </div>
+          {isSignup && (
+            <React.Fragment>
+              <div className="control">
+                <label htmlFor="username">
+                  <input
+                    className="input is-large"
+                    type="text"
+                    name="username"
+                    placeholder="Your User Name"
+                  />
+                </label>
+              </div>
+              <div className="control">
+                <label htmlFor="phoneNumber">
+                  <input
+                    className="input is-large"
+                    type="text"
+                    name="phoneNumber"
+                    placeholder="Your Phone Number"
+                  />
+                </label>
+              </div>
+            </React.Fragment>
+          )}
           <div className="control">
             <label htmlFor="password">
               <input
@@ -41,19 +75,16 @@ const AuthForm = props => {
               />
             </label>
           </div>
-          <label className="checkbox">
-            <input type="checkbox" />Remember me
-          </label>
           <button
             className="button is-block is-info is-large is-fullwidth"
             type="submit"
           >
-            Login
+            {buttonLabel}
           </button>
-          <p className="has-text-grey">
-            <a href="../">Sign Up</a> &nbsp;·&nbsp;
+          {isLogin && <p className="has-text-grey">
+            <Link to="/signup">Sign Up</Link> &nbsp;·&nbsp;
             <a href="../">Forgot Password</a>
-          </p>
+          </p>}
           {error && error.response && <div> {error.response.data} </div>}
         </form>
       </div>
@@ -86,8 +117,8 @@ const mapSignup = state => {
 
 const mapDispatch = dispatch => {
   return {
-    auth: (email, password, formName) =>
-      dispatch(auth(email, password, formName))
+    auth: (email, password, formName, username, phoneNumber) =>
+      dispatch(auth(email, password, formName, username, phoneNumber))
   }
 }
 
